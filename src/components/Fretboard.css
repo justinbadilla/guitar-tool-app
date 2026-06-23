@@ -1,0 +1,92 @@
+/* whole fretboard component / full parent*/
+.freboard-selection{
+    display: flex;
+    flex-direction: column; /* stack children top-to-bottom */
+}
+
+/* guitar fretboard */
+.fretboard-wrapper{
+    display: flex; /*lays 3 children left-right, side by side*/
+}
+
+.fretboard {
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(15, 60px);
+    grid-template-rows: repeat(6, 40px);
+    /*border: 1px solid black;
+    border-left-width: 8px;*/
+}
+
+.fret-line {
+    position: absolute;
+    top: 20px;      /* half of row height (40px / 2) = center of row 1 */
+    bottom: 20px;   /* same logic, center of row 6 from the bottom */
+    width: 2px;
+    background: #444;
+}
+
+.fret-cell {
+    position: relative;
+}
+
+.fret-cell::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 50%;             /* vertical center of the cell */
+    height: 2px;
+    background: #888;     /* this is your "string" */
+}
+
+.nut {
+    width: 6px;
+    background: black;
+}
+
+.inlay{
+    position: absolute;
+    top: 50%;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: #999;
+    transform: translate(-50%, -50%);
+}
+
+.double{
+    width: 12px;
+    height: 90px;
+    border-radius: 0;
+    background:
+        radial-gradient(circle, #999 6px, transparent 6px) top,
+        radial-gradient(circle, #999 6px, transparent 6px) bottom;
+    background-size: 12px 12px;
+    background-repeat: no-repeat;
+}
+
+.fret-numbers {
+    display: flex;
+    width: 900px; /* matches 15 × 60px grid width */
+}
+
+.fret-number {
+    width: 60px; /* matches one fret-cell's column width */
+    text-align: center;
+}
+
+.open-mute-column,
+.interval-column{
+    display: grid;
+    grid-template-rows: repeat(6, 40px);
+    width: 40px;
+}
+
+.open-mute-cell,
+.interval-cell {
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
