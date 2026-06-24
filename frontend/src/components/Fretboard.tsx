@@ -1,12 +1,7 @@
-import { useState } from "react";
 import "./Fretboard.css"
 import { STANDARD_TUNING, getNoteAtFret } from "../music/notes";
-
-/* interactive fretboard (only 3 types when clicking on fretboard)*/
-type StringState =
-    | { type: "open" }
-    | { type: "muted" }
-    | { type: "fretted"; fret: number };
+import { useFretboardState } from "../hooks/useFretboardState";
+import { getNotesFromStringStates, detectChordName } from "../music/chords"; //test
 
 function Fretboard() {
 
@@ -20,27 +15,14 @@ function Fretboard() {
     const stringRows = Array.from({ length: 6 }, (_, i) => i); /*open strings*/
 
     /* fretboard user interaction*/
-    const [stringStates, setStringStates] = useState<StringState[]>([
-        { type: "open" }, { type: "open" }, { type: "open" }, { type: "open" }, { type: "open" }, { type: "open" },
-    ]);
-
-    function handleFretClick(stringIndex: number, fret: number) {
-        setStringStates((prevStates) => {
-            const updated = [...prevStates];
-            const current = updated[stringIndex];
-            const isSameFret = current.type === "fretted" && current.fret === fret;
-
-            updated[stringIndex] = isSameFret ? { type: "muted" } : { type: "fretted", fret: fret };
-            return updated;
-        });
-    }
-
-    const fretMarkers = stringStates
-        .map((state, stringIndex) => ({ state, stringIndex }))
-        .filter((entry) => entry.state.type === "fretted");
+    const { stringStates, handleFretClick, handleToggle, fretMarkers } = useFretboardState(6);
 
     /*Fret count labels */
     const fretNumbers = Array.from({ length: 15 }, (_, i) => i + 1);
+
+    //test
+    const notes = getNotesFromStringStates(stringStates, STANDARD_TUNING);
+    console.log("Notes:", notes, "Chord:", detectChordName(notes));
 
     return (
         <div className="fretboard-section">
@@ -55,26 +37,15 @@ function Fretboard() {
                         const isOpen = currentState.type === "open";
                         const openNote = STANDARD_TUNING[stringIndex];
 
-                        function handleToggle() {
-                            setStringStates((prevStates) => {
-                                const updated = [...prevStates];
-                                const current = updated[stringIndex];
-                                updated[stringIndex] = current.type === "open" ? { type: "muted" } : { type: "open" };
-                                return updated;
-                            });
-                        }
-
                         let displayContent = "";
                         if (isMuted) displayContent = "X";
                         else if (isOpen) displayContent = openNote;
-                        // if fretted: displayContent stays "" (blank)
 
-                        console.log(stringStates);
                         return (
                             <div
                                 className="open-mute-cell"
                                 key={stringIndex}
-                                onClick={handleToggle}
+                                onClick={() => handleToggle(stringIndex)}
                             >
                                 {displayContent}
                             </div>
