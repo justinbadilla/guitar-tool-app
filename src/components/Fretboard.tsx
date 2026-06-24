@@ -1,5 +1,6 @@
 import { useState } from "react";
 import "./Fretboard.css"
+import { STANDARD_TUNING, getNoteAtFret } from "../music/notes";
 
 /* interactive fretboard (only 3 types when clicking on fretboard)*/
 type StringState =
@@ -22,14 +23,21 @@ function Fretboard() {
     const [stringStates, setStringStates] = useState<StringState[]>([
         { type: "open" }, { type: "open" }, { type: "open" }, { type: "open" }, { type: "open" }, { type: "open" },
     ]);
-    
+
     function handleFretClick(stringIndex: number, fret: number) {
         setStringStates((prevStates) => {
             const updated = [...prevStates];
-            updated[stringIndex] = { type: "fretted", fret: fret };
+            const current = updated[stringIndex];
+            const isSameFret = current.type === "fretted" && current.fret === fret;
+
+            updated[stringIndex] = isSameFret ? { type: "muted" } : { type: "fretted", fret: fret };
             return updated;
         });
     }
+
+    const fretMarkers = stringStates
+        .map((state, stringIndex) => ({ state, stringIndex }))
+        .filter((entry) => entry.state.type === "fretted");
 
     /*Fret count labels */
     const fretNumbers = Array.from({ length: 15 }, (_, i) => i + 1);
@@ -44,14 +52,22 @@ function Fretboard() {
                     {stringRows.map((stringIndex) => {
                         const currentState = stringStates[stringIndex];
                         const isMuted = currentState.type === "muted";
+                        const isOpen = currentState.type === "open";
+                        const openNote = STANDARD_TUNING[stringIndex];
 
                         function handleToggle() {
                             setStringStates((prevStates) => {
                                 const updated = [...prevStates];
-                                updated[stringIndex] = isMuted ? { type: "open" } : { type: "muted" };
+                                const current = updated[stringIndex];
+                                updated[stringIndex] = current.type === "open" ? { type: "muted" } : { type: "open" };
                                 return updated;
                             });
                         }
+
+                        let displayContent = "";
+                        if (isMuted) displayContent = "X";
+                        else if (isOpen) displayContent = openNote;
+                        // if fretted: displayContent stays "" (blank)
 
                         console.log(stringStates);
                         return (
@@ -60,7 +76,7 @@ function Fretboard() {
                                 key={stringIndex}
                                 onClick={handleToggle}
                             >
-                                {isMuted ? "X" : "O"}
+                                {displayContent}
                             </div>
                         );
                     })}
@@ -104,6 +120,26 @@ function Fretboard() {
                                 key={fretNum}
                                 style={{ left: (fretNum - 1) * 60 + 30 }}
                             ></div>
+                        );
+                    })}
+
+                    {fretMarkers.map(({ state, stringIndex }) => {
+                        if (state.type !== "fretted") return null;
+
+                        const openNote = STANDARD_TUNING[stringIndex];
+                        const noteName = getNoteAtFret(openNote, state.fret);
+
+                        const left = (state.fret - 1) * 60 + 30;
+                        const top = stringIndex * 40 + 20;
+
+                        return (
+                            <div
+                                className="fret-marker"
+                                key={stringIndex}
+                                style={{ left, top }}
+                            >
+                                {noteName}
+                            </div>
                         );
                     })}
 

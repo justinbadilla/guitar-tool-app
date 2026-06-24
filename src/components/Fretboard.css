@@ -1,12 +1,15 @@
 /* whole fretboard component / full parent*/
-.freboard-selection{
+.fretboard-section {
     display: flex;
-    flex-direction: column; /* stack children top-to-bottom */
+    flex-direction: column;
+    /* stack children top-to-bottom */
 }
 
 /* guitar fretboard */
-.fretboard-wrapper{
-    display: flex; /*lays 3 children left-right, side by side*/
+.fretboard-wrapper {
+    display: flex;
+    align-self: flex-start;
+    /*lays 3 children left-right, side by side*/
 }
 
 .fretboard {
@@ -20,8 +23,10 @@
 
 .fret-line {
     position: absolute;
-    top: 20px;      /* half of row height (40px / 2) = center of row 1 */
-    bottom: 20px;   /* same logic, center of row 6 from the bottom */
+    top: 20px;
+    /* half of row height (40px / 2) = center of row 1 */
+    bottom: 20px;
+    /* same logic, center of row 6 from the bottom */
     width: 2px;
     background: #444;
 }
@@ -35,9 +40,11 @@
     position: absolute;
     left: 0;
     right: 0;
-    top: 50%;             /* vertical center of the cell */
+    top: 50%;
+    /* vertical center of the cell */
     height: 2px;
-    background: #888;     /* this is your "string" */
+    background: #888;
+    /* this is your "string" */
 }
 
 .nut {
@@ -45,7 +52,7 @@
     background: black;
 }
 
-.inlay{
+.inlay {
     position: absolute;
     top: 50%;
     width: 12px;
@@ -55,7 +62,7 @@
     transform: translate(-50%, -50%);
 }
 
-.double{
+.double {
     width: 12px;
     height: 90px;
     border-radius: 0;
@@ -68,16 +75,32 @@
 
 .fret-numbers {
     display: flex;
-    width: 900px; /* matches 15 × 60px grid width */
+    width: 900px;
+    margin-left: 40px;
+    /* matches 15 × 60px grid width */
 }
 
 .fret-number {
-    width: 60px; /* matches one fret-cell's column width */
+    width: 60px;
     text-align: center;
 }
 
+.fret-marker {
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: var(--accent);
+    color: black;
+    font-size: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transform: translate(-50%, -50%);
+}
+
 .open-mute-column,
-.interval-column{
+.interval-column {
     display: grid;
     grid-template-rows: repeat(6, 40px);
     width: 40px;
