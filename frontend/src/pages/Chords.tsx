@@ -5,9 +5,10 @@ import { getNotesFromStringStates, detectChordName, getRootNote } from '../music
 import { STANDARD_TUNING } from '../music/notes';
 import ChordDiagram from '../components/ChordDiagram';
 import { CHORD_PRESETS } from '../music/chordPresets';
+import PresetChordList from '../components/PresetChordList';
 
 function Chords() {
-    const { stringStates, handleFretClick, handleToggle, fretMarkers } = useFretboardState(6);
+    const { stringStates, handleFretClick, handleToggle, fretMarkers, loadPositions } = useFretboardState(6);
 
     const notes = getNotesFromStringStates(stringStates, STANDARD_TUNING);
     const chordName = detectChordName(notes);
@@ -23,10 +24,7 @@ function Chords() {
                 fretMarkers={fretMarkers}
                 rootNote={rootNote}
             />
-            <ChordDiagram
-                positions={CHORD_PRESETS[7].positions}
-                name={CHORD_PRESETS[7].name}
-            />
+            <PresetChordList onSelectChord={loadPositions} />
         </div>
     );
 }

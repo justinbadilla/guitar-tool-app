@@ -1,0 +1,12 @@
+.preset-chord-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+}
+
+.preset-chord-button {
+    border: 1px solid #ccc;
+    background: none;
+    padding: 8px;
+    cursor: pointer;
+}

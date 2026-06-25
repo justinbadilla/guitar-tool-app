@@ -1,3 +1,7 @@
+/*
+Custom hook for handling fretboard interactions
+*/
+
 import { useState } from "react";
 
 /* interactive fretboard (only 3 types when clicking on fretboard)*/
@@ -36,9 +40,17 @@ export function useFretboardState(stringCount: number) {
         });
     }
 
+    //clicking on saved or preset chord (while on Fretboard page)
+    function loadPositions(newPositions: StringState[]) {
+        setStringStates(newPositions);
+    }
+
     const fretMarkers = stringStates
         .map((state, stringIndex) => ({ state, stringIndex }))
         .filter((entry) => entry.state.type === "fretted");
+        
 
-    return { stringStates, handleFretClick, handleToggle, fretMarkers };
+    return { stringStates, handleFretClick, handleToggle, fretMarkers, loadPositions };
+
+
 }
