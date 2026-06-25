@@ -1,9 +1,17 @@
 import "./Fretboard.css"
 import { STANDARD_TUNING, getNoteAtFret } from "../music/notes";
-import { useFretboardState } from "../hooks/useFretboardState";
-import { getNotesFromStringStates, detectChordName } from "../music/chords"; //test
+import type { StringState } from "../hooks/useFretboardState";
+import { getNotesFromStringStates, detectChordName, getIntervalFromRoot } from "../music/chords";
 
-function Fretboard() {
+interface FretboardProps {
+    stringStates: StringState[];
+    handleFretClick: (stringIndex: number, fret: number) => void;
+    handleToggle: (stringIndex: number) => void;
+    fretMarkers: { state: StringState; stringIndex: number }[];
+    rootNote: string | null;
+}
+
+function Fretboard({ stringStates, handleFretClick, handleToggle, fretMarkers, rootNote }: FretboardProps) {
 
     //const fretCount: number = 15
     //const stringName: string = "E"
@@ -14,15 +22,8 @@ function Fretboard() {
     const inlayFrets = [3, 5, 7, 9, 12, 15];
     const stringRows = Array.from({ length: 6 }, (_, i) => i); /*open strings*/
 
-    /* fretboard user interaction*/
-    const { stringStates, handleFretClick, handleToggle, fretMarkers } = useFretboardState(6);
-
     /*Fret count labels */
     const fretNumbers = Array.from({ length: 15 }, (_, i) => i + 1);
-
-    //test
-    const notes = getNotesFromStringStates(stringStates, STANDARD_TUNING);
-    console.log("Notes:", notes, "Chord:", detectChordName(notes));
 
     return (
         <div className="fretboard-section">
@@ -31,7 +32,8 @@ function Fretboard() {
 
                 <div className="open-mute-column">
 
-                    {stringRows.map((stringIndex) => {
+                    {stringRows.map((visualRow) => {
+                        const stringIndex = 5 - visualRow;
                         const currentState = stringStates[stringIndex];
                         const isMuted = currentState.type === "muted";
                         const isOpen = currentState.type === "open";
@@ -44,7 +46,7 @@ function Fretboard() {
                         return (
                             <div
                                 className="open-mute-cell"
-                                key={stringIndex}
+                                key={visualRow}
                                 onClick={() => handleToggle(stringIndex)}
                             >
                                 {displayContent}
@@ -54,15 +56,17 @@ function Fretboard() {
                 </div>
 
                 <div className="fretboard">
-                    {cells.map((cellIndex) => {
+                    
+                    {cells.map((cellIndex) => { /*actual clickable grid*/
                         const column = cellIndex % 15;
-                        const row = Math.floor(cellIndex / 15);
+                        const visualRow = Math.floor(cellIndex / 15);
+                        const stringIndex = 5 - visualRow;
                         const fretNumber = column + 1;
                         return (
                             <div
                                 className="fret-cell"
                                 key={cellIndex}
-                                onClick={() => handleFretClick(row, fretNumber)}
+                                onClick={() => handleFretClick(stringIndex, fretNumber)}
                             ></div>
                         );
 
@@ -100,8 +104,9 @@ function Fretboard() {
                         const openNote = STANDARD_TUNING[stringIndex];
                         const noteName = getNoteAtFret(openNote, state.fret);
 
+                        const visualRow = 5 - stringIndex;
                         const left = (state.fret - 1) * 60 + 30;
-                        const top = stringIndex * 40 + 20;
+                        const top = visualRow * 40 + 20;
 
                         return (
                             <div
@@ -117,11 +122,25 @@ function Fretboard() {
                 </div>
 
                 <div className="interval-column">
-                    {stringRows.map((stringIndex) => (
-                        <div className="interval-cell" key={stringIndex}>
-                            —
-                        </div>
-                    ))}
+                    {stringRows.map((visualRow) => {
+                        const stringIndex = 5 - visualRow;
+                        const state = stringStates[stringIndex];
+                        let label = "—";
+
+                        if (rootNote && state.type !== "muted") {
+                            const note = state.type === "fretted"
+                                ? getNoteAtFret(STANDARD_TUNING[stringIndex], state.fret)
+                                : STANDARD_TUNING[stringIndex];
+
+                            label = getIntervalFromRoot(rootNote, note);
+                        }
+
+                        return (
+                            <div className="interval-cell" key={visualRow}>
+                                {label}
+                            </div>
+                        );
+                    })}
                 </div>
             </div>
 

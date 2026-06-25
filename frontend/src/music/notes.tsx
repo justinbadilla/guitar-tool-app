@@ -1,6 +1,6 @@
 const CHROMATIC_SCALE = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"];
 
-export const STANDARD_TUNING = ["E", "B", "G", "D", "A", "E"];
+export const STANDARD_TUNING = ["E", "A", "D", "G", "B", "E"];
 
 export function getNoteAtFret(openNote: string, fret: number): string {
     const openNoteIndex = CHROMATIC_SCALE.indexOf(openNote);

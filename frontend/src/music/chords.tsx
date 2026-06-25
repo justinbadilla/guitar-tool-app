@@ -1,6 +1,26 @@
 import { Chord } from "tonal";
 import { getNoteAtFret } from "./notes";
 import type { StringState } from "../hooks/useFretboardState";
+import { Interval, Note } from "tonal";
+
+const INTERVAL_LABELS: Record<string, string> = {
+    "1P": "root",
+    "2m": "min2",
+    "2M": "2",
+    "3m": "min3",
+    "3M": "3",
+    "4P": "4",
+    "4A": "aug4",
+    "5d": "dim5",
+    "5P": "5",
+    "5A": "aug5",
+    "6m": "min6",
+    "6M": "maj6",
+    "7d": "dim7",
+    "7m": "min7",
+    "7M": "maj7",
+    "8P": "octave",
+};
 
 export function getNotesFromStringStates(stringStates: StringState[], tuning: string[]): string[] {
     const notes: string[] = []
@@ -19,7 +39,37 @@ export function getNotesFromStringStates(stringStates: StringState[], tuning: st
 }
 
 export function detectChordName(notes: string[]): string {
-    if (notes.length===0) return "-"; //no notes selected
+    if (notes.length === 0) return "-"; //no notes selected
     const matches = Chord.detect(notes); //tonal js chord detection
     return matches.length > 0 ? matches[0] : "Unknown";
+}
+
+export function getRootNote(
+    stringStates: StringState[],
+    tuning: string[],
+    chordName: string
+): string | null {
+    console.log("getRootNote called with chordName:", chordName);
+    console.log("stringStates:", stringStates);
+    if (chordName !== "—" && chordName !== "Unknown") {
+        const chordInfo = Chord.get(chordName);
+        if (chordInfo.tonic) return chordInfo.tonic;
+    }
+
+    // Fallback: lowest-indexed unmuted string
+    for (let i = 0; i < stringStates.length; i++) {
+        const state = stringStates[i];
+        if (state.type === "fretted") {
+            return getNoteAtFret(tuning[i], state.fret);
+        }
+        if (state.type === "open") {
+            return tuning[i];
+        }
+    }
+
+    return null; // every string muted
+}
+export function getIntervalFromRoot(root: string, note: string): string {
+    const distance = Interval.distance(root, note);
+    return INTERVAL_LABELS[distance] ?? distance; // fallback to raw code if unmapped
 }
