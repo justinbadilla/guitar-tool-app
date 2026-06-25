@@ -1,0 +1,8 @@
+.chord-diagram {
+    display: inline-block;
+}
+
+.chord-diagram-name {
+    font-weight: bold;
+    margin-bottom: 8px;
+}

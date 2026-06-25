@@ -3,6 +3,8 @@ import ChordNameDisplay from '../components/ChordNameDisplay';
 import { useFretboardState } from '../hooks/useFretboardState';
 import { getNotesFromStringStates, detectChordName, getRootNote } from '../music/chords';
 import { STANDARD_TUNING } from '../music/notes';
+import ChordDiagram from '../components/ChordDiagram';
+import { CHORD_PRESETS } from '../music/chordPresets';
 
 function Chords() {
     const { stringStates, handleFretClick, handleToggle, fretMarkers } = useFretboardState(6);
@@ -20,6 +22,10 @@ function Chords() {
                 handleToggle={handleToggle}
                 fretMarkers={fretMarkers}
                 rootNote={rootNote}
+            />
+            <ChordDiagram
+                positions={CHORD_PRESETS[7].positions}
+                name={CHORD_PRESETS[7].name}
             />
         </div>
     );

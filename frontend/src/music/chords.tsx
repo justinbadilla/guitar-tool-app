@@ -73,3 +73,25 @@ export function getIntervalFromRoot(root: string, note: string): string {
     const distance = Interval.distance(root, note);
     return INTERVAL_LABELS[distance] ?? distance; // fallback to raw code if unmapped
 }
+
+// rendering saved and preset chords
+export function getFretRange(positions: StringState[]): { start: number; end: number } {
+    const frets = positions
+        .filter((state) => state.type === "fretted")
+        .map((state) => (state as { type: "fretted"; fret: number }).fret);
+
+    if (frets.length === 0) {
+        return { start: 1, end: 4 };
+    }
+
+    const min = Math.min(...frets);
+    const max = Math.max(...frets);
+    const span = max - min + 1;
+
+    if (span >= 4) {
+        return { start: min, end: max };
+    }
+
+    // pad out to a minimum 4-fret window, anchored at min
+    return { start: min, end: min + 3 };
+}

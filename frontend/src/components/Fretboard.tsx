@@ -9,21 +9,29 @@ interface FretboardProps {
     handleToggle: (stringIndex: number) => void;
     fretMarkers: { state: StringState; stringIndex: number }[];
     rootNote: string | null;
+
+    //saved presets and user saved chords
+    fretRange?: { start: number; end: number };
+    interactive?: boolean;
 }
 
-function Fretboard({ stringStates, handleFretClick, handleToggle, fretMarkers, rootNote }: FretboardProps) {
+function Fretboard({ stringStates, handleFretClick, handleToggle, fretMarkers, rootNote, fretRange, interactive = true }: FretboardProps) {
 
     //const fretCount: number = 15
     //const stringName: string = "E"
+    
+    //presets and user saved chords
+    const start = fretRange?.start ?? 1;
+    const end = fretRange?.end ?? 15;
+    const fretCount = end - start + 1;
 
     /* guitar fretboard*/
-    const cells = Array.from({ length: 90 }, (_, i) => i);
-    const fretLines = Array.from({ length: 16 }, (_, i) => i);
-    const inlayFrets = [3, 5, 7, 9, 12, 15];
-    const stringRows = Array.from({ length: 6 }, (_, i) => i); /*open strings*/
-
+    const cells = Array.from({ length: fretCount * 6 }, (_, i) => i);
+    const fretLines = Array.from({ length: fretCount + 1 }, (_, i) => i);
+    const inlayFrets = [3, 5, 7, 9, 12, 15].filter((f) => f >= start && f <= end);
+    const stringRows = Array.from({ length: 6 }, (_, i) => i);
     /*Fret count labels */
-    const fretNumbers = Array.from({ length: 15 }, (_, i) => i + 1);
+    const fretNumbers = Array.from({ length: fretCount }, (_, i) => start + i);
 
     return (
         <div className="fretboard-section">
@@ -55,25 +63,25 @@ function Fretboard({ stringStates, handleFretClick, handleToggle, fretMarkers, r
                     })}
                 </div>
 
-                <div className="fretboard">
-                    
+                <div className="fretboard" style={{ gridTemplateColumns: `repeat(${fretCount}, 60px)` }}>
+
                     {cells.map((cellIndex) => { /*actual clickable grid*/
-                        const column = cellIndex % 15;
-                        const visualRow = Math.floor(cellIndex / 15);
+                        const column = cellIndex % fretCount;
+                        const visualRow = Math.floor(cellIndex / fretCount);
                         const stringIndex = 5 - visualRow;
-                        const fretNumber = column + 1;
+                        const fretNumber = start + column; // absolute fret number, not always starting at 1 anymor
                         return (
                             <div
                                 className="fret-cell"
                                 key={cellIndex}
-                                onClick={() => handleFretClick(stringIndex, fretNumber)}
+                                onClick={interactive ? () => handleFretClick(stringIndex, fretNumber) : undefined}
                             ></div>
                         );
 
                     })}
 
                     {fretLines.map((fretIndex) => {
-                        const isNut = fretIndex === 0; /* if fretIndex = 0, isNut is true*/
+                        const isNut = fretIndex === 0 && start === 1;
                         const className = isNut ? "fret-line nut" : "fret-line"; /*If condition is true, use left value otherwise use right value*/
 
                         return (
@@ -93,7 +101,7 @@ function Fretboard({ stringStates, handleFretClick, handleToggle, fretMarkers, r
                             <div
                                 className={isDoubleD ? "inlay double" : "inlay"}
                                 key={fretNum}
-                                style={{ left: (fretNum - 1) * 60 + 30 }}
+                                style={{ left: (fretNum - start) * 60 + 30 }}
                             ></div>
                         );
                     })}
@@ -105,7 +113,7 @@ function Fretboard({ stringStates, handleFretClick, handleToggle, fretMarkers, r
                         const noteName = getNoteAtFret(openNote, state.fret);
 
                         const visualRow = 5 - stringIndex;
-                        const left = (state.fret - 1) * 60 + 30;
+                        const left = (state.fret - start) * 60 + 30;
                         const top = visualRow * 40 + 20;
 
                         return (
@@ -121,6 +129,7 @@ function Fretboard({ stringStates, handleFretClick, handleToggle, fretMarkers, r
 
                 </div>
 
+                {interactive && (
                 <div className="interval-column">
                     {stringRows.map((visualRow) => {
                         const stringIndex = 5 - visualRow;
@@ -142,6 +151,7 @@ function Fretboard({ stringStates, handleFretClick, handleToggle, fretMarkers, r
                         );
                     })}
                 </div>
+                )}
             </div>
 
 
