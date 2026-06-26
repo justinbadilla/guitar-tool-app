@@ -50,7 +50,5 @@ export function useFretboardState(stringCount: number) {
         .filter((entry) => entry.state.type === "fretted");
         
 
-    return { stringStates, handleFretClick, handleToggle, fretMarkers, loadPositions };
-
-
+    return { stringStates, handleFretClick, handleToggle, fretMarkers, loadPositions, };
 }
