@@ -1,7 +1,7 @@
 import "./Fretboard.css"
-import { STANDARD_TUNING, getNoteAtFret } from "../music/notes";
-import type { StringState } from "../hooks/useFretboardState";
-import { getNotesFromStringStates, detectChordName, getIntervalFromRoot } from "../music/chords";
+import { getNoteAtFret } from "../../music/notes";
+import { getIntervalFromRoot } from "../../music/chords";
+import type { StringState } from "../../hooks/useFretboardState";
 
 interface FretboardProps {
     stringStates: StringState[];

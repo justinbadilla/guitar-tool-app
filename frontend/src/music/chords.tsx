@@ -1,7 +1,7 @@
 import { Chord } from "tonal";
 import { getNoteAtFret } from "./notes";
+import { Interval } from "tonal";
 import type { StringState } from "../hooks/useFretboardState";
-import { Interval, Note } from "tonal";
 
 const INTERVAL_LABELS: Record<string, string> = {
     "1P": "root",

@@ -1,6 +1,6 @@
-import { useState } from "react";
-import { PRESET_TUNINGS } from "../music/notes";
 import CustomTuningModal from "./CustomTuningModal";
+import { useState } from "react";
+import { PRESET_TUNINGS } from "../../music/notes";
 
 interface TuningSelectorProps {
     activeTuning: string[];

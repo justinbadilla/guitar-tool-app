@@ -2,9 +2,9 @@
 For rendering clickable diagrams 
 Goes through all chord presets... and later implementation for saved chord library
 */
-import ChordDiagram from "./ChordDiagram";
-import { CHORD_PRESETS } from "../music/chordPresets";
-import type { StringState } from "../hooks/useFretboardState";
+import ChordDiagram from "../fretboard/ChordDiagram";
+import { CHORD_PRESETS } from "../../music/chordPresets";
+import type { StringState } from "../../hooks/useFretboardState";
 
 interface PresetChordListProps {
     onSelectChord: (positions: StringState[]) => void;

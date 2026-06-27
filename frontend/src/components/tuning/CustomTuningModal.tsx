@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { isValidNoteName } from "../music/notes";
+import { isValidNoteName } from "../../music/notes";
 
 interface CustomTuningModalProps {
     onSave: (notes: string[]) => void;

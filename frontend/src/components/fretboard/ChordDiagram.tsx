@@ -1,7 +1,8 @@
+
 import Fretboard from "./Fretboard";
-import type { StringState } from "../hooks/useFretboardState";
-import { getFretRange } from "../music/chords";
-import { STANDARD_TUNING } from "../music/notes";
+import { getFretRange } from "../../music/chords";
+import { STANDARD_TUNING } from "../../music/notes";
+import type { StringState } from "../../hooks/useFretboardState";
 
 interface ChordDiagramProps {
     positions: StringState[];

@@ -1,15 +1,15 @@
-import Fretboard from '../components/Fretboard'
-import ChordNameDisplay from '../components/ChordNameDisplay';
+import Fretboard from '../components/fretboard/Fretboard'
+import TuningSelector from '../components/tuning/TuningSelector';
+import SavedChordList from '../components/chord-library/SavedChordList';
+import PresetChordList from '../components/chord-library/PresetChordList'
+import ChordNameDisplay from '../components/chord-library/ChordNameDisplay';
+import { useState } from 'react';
+import { useEffect } from 'react';
+import { saveChord } from "../api/savedChords";
+import { STANDARD_TUNING } from '../music/notes';
+import { fetchSavedChords } from '../api/savedChords';
 import { useFretboardState } from '../hooks/useFretboardState';
 import { getNotesFromStringStates, detectChordName, getRootNote } from '../music/chords';
-import { STANDARD_TUNING } from '../music/notes';
-import PresetChordList from '../components/PresetChordList'
-import { saveChord } from "../api/savedChords";
-import SavedChordList from '../components/SavedChordList';
-import { useState } from 'react';
-import TuningSelector from '../components/TuningSelector';
-import { useEffect } from 'react';
-import { fetchSavedChords } from '../api/savedChords';
 import type { SavedChord } from '../api/savedChords';
 
 function Chords() {
