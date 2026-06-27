@@ -17,6 +17,9 @@ public class SavedChord {
     @Column(columnDefinition = "TEXT")
     private String positionsJson;
 
+    @Column(columnDefinition = "TEXT")
+    private String tuningJson;
+
     // getters and setters
     public Long getId() {
         return id;
@@ -24,6 +27,10 @@ public class SavedChord {
 
     public String getName() {
         return name;
+    }
+
+    public String getTuningJson() { 
+        return tuningJson; 
     }
 
     public void setName(String name) {
@@ -36,5 +43,9 @@ public class SavedChord {
 
     public void setPositionsJson(String positionsJson) {
         this.positionsJson = positionsJson;
+    }
+
+    public void setTuningJson(String tuningJson) {
+        this.tuningJson = tuningJson; 
     }
 }

@@ -1,13 +1,15 @@
 import Fretboard from "./Fretboard";
 import type { StringState } from "../hooks/useFretboardState";
 import { getFretRange } from "../music/chords";
+import { STANDARD_TUNING } from "../music/notes";
 
 interface ChordDiagramProps {
     positions: StringState[];
     name?: string;
+    tuning?: string[];
 }
 
-function ChordDiagram({ positions, name }: ChordDiagramProps) {
+function ChordDiagram({ positions, name, tuning = STANDARD_TUNING }: ChordDiagramProps) {
     const fretRange = getFretRange(positions);
 
     const fretMarkers = positions
@@ -25,6 +27,7 @@ function ChordDiagram({ positions, name }: ChordDiagramProps) {
                 rootNote={null}
                 fretRange={fretRange}
                 interactive={false}
+                tuning={tuning}
             />
         </div>
     );

@@ -45,10 +45,14 @@ export function useFretboardState(stringCount: number) {
         setStringStates(newPositions);
     }
 
+    function clearFretboard(){
+        setStringStates(initialStates);
+    }
+
     const fretMarkers = stringStates
         .map((state, stringIndex) => ({ state, stringIndex }))
         .filter((entry) => entry.state.type === "fretted");
         
 
-    return { stringStates, handleFretClick, handleToggle, fretMarkers, loadPositions, };
+    return { stringStates, handleFretClick, handleToggle, fretMarkers, loadPositions, clearFretboard,};
 }

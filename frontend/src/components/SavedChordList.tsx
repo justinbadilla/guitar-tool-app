@@ -2,23 +2,14 @@ import { useState, useEffect } from "react";
 import ChordDiagram from "./ChordDiagram";
 import { fetchSavedChords } from "../api/savedChords";
 import type { StringState } from "../hooks/useFretboardState";
-
-interface SavedChord {
-    id: number;
-    name: string;
-    positions: StringState[];
-}
+import type { SavedChord } from "../api/savedChords";
 
 interface SavedChordListProps {
+    savedChords: SavedChord[];
     onSelectChord: (positions: StringState[]) => void;
 }
 
-function SavedChordList({ onSelectChord }: SavedChordListProps) {
-    const [savedChords, setSavedChords] = useState<SavedChord[]>([]);
-
-    useEffect(() => {
-        fetchSavedChords().then((chords) => setSavedChords(chords));
-    }, []);
+function SavedChordList({ savedChords, onSelectChord }: SavedChordListProps) {
 
     return (
         <div className="saved-chord-list">
@@ -28,7 +19,7 @@ function SavedChordList({ onSelectChord }: SavedChordListProps) {
                     className="preset-chord-button"
                     onClick={() => onSelectChord(chord.positions)}
                 >
-                    <ChordDiagram positions={chord.positions} name={chord.name} />
+                    <ChordDiagram positions={chord.positions} name={chord.name} tuning={chord.tuning} />
                 </button>
             ))}
         </div>

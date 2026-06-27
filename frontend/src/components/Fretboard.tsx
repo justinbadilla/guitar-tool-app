@@ -13,9 +13,12 @@ interface FretboardProps {
     //saved presets and user saved chords
     fretRange?: { start: number; end: number };
     interactive?: boolean;
+
+    //new alternate tunings feature
+    tuning: string[];
 }
 
-function Fretboard({ stringStates, handleFretClick, handleToggle, fretMarkers, rootNote, fretRange, interactive = true }: FretboardProps) {
+function Fretboard({ stringStates, handleFretClick, handleToggle, fretMarkers, rootNote, fretRange, interactive = true, tuning }: FretboardProps) {
 
     //const fretCount: number = 15
     //const stringName: string = "E"
@@ -45,7 +48,7 @@ function Fretboard({ stringStates, handleFretClick, handleToggle, fretMarkers, r
                         const currentState = stringStates[stringIndex];
                         const isMuted = currentState.type === "muted";
                         const isOpen = currentState.type === "open";
-                        const openNote = STANDARD_TUNING[stringIndex];
+                        const openNote = tuning[stringIndex];
 
                         let displayContent = "";
                         if (isMuted) displayContent = "X";
@@ -109,7 +112,7 @@ function Fretboard({ stringStates, handleFretClick, handleToggle, fretMarkers, r
                     {fretMarkers.map(({ state, stringIndex }) => {
                         if (state.type !== "fretted") return null;
 
-                        const openNote = STANDARD_TUNING[stringIndex];
+                        const openNote = tuning[stringIndex];
                         const noteName = getNoteAtFret(openNote, state.fret);
 
                         const visualRow = 5 - stringIndex;
@@ -138,8 +141,8 @@ function Fretboard({ stringStates, handleFretClick, handleToggle, fretMarkers, r
 
                         if (rootNote && state.type !== "muted") {
                             const note = state.type === "fretted"
-                                ? getNoteAtFret(STANDARD_TUNING[stringIndex], state.fret)
-                                : STANDARD_TUNING[stringIndex];
+                                ? getNoteAtFret(tuning[stringIndex], state.fret)
+                                : tuning[stringIndex];
 
                             label = getIntervalFromRoot(rootNote, note);
                         }
