@@ -1,3 +1,9 @@
+/**
+ * ChordNameDisplay
+ * displays chord name grabbed from parameters
+ * For pages to show interactive fretboard chord name
+ */
+
 import "./ChordNameDisplay.css";
 
 interface ChordNameDisplayProps {

@@ -1,13 +1,16 @@
 /*
 For rendering clickable diagrams 
-Goes through all chord presets... and later implementation for saved chord library
+Goes through all chord presets
 */
+
+import "./PresetChordList.css";
 import ChordDiagram from "../fretboard/ChordDiagram";
 import { CHORD_PRESETS } from "../../music/chordPresets";
 import type { StringState } from "../../hooks/useFretboardState";
+import { STANDARD_TUNING } from "../../music/notes";
 
 interface PresetChordListProps {
-    onSelectChord: (positions: StringState[]) => void;
+    onSelectChord: (positions: StringState[], tuning: string[]) => void;
 }
 
 function PresetChordList({ onSelectChord }: PresetChordListProps) {
@@ -17,7 +20,7 @@ function PresetChordList({ onSelectChord }: PresetChordListProps) {
                 <button
                     key={preset.name}
                     className="preset-chord-button"
-                    onClick={() => onSelectChord(preset.positions)}
+                    onClick={() => onSelectChord(preset.positions, STANDARD_TUNING)}
                 >
                     <ChordDiagram positions={preset.positions} name={preset.name} />
                 </button>

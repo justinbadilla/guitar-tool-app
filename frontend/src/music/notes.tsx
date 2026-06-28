@@ -1,3 +1,9 @@
+/**
+ * notes
+ * note logic for fretboard calculation and tuning feature
+ * uses tonal js to calculate whether the note is a valid note for custom tunings
+ */
+
 import { Note } from "tonal";
 
 const CHROMATIC_SCALE = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"];
@@ -23,6 +29,7 @@ export function getNoteAtFret(openNote: string, fret: number): string {
     return CHROMATIC_SCALE[resultIndex];
 }
 
+//for custom tuning, to make sure the note name is in actual scale
 export function isValidNoteName(input: string): boolean {
     const note = Note.get(input);
     return !note.empty;

@@ -1,3 +1,9 @@
+/**
+ * chordPreset
+ * This file just hardcodes preset chord positions for users to know.
+ * Basic chords like open chords and triads
+ */
+
 import type { StringState } from "../hooks/useFretboardState";
 
 export type ChordCategory = "triad" | "open";

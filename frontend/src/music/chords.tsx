@@ -1,3 +1,10 @@
+/**
+ * chords
+ * Uses Tonal js api library to calculate chord logic.
+ * 
+ * 
+ */
+
 import { Chord } from "tonal";
 import { getNoteAtFret } from "./notes";
 import { Interval } from "tonal";
@@ -44,6 +51,7 @@ export function detectChordName(notes: string[]): string {
     return matches.length > 0 ? matches[0] : "Unknown";
 }
 
+//
 export function getRootNote(
     stringStates: StringState[],
     tuning: string[],

@@ -1,11 +1,16 @@
+/*
+For rendering clickable diagrams 
+Goes through all user saved chords
+*/
 
+import "./PresetChordList.css";
 import ChordDiagram from "../fretboard/ChordDiagram";
 import type { StringState } from "../../hooks/useFretboardState";
 import type { SavedChord } from "../../api/savedChords";
 
 interface SavedChordListProps {
     savedChords: SavedChord[];
-    onSelectChord: (positions: StringState[]) => void;
+    onSelectChord: (positions: StringState[], tuning: string[]) => void;
 }
 
 function SavedChordList({ savedChords, onSelectChord }: SavedChordListProps) {
@@ -16,7 +21,7 @@ function SavedChordList({ savedChords, onSelectChord }: SavedChordListProps) {
                 <button
                     key={chord.id}
                     className="preset-chord-button"
-                    onClick={() => onSelectChord(chord.positions)}
+                    onClick={() => onSelectChord(chord.positions, chord.tuning)}
                 >
                     <ChordDiagram positions={chord.positions} name={chord.name} tuning={chord.tuning} />
                 </button>
