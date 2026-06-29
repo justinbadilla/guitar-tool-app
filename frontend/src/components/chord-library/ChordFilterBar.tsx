@@ -1,16 +1,29 @@
+/**
+ * ChordFilterBar
+ * 
+ * Renders three dropdown filters (root note, quality, tuning)
+ * Only visuals — doesn't own or apply any filtering logic itself.
+ * Reports user's selections through onFiltersChange. The actual filtering
+ * (chordMatchesFilters) happens wherever the filtered list is used
+ * Used for chord analyzer page and will be used in songwriting page.
+ */
+
 import type { ChordFilters } from "../../music/chordFilters";
 
 interface ChordFilterBarProps {
-    filters: ChordFilters;
-    onFiltersChange: (filters: ChordFilters) => void;
-    availableTunings: string[][];
+    filters: ChordFilters; //current active filter values
+    onFiltersChange: (filters: ChordFilters) => void; //called when filter changes
+    availableTunings: string[][]; //tunings used in user's database
 }
 
+//Variables for filter options
 const QUALITY_OPTIONS = ["Major", "Minor", "Diminished", "Augmented"];
 const ROOT_NOTE_OPTIONS = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"];
 
+
 function ChordFilterBar({ filters, onFiltersChange, availableTunings }: ChordFilterBarProps) {
 
+    //updates individual filter fields 
     function updateFilter<K extends keyof ChordFilters>(key: K, value: ChordFilters[K]) {
         onFiltersChange({ ...filters, [key]: value });
     }

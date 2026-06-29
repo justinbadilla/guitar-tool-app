@@ -2,6 +2,7 @@
  * ChordNameDisplay
  * displays chord name grabbed from parameters
  * For pages to show interactive fretboard chord name
+ * Called from individual pages
  */
 
 import "./ChordNameDisplay.css";

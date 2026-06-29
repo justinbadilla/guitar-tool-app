@@ -1,13 +1,13 @@
 /*
-For rendering clickable diagrams 
+For rendering clickable diagrams
 Goes through all chord presets
 */
 
 import "./PresetChordList.css";
 import ChordDiagram from "../fretboard/ChordDiagram";
 import { CHORD_PRESETS } from "../../music/chordPresets";
-import type { StringState } from "../../hooks/useFretboardState";
 import { STANDARD_TUNING } from "../../music/notes";
+import type { StringState } from "../../hooks/useFretboardState";
 
 interface PresetChordListProps {
     onSelectChord: (positions: StringState[], tuning: string[]) => void;

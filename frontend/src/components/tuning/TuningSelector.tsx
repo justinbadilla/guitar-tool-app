@@ -1,3 +1,9 @@
+/**
+ * TuningSelector
+ * This file changes the tunings for the interactive fretboard
+ * Used in pages for the interactive fretboard
+ */
+
 import CustomTuningModal from "./CustomTuningModal";
 import { useState } from "react";
 import { PRESET_TUNINGS } from "../../music/notes";
@@ -8,14 +14,17 @@ interface TuningSelectorProps {
 }
 
 function TuningSelector({ activeTuning, onSelectTuning }: TuningSelectorProps) {
-    const [isOpen, setIsOpen] = useState(false);
-    const [showCustomModal, setShowCustomModal] = useState(false);
 
+    const [isOpen, setIsOpen] = useState(false); //boolean useState to determine if the drop down menu is open or not
+    const [showCustomModal, setShowCustomModal] = useState(false); //boolean useState to enable the custom tuning modal
+
+    //Passes the selection of the notes, then closes the menu by setting to false
     function handlePresetClick(notes: string[]) {
         onSelectTuning(notes);
         setIsOpen(false);
     }
 
+    //function for the user's custom tuning (once "save" is clicekd)... passes notes, and then closes everthing
     function handleCustomSave(notes: string[]) {
         onSelectTuning(notes);
         setShowCustomModal(false);
@@ -35,7 +44,7 @@ function TuningSelector({ activeTuning, onSelectTuning }: TuningSelectorProps) {
                             key={tuning.name}
                             onClick={() => handlePresetClick(tuning.notes)}
                         >
-                            {tuning.name} ({tuning.notes.join("-")})
+                            {tuning.name}
                         </button>
                     ))}
 

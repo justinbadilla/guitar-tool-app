@@ -5,8 +5,8 @@ Goes through all user saved chords
 
 import "./PresetChordList.css";
 import ChordDiagram from "../fretboard/ChordDiagram";
-import type { StringState } from "../../hooks/useFretboardState";
 import type { SavedChord } from "../../api/savedChords";
+import type { StringState } from "../../hooks/useFretboardState";
 
 interface SavedChordListProps {
     savedChords: SavedChord[];
