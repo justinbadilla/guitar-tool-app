@@ -1,5 +1,6 @@
 /**
  * chordPreset
+ * 
  * This file just hardcodes preset chord positions for users to know.
  * Basic chords like open chords and triads
  */

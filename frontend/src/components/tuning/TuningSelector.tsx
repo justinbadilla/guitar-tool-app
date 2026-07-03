@@ -1,9 +1,3 @@
-/**
- * TuningSelector
- * This file changes the tunings for the interactive fretboard
- * Used in pages for the interactive fretboard
- */
-
 import CustomTuningModal from "./CustomTuningModal";
 import { useState } from "react";
 import { PRESET_TUNINGS } from "../../music/notes";
@@ -12,6 +6,13 @@ interface TuningSelectorProps {
     activeTuning: string[];
     onSelectTuning: (notes: string[]) => void;
 }
+
+/**
+ * TuningSelector
+ * 
+ * This file changes the tunings for the interactive fretboard
+ * Used in pages for the interactive fretboard
+ */
 
 function TuningSelector({ activeTuning, onSelectTuning }: TuningSelectorProps) {
 

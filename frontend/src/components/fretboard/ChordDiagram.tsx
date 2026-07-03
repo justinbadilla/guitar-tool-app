@@ -1,11 +1,3 @@
-/**
- * ChordDiagram
- * renders a static image with a cropped fretboard 
- * NO clickability or editable
- * Thin wrapper around <Fretboard> to compute fret range, then renders non-interactive fretboard (interactive = false)
- * Used by PresetChordList and SavedChordList to render each chord.. if no tuning, then defaults to Standard tuning
- */
-
 import Fretboard from "./Fretboard";
 import { getFretRange } from "../../music/chords";
 import { STANDARD_TUNING } from "../../music/notes";
@@ -18,6 +10,14 @@ interface ChordDiagramProps {
     tuning?: string[];
 }
 
+/**
+ * ChordDiagram
+ * 
+ * renders a static image with a cropped fretboard 
+ * NO clickability or editable
+ * Thin wrapper around <Fretboard> to compute fret range, then renders non-interactive fretboard (interactive = false)
+ * Used by PresetChordList and SavedChordList to render each chord.. if no tuning, then defaults to Standard tuning
+ */
 function ChordDiagram({ positions, name, tuning = STANDARD_TUNING }: ChordDiagramProps) {
     const fretRange = getFretRange(positions);
 

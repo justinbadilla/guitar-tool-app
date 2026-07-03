@@ -1,26 +1,36 @@
-/*
-For rendering clickable diagrams
-Goes through all chord presets
-*/
-
 import "./PresetChordList.css";
 import ChordDiagram from "../fretboard/ChordDiagram";
 import { CHORD_PRESETS } from "../../music/chordPresets";
 import { STANDARD_TUNING } from "../../music/notes";
-import type { StringState } from "../../hooks/useFretboardState";
+import type { SavedChord } from "../../api/savedChords";
 
 interface PresetChordListProps {
-    onSelectChord: (positions: StringState[], tuning: string[]) => void;
+    onSelectChord: (chord: SavedChord) => void;
 }
 
+/**
+ * PresetChordList
+ * 
+ * Renders the hardcoded presetchord list into clickable buttons
+ * Gets the diagram from ChordDiagram, turns it into a button, and is called by pages (Chords and ChordPickerModal)
+ */
 function PresetChordList({ onSelectChord }: PresetChordListProps) {
+
+    function handlePresetClick(preset: typeof CHORD_PRESETS[number]) {
+        onSelectChord({
+            id: crypto.randomUUID(),
+            name: preset.name,
+            positions: preset.positions,
+            tuning: STANDARD_TUNING,
+        });
+    }
     return (
         <div className="preset-chord-list">
             {CHORD_PRESETS.map((preset) => (
                 <button
                     key={preset.name}
                     className="preset-chord-button"
-                    onClick={() => onSelectChord(preset.positions, STANDARD_TUNING)}
+                    onClick={() => handlePresetClick(preset)}
                 >
                     <ChordDiagram positions={preset.positions} name={preset.name} />
                 </button>

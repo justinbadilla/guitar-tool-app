@@ -1,19 +1,14 @@
-/**
- * savedChord
- * api file to save chords to database, 
- * and fetch all saved chords from database
- */
-
 import type { StringState } from "../hooks/useFretboardState";
 
 export interface SavedChord {
-    id: number;
+    id: number | string;  // number for real saved chords (DB id); string (UUID) for locally-built chords not yet saved
+                          // UUID is used when presetchords or chords from built chord from chordpickermodal (chrod prog)
+                          // UUID: gives a living id in the meantime, until it is saved into database (needed for live rendering) - for songwriting page
     name: string;
     positions: StringState[];
     tuning: string[];
 }
-
-//function that saves the chord to database
+//api function to send out a saved chord in the database (name, fretboard position, and tuning)
 export async function saveChord(name: string, positions: StringState[], tuning: string[]) {
     const response = await fetch("http://localhost:8080/api/chords", {
         method: "POST",
@@ -29,7 +24,7 @@ export async function saveChord(name: string, positions: StringState[], tuning: 
     return savedChord;
 }
 
-//function that gets the saved chords
+//saves the chord to the database for user's saved chords in interactive fretboard and songwriting (chord proggression) page
 export async function fetchSavedChords() {
     const response = await fetch("http://localhost:8080/api/chords");
     const chords = await response.json();

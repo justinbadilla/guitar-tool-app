@@ -1,0 +1,12 @@
+.chord-picker-modal {
+    position: fixed;
+    top: 10%;
+    left: 10%;
+    width: 80%;
+    max-height: 75vh;
+    overflow-y: auto;
+    background: white;
+    border: 1px solid black;
+    padding: 16px;
+    z-index: 10;
+}

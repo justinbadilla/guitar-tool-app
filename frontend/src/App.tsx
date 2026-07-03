@@ -2,7 +2,7 @@ import Chords from "./pages/Chords";
 import Songwriting from "./pages/Songwriting";
 
 function App() {
-  return <Chords/>
+  return <Songwriting/>
 }
 
 export default App;

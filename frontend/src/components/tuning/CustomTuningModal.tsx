@@ -1,10 +1,3 @@
-/**
- * CustomTuningModal
- * This handles the user's input of the custom tuning feature.
- * User is able to input the note they want per string.
- * This is called in TuningSelector
- */
-
 import { useState } from "react";
 import { isValidNoteName } from "../../music/notes";
 
@@ -13,6 +6,13 @@ interface CustomTuningModalProps {
     onClose: () => void;
 }
 
+/**
+ * CustomTuningModal
+ * 
+ * This handles the user's input of the custom tuning feature.
+ * User is able to input the note they want per string.
+ * This function is called in TuningSelector.tsx
+ */
 function CustomTuningModal({ onSave, onClose }: CustomTuningModalProps) {
     const [inputs, setInputs] = useState<string[]>(["", "", "", "", "", ""]); //one empty string for 6 guitar strings
     const [error, setError] = useState<string>(""); //sets errors for user's inputs

@@ -1,8 +1,7 @@
 /**
  * chords
+ * 
  * Uses Tonal js api library to calculate chord logic.
- * 
- * 
  */
 
 import { Chord } from "tonal";

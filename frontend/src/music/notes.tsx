@@ -1,12 +1,13 @@
 /**
  * notes
+ * 
  * note logic for fretboard calculation and tuning feature
  * uses tonal js to calculate whether the note is a valid note for custom tunings
  */
 
 import { Note } from "tonal";
 
-const CHROMATIC_SCALE = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"];
+export const CHROMATIC_SCALE = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"];
 
 export const STANDARD_TUNING = ["E", "A", "D", "G", "B", "E"];
 

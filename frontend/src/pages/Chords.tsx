@@ -1,13 +1,3 @@
-/**
- * Chords
- * The chord analyzer page:
- * Shows an interactive fretboard with live chord/interval
- * detection, alternate tuning support, a preset chord library, and a
- * filterable, persisted library of the user's saved chords.
- * This page owns the "source of truth" state that multiple child components
- * need to share (fretboard state, active tuning, saved chords)
- */
-
 import Fretboard from '../components/fretboard/Fretboard';
 import TuningSelector from '../components/tuning/TuningSelector';
 import SavedChordList from '../components/chord-library/SavedChordList';
@@ -21,14 +11,23 @@ import { STANDARD_TUNING } from '../music/notes';
 import { getNotesFromStringStates, detectChordName, getRootNote } from '../music/chords';
 import { chordMatchesFilters } from '../music/chordFilters';
 import type { SavedChord } from '../api/savedChords';
-import type { StringState } from '../hooks/useFretboardState';
 import type { ChordFilters } from '../music/chordFilters';
 
+/**
+ * Chords
+ * 
+ * The chord analyzer page:
+ * Shows an interactive fretboard with live chord/interval
+ * detection, alternate tuning support, a preset chord library, and a
+ * filterable, persisted library of the user's saved chords.
+ * This page owns the "source of truth" state that multiple child components
+ * need to share (fretboard state, active tuning, saved chords)
+ */
 function Chords() {
 
 
 
-    // ── State ──────────────────────────────────────────
+    /** State */
 
     // Live fretboard state: which strings are open/muted/fretted + handlers and derived fretMarkers needed to render and interact with it.
     const { stringStates, handleFretClick, handleToggle, fretMarkers, loadPositions, clearFretboard } = useFretboardState(6);
@@ -51,8 +50,9 @@ function Chords() {
 
 
 
-    // ── Derived values ─────────────────────────────────
-    // Everything below is recalculated from state above on every render — none of it is stored separately
+    //** Derived Values */
+
+    // Everything below is recalculated from state above on every render
 
     // Notes/chord name/root currently shown on the live fretboard.
     const notes = getNotesFromStringStates(stringStates, activeTuning);
@@ -69,12 +69,12 @@ function Chords() {
 
     
 
-    // ── Handlers ───────────────────────────────────────
+    /** Handlers */
 
     //loads chord from list onto the live fretboard. Updates both tuning and string/fret positions
-    function loadChord(positions: StringState[], tuning: string[]) {
-        setActiveTuning(tuning);
-        loadPositions(positions);
+    function loadChord(chord: SavedChord) {
+        setActiveTuning(chord.tuning);
+        loadPositions(chord.positions);
     }
 
     //Save current fretboard state onto the savedChords list (so it shows immediately and doesnt need refetch)

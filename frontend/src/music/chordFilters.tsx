@@ -1,10 +1,3 @@
-/**
- * chordFilters
- * This implements the filter feature.
- * When going through user's saved chords, you can filter through Tuning, Quality (Maj/Min/Dim), and Root Note
- * 
- */
-
 import { Chord } from "tonal";
 import { getNotesFromStringStates, detectChordName, getRootNote } from "./chords";
 import type { SavedChord } from "../api/savedChords";
@@ -15,6 +8,12 @@ export interface ChordFilters {
     rootNote: string | null;
 }
 
+/**
+ * chordMatchesFilters
+ * 
+ * This implements the filter feature.
+ * When going through user's saved chords, you can filter through Tuning, Quality (Maj/Min/Dim), and Root Note
+ */
 export function chordMatchesFilters(chord: SavedChord, filters: ChordFilters): boolean {
     if (filters.tuning && JSON.stringify(chord.tuning) !== JSON.stringify(filters.tuning)) {
         return false;

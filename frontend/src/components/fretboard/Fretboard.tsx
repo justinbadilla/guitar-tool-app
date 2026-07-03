@@ -1,15 +1,3 @@
-/**
- * Fretboard
- * All the components and logic for the frontend displayed fretboard
- * Logic for clicking on the fretboard.
- * Chooses whether to display full fretboard for interactivity or for display for saved and preset chords
- * Uses cells of the grid to determine the calculation of the fret.
- * Grid has invisible borders, but lines are drawn through in the middle to replicate strings and lines down to replicate frets.
- * Fretboard divided into different sections from left to right: 
- * guitar nut (open and muted string logic), fretboard grid (cells, inlays, logic), interval column (shows chord's note interval for each string)
- * Fret count labels are separate from fretboard wrapper (shows fret count right below freboard)
- */
-
 import "./Fretboard.css"
 import { getNoteAtFret } from "../../music/notes";
 import { getIntervalFromRoot } from "../../music/chords";
@@ -29,6 +17,19 @@ interface FretboardProps {
     //new alternate tunings feature
     tuning: string[];
 }
+
+/**
+ * Fretboard
+ * 
+ * All the components and logic for the frontend displayed fretboard
+ * Logic for clicking on the fretboard.
+ * Chooses whether to display full fretboard for interactivity or for display for saved and preset chords
+ * Uses cells of the grid to determine the calculation of the fret.
+ * Grid has invisible borders, but lines are drawn through in the middle to replicate strings and lines down to replicate frets.
+ * Fretboard divided into different sections from left to right: 
+ * guitar nut (open and muted string logic), fretboard grid (cells, inlays, logic), interval column (shows chord's note interval for each string)
+ * Fret count labels are separate from fretboard wrapper (shows fret count right below freboard)
+ */
 
 function Fretboard({ stringStates, handleFretClick, handleToggle, fretMarkers, rootNote, fretRange, interactive = true, tuning }: FretboardProps) {
     

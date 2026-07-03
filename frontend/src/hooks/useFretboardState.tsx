@@ -4,7 +4,7 @@ Custom hook for handling fretboard interactions
 
 import { useState } from "react";
 
-/* interactive fretboard (only 3 types when clicking on fretboard)*/
+// interactive fretboard (only 3 types when clicking on fretboard)
 export type StringState =
     | { type: "open" }
     | { type: "muted" }
