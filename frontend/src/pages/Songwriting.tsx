@@ -9,6 +9,10 @@ import { useSongProjects } from "../hooks/useSongProjects";
 import { fetchSavedChords, type SavedChord } from "../api/savedChords";
 import type { Section, SectionItem, SectionItemType } from "../components/songwriting/type";
 
+interface SongwritingProps {
+    onRequireAuth: () => void;
+}
+
 /**
  * Songwriting
  *
@@ -19,16 +23,16 @@ import type { Section, SectionItem, SectionItemType } from "../components/songwr
  * Owns UI-level state (which modal is open, input drafts, save message)
  * and delegates project/section data management to useSongProjects.
  */
-function Songwriting() {
+function Songwriting({ onRequireAuth }: SongwritingProps) {
 
     // custom hooks
     const {
         projects,
         activeProject,
-        setHasUnsavedChanges,
         updateActiveProject,
         createNewProject,
         handleSelectProject,
+        saveActiveProject,
     } = useSongProjects();
 
     // UI state
@@ -103,10 +107,13 @@ function Songwriting() {
     }
 
     async function handleSaveProject() {
-        // Phase 4: await saveProjectToBackend(activeProject);
-        setHasUnsavedChanges(false);
-        setSaveMessage("Project saved!");
-        setTimeout(() => setSaveMessage(""), 2000);
+        try {
+            await saveActiveProject();
+            setSaveMessage("Project saved!");
+            setTimeout(() => setSaveMessage(""), 2000);
+        } catch {
+            onRequireAuth();
+        }
     }
 
     //** Section Handlers */

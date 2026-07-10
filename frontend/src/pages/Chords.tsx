@@ -13,6 +13,10 @@ import { chordMatchesFilters } from '../music/chordFilters';
 import type { SavedChord } from '../api/savedChords';
 import type { ChordFilters } from '../music/chordFilters';
 
+interface ChordsProps {
+    onRequireAuth: () => void;
+}
+
 /**
  * Chords
  * 
@@ -23,7 +27,7 @@ import type { ChordFilters } from '../music/chordFilters';
  * This page owns the "source of truth" state that multiple child components
  * need to share (fretboard state, active tuning, saved chords)
  */
-function Chords() {
+function Chords({ onRequireAuth }: ChordsProps) {
 
 
 
@@ -67,7 +71,7 @@ function Chords() {
     // Saved chords narrowed down by whichever filters are currently active
     const filteredSavedChords = savedChords.filter((chord) => chordMatchesFilters(chord, filters));
 
-    
+
 
     /** Handlers */
 
@@ -79,14 +83,20 @@ function Chords() {
 
     //Save current fretboard state onto the savedChords list (so it shows immediately and doesnt need refetch)
     async function handleSaveClick() {
-        const saved = await saveChord(chordName, stringStates, activeTuning);
-        setSavedChords((prev) => [...prev, {
-            id: saved.id,
-            name: saved.name,
-            positions: JSON.parse(saved.positionsJson),
-            tuning: JSON.parse(saved.tuningJson),
-        }]);
+        try {
+            const saved = await saveChord(chordName, stringStates, activeTuning);
+            setSavedChords((prev) => [...prev, {
+                id: saved.id,
+                name: saved.name,
+                positions: JSON.parse(saved.positionsJson),
+                tuning: JSON.parse(saved.tuningJson),
+            }]);
+        } catch {
+            onRequireAuth();
+        }
     }
+
+
     return (
         <div>
             <ChordNameDisplay chordName={chordName} />

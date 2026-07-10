@@ -1,0 +1,89 @@
+.auth-modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: white;
+    border: 1px solid #ccc;
+    padding: 24px;
+    border-radius: 8px;
+    z-index: 20;
+    min-width: 300px;
+}
+
+.auth-modal-tabs {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 16px;
+}
+
+.auth-modal-tabs button {
+    flex: 1;
+    padding: 8px;
+    border: 1px solid #ccc;
+    background: none;
+    cursor: pointer;
+    border-radius: 6px;
+}
+
+.auth-modal-tabs button.active {
+    background: #aa3bff;
+    color: white;
+    border-color: #aa3bff;
+}
+
+.auth-modal-field {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 12px;
+}
+
+.auth-modal-field label {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    color: #888;
+    margin-bottom: 4px;
+}
+
+.auth-modal-field input {
+    border: none;
+    border-bottom: 1px solid #ccc;
+    padding: 6px 0;
+    outline: none;
+    font-size: 1rem;
+}
+
+.auth-modal-field input:focus {
+    border-bottom-color: #aa3bff;
+}
+
+.auth-modal-error {
+    color: red;
+    font-size: 0.85rem;
+    margin-bottom: 12px;
+}
+
+.auth-modal-actions {
+    display: flex;
+    gap: 8px;
+    justify-content: flex-end;
+}
+
+.auth-modal-actions button {
+    padding: 8px 16px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    background: none;
+    cursor: pointer;
+}
+
+.auth-modal-actions button:first-child {
+    background: #aa3bff;
+    color: white;
+    border-color: #aa3bff;
+}
+
+.auth-modal-actions button:disabled {
+    opacity: 0.6;
+    cursor: default;
+}

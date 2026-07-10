@@ -1,14 +1,6 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { fetchSongProjects, saveSongProject } from "../api/songProjects";
 import type { SongProject } from "../components/songwriting/type";
-
-// initial state
-const initialProject: SongProject = {
-    id: "1",
-    title: "Untitled Song",
-    key: null,
-    bpm: null,
-    sections: [],
-};
 
 /**
  * useSongProjects
@@ -20,10 +12,15 @@ const initialProject: SongProject = {
 export function useSongProjects() {
 
     // state
-    const [projects, setProjects] = useState<SongProject[]>([initialProject]);
+    const [projects, setProjects] = useState<SongProject[]>([]);
     const [activeProjectId, setActiveProjectId] = useState<string | null>(null);
     const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
 
+    // Fetch the user's saved projects once. If not logged in, the backend returns an empty list.
+    // Splash screen handles the "no projects" case
+    useEffect(() => {
+        fetchSongProjects().then((fetched) => setProjects(fetched));
+    }, []);
     // derived
     const activeProject = projects.find((p) => p.id === activeProjectId) ?? null;
 
@@ -79,6 +76,23 @@ export function useSongProjects() {
         return project;
     }
 
+    /**
+     * Persists the active project to the backend. Replaces the local (possibly UUID) project
+     * with the backend's saved version, which has a real database id 
+     * (important so future saves update the same row instead of creating duplicates)
+     */
+    async function saveActiveProject(): Promise<void> {
+        if (!activeProject) return;
+
+        const saved = await saveSongProject(activeProject);
+
+        setProjects((prev) => prev.map((p) =>
+            p.id === activeProject.id ? saved : p
+        ));
+        setActiveProjectId(saved.id);
+        setHasUnsavedChanges(false);
+    }
+
     return {
         projects,
         activeProject,
@@ -87,5 +101,6 @@ export function useSongProjects() {
         updateActiveProject,
         createNewProject,
         handleSelectProject,
+        saveActiveProject,
     };
 }

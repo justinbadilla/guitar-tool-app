@@ -1,0 +1,40 @@
+.home-page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    gap: 32px;
+}
+
+.home-links {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.home-card {
+    padding: 32px 48px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    text-decoration: none;
+    color: inherit;
+    cursor: pointer;
+}
+
+.home-card:hover {
+    border-color: #aa3bff;
+    color: #aa3bff;
+}
+
+.home-card-disabled {
+    opacity: 0.5;
+    cursor: default;
+}
+
+.home-card-disabled:hover {
+    border-color: #ccc;
+    color: inherit;
+}
