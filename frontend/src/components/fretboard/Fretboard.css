@@ -75,8 +75,6 @@
 
 .fret-numbers {
     display: flex;
-    width: 900px;
-    margin-left: 40px;
     /* matches 15 × 60px grid width */
 }
 
@@ -87,16 +85,18 @@
 
 .fret-marker {
     position: absolute;
-    width: 16px;
-    height: 16px;
+    width: 32px;
+    height: 32px;
     border-radius: 50%;
-    background: var(--accent);
+    background: white;
     color: black;
+    border-color: black;
     font-size: 20px;
     display: flex;
     align-items: center;
     justify-content: center;
     transform: translate(-50%, -50%);
+    cursor:default;
 }
 
 .open-mute-column,

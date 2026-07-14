@@ -1,8 +1,7 @@
+import "./Chords.css";
+import Header from '../components/layouts/Headers';
 import Fretboard from '../components/fretboard/Fretboard';
 import TuningSelector from '../components/tuning/TuningSelector';
-import SavedChordList from '../components/chord-library/SavedChordList';
-import ChordFilterBar from '../components/chord-library/ChordFilterBar';
-import PresetChordList from '../components/chord-library/PresetChordList';
 import ChordNameDisplay from '../components/chord-library/ChordNameDisplay';
 import { useState, useEffect } from 'react';
 import { useFretboardState } from '../hooks/useFretboardState';
@@ -12,6 +11,7 @@ import { getNotesFromStringStates, detectChordName, getRootNote } from '../music
 import { chordMatchesFilters } from '../music/chordFilters';
 import type { SavedChord } from '../api/savedChords';
 import type { ChordFilters } from '../music/chordFilters';
+import ChordLibraryPanel from "../components/chord-library/ChordLibraryPanel";
 
 interface ChordsProps {
     onRequireAuth: () => void;
@@ -99,7 +99,16 @@ function Chords({ onRequireAuth }: ChordsProps) {
 
     return (
         <div>
+
+            <Header children={undefined}>
+
+            </Header>
+
             <ChordNameDisplay chordName={chordName} />
+            <TuningSelector
+                activeTuning={activeTuning}
+                onSelectTuning={setActiveTuning}
+            />
             <Fretboard
                 stringStates={stringStates}
                 handleFretClick={handleFretClick}
@@ -108,22 +117,10 @@ function Chords({ onRequireAuth }: ChordsProps) {
                 rootNote={rootNote}
                 tuning={activeTuning}
             />
-            <TuningSelector
-                activeTuning={activeTuning}
-                onSelectTuning={setActiveTuning}
-            />
             <button onClick={handleSaveClick}>Save Chord</button>
             <button onClick={clearFretboard}>Clear</button>
-
-            <PresetChordList onSelectChord={loadChord} />
-
-            <ChordFilterBar
-                filters={filters}
-                onFiltersChange={setFilters}
-                availableTunings={availableTunings}
-            />
-
-            <SavedChordList savedChords={filteredSavedChords} onSelectChord={loadChord} />
+            
+            <ChordLibraryPanel savedChords={savedChords} onSelectChord={loadChord} />
         </div>
     );
 }

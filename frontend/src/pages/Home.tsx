@@ -21,11 +21,11 @@ function Home({ onOpenLogin, isLoggedIn, onLogout }: HomeProps) {
         <div className="home-page">
             <FloatingNotes />
             <Header>
-                <button> about </button>
+                <button className="header-buttons"> about </button>
                 {isLoggedIn ? (
-                    <button onClick={onLogout}>log Out</button>
+                    <button className="header-buttons" onClick={onLogout}>log out</button>
                 ) : (
-                    <button onClick={onOpenLogin}>login</button>
+                    <button className="header-buttons" onClick={onOpenLogin}>login</button>
                 )}
             </Header>
 

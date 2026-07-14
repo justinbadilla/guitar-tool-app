@@ -1,0 +1,32 @@
+.chord-library-panel {
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius);
+    padding: 16px;
+    margin-top: 24px;
+}
+
+.chord-library-tabs {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 16px;
+}
+
+.chord-library-tabs button {
+    padding: 8px 16px;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius);
+    background: none;
+    cursor: pointer;
+}
+
+.chord-library-tabs button.active {
+    background: var(--accent);
+    color: white;
+    border-color: var(--accent);
+}
+
+.chord-library-empty {
+    color: var(--text-muted);
+    text-align: center;
+    padding: 24px;
+}

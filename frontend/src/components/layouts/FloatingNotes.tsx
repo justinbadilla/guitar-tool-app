@@ -17,7 +17,7 @@ interface FloatingNote {
 const notes: FloatingNote[] = Array.from({ length: NOTE_COUNT }, (_, i) => ({
     id: i,
     symbol: NOTE_SYMBOLS[Math.floor(Math.random() * NOTE_SYMBOLS.length)],
-    left: Math.random() * 120,
+    left: Math.random() * 105,
     bottom: Math.random() * 60,
     delay: Math.random() * 6,
     duration: 5 + Math.random() * 3,

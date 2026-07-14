@@ -1,3 +1,4 @@
+import "./App.css";
 import Home from "./pages/Home";
 import Chords from "./pages/Chords";
 import Songwriting from "./pages/Songwriting";
@@ -17,6 +18,7 @@ import { isLoggedIn as checkIsLoggedIn, clearToken } from "./api/auth";
  * Both of those pages receive an onRequireAuth callback that just opens this same modal
  */
 function App() {
+
   const [showAuthModal, setShowAuthModal] = useState(false);
 
   // Initialized by checking localStorage on load.
@@ -57,10 +59,13 @@ function App() {
       </Routes>
 
       {showAuthModal && (
-        <AuthModal
-          onClose={() => setShowAuthModal(false)}
-          onLoginSuccess={handleLoginSuccess}
-        />
+        <>
+          <div className="modal-backdrop" onClick={() => setShowAuthModal(false)} />
+          <AuthModal
+            onClose={() => setShowAuthModal(false)}
+            onLoginSuccess={handleLoginSuccess}
+          />
+        </>
       )}
     </>
   );

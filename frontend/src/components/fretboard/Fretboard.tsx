@@ -168,7 +168,7 @@ function Fretboard({ stringStates, handleFretClick, handleToggle, fretMarkers, r
             </div>
 
 
-            <div className="fret-numbers">
+            <div className="fret-numbers" style={{ width: `${fretCount * 60}px`, marginLeft: "40px" }}>
                 {fretNumbers.map((num) => (
                     <div className="fret-number" key={num}>
                         {num}
