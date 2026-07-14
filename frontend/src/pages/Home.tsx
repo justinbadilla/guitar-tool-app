@@ -1,6 +1,8 @@
-// pages/Home.tsx
-import { Link } from "react-router-dom";
 import "./Home.css";
+import Header from "../components/layouts/Headers";
+import FloatingNotes from "../components/layouts/FloatingNotes";
+import { Link } from "react-router-dom";
+import { Rows4, ListMusic, Guitar, FolderPen, FolderOpen } from "lucide-react";
 
 interface HomeProps {
     onOpenLogin: () => void;
@@ -17,30 +19,42 @@ interface HomeProps {
 function Home({ onOpenLogin, isLoggedIn, onLogout }: HomeProps) {
     return (
         <div className="home-page">
-            <h1>Guitar Songwriting</h1>
-
-            <div className="home-links">
-                <Link to="/songwriting" className="home-card">
-                    Songwriting
-                </Link>
-
-                <Link to="/chords" className="home-card">
-                    Chord Analyzer
-                </Link>
-
-                <div className="home-card home-card-disabled">
-                    Guitar Tools (coming soon)
-                </div>
-
+            <FloatingNotes />
+            <Header>
+                <button> about </button>
                 {isLoggedIn ? (
-                    <button className="home-card" onClick={onLogout}>
-                        Log Out
-                    </button>
+                    <button onClick={onLogout}>log Out</button>
                 ) : (
-                    <button className="home-card" onClick={onOpenLogin}>
-                        Login
-                    </button>
+                    <button onClick={onOpenLogin}>login</button>
                 )}
+            </Header>
+
+            <div className="home-content">
+                <h1 className="home-heading">
+                    WELCOME TO GUITAR APP</h1>
+
+                <div className="home-links">
+                    <Link to="/songwriting" className="home-card">
+                        <span className="card-icon">
+                            <FolderPen className="icon-default" />
+                            <FolderOpen className="icon-hover" />
+                        </span>
+                        <span>Create Song Project</span>
+                    </Link>
+
+                    <Link to="/chords" className="home-card">
+                        <span className="card-icon">
+                            <Rows4 className="icon-default" />
+                            <ListMusic className="icon-hover" />
+                        </span>
+                        <span>Interactive Fretboard</span>
+                    </Link>
+
+                    <div className="home-card">
+                        <Guitar size={48} color="black" />
+                        <span>Guitar Practice</span>
+                    </div>
+                </div>
             </div>
         </div>
     );

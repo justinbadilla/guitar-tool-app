@@ -1,0 +1,56 @@
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-body);
+  color: var(--text-primary);
+  background: var(--bg-primary);
+}
+
+:root {
+  /* brand colors */
+  --accent: #aa3bff;        /* primary — buttons, links, active states */
+  --accent-hover: #8f2fe0;  /* slightly darker, for hover states */
+  --secondary: #3ba9ff;     /* secondary accent — for contrast against purple, sparingly */
+
+  /* text colors */
+  --text-primary: #1a1a1a;   /* main body text — near-black, not pure black (softer on eyes) */
+  --text-secondary: #555;    /* subheadings, less prominent text */
+  --text-muted: #888;        /* labels, placeholders, disabled text */
+
+  /* backgrounds */
+  --bg-primary: #fdfcff;     /* main page background */
+  --bg-secondary: #ffffff;   /* subtle contrast areas — sidebars, cards */
+
+  /* borders */
+  --border-color: #dcdcdc;
+
+  /* typography */
+  --font-body: system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-heading: var(--font-body); /* same for now, split later*/
+
+  /* ── Radius (for round borders) */
+  --radius: 16px;
+}
+
+/* for dark mode implement later*/
+/*@media (prefers-color-scheme: dark) {
+  :root {
+    --accent: #c084fc;
+    --accent-hover: #d4a3fd;
+    --secondary: #6cc0ff;
+
+    --text-primary: #f0f0f0;
+    --text-secondary: #b0b0b0;
+    --text-muted: #888;
+
+    --bg-primary: #121212;
+    --bg-secondary: #1e1e1e;
+
+    --border-color: #333;
+  }
+}
+  */

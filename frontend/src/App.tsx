@@ -1,9 +1,9 @@
-import { Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
 import Chords from "./pages/Chords";
 import Songwriting from "./pages/Songwriting";
-import { useState } from "react";
 import AuthModal from "./components/auth/AuthModal";
+import { useState } from "react";
+import { Routes, Route } from "react-router-dom";
 import { isLoggedIn as checkIsLoggedIn, clearToken } from "./api/auth";
 
 
