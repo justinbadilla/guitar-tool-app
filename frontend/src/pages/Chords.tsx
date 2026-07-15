@@ -129,4 +129,4 @@ function Chords({ onRequireAuth, isLoggedIn, onLogout }: ChordsProps) {
     );
 }
 
-export default Chords;
+export default Chords

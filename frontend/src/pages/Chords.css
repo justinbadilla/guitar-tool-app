@@ -1,5 +1,5 @@
 .chords-container {
-    align-items: center;
+    /* align-items has no effect unless display:flex */
 }
 
 .header-nav-group {
@@ -7,16 +7,28 @@
     gap: 24px;
 }
 
+.chords-main-row {
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-items: stretch;
+    gap: 24px;
+    margin: 16px;
+    overflow-x: auto;
+}
+
 .fretboard-box {
     display: flex;
     flex-direction: column;
     align-items: center;
+
     gap: 16px;
+    padding: 16px;
+
     border: 1px solid var(--border-color);
     border-radius: var(--radius);
-    padding: 16px;
-    width: fit-content;
-    margin: 16px;
+
+    align-self: stretch;
 }
 
 .fretboard-box-top,
@@ -27,23 +39,21 @@
     width: 100%;
 }
 
-.chords-main-row {
-    display: flex;
-    flex-wrap: nowrap;
-    align-items: stretch;
-    gap: 24px;
-    margin: 16px;
-    overflow-x: auto;
-}
-
 .chat-placeholder {
     width: 280px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    padding: 16px;
+
     border: 1px dashed var(--border-color);
     border-radius: var(--radius);
-    padding: 16px;
+
     color: var(--text-muted);
-    display: flex;
-    align-items: center;
-    justify-content: center;
     text-align: center;
+
+    align-self: stretch;
 }
