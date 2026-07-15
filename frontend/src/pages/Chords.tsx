@@ -3,18 +3,19 @@ import Header from '../components/layouts/Headers';
 import Fretboard from '../components/fretboard/Fretboard';
 import TuningSelector from '../components/tuning/TuningSelector';
 import ChordNameDisplay from '../components/chord-library/ChordNameDisplay';
+import { Link } from "react-router-dom";
 import { useState, useEffect } from 'react';
 import { useFretboardState } from '../hooks/useFretboardState';
 import { saveChord, fetchSavedChords } from '../api/savedChords';
 import { STANDARD_TUNING } from '../music/notes';
 import { getNotesFromStringStates, detectChordName, getRootNote } from '../music/chords';
-import { chordMatchesFilters } from '../music/chordFilters';
 import type { SavedChord } from '../api/savedChords';
-import type { ChordFilters } from '../music/chordFilters';
 import ChordLibraryPanel from "../components/chord-library/ChordLibraryPanel";
 
 interface ChordsProps {
     onRequireAuth: () => void;
+    isLoggedIn: boolean;
+    onLogout: () => void;
 }
 
 /**
@@ -27,9 +28,7 @@ interface ChordsProps {
  * This page owns the "source of truth" state that multiple child components
  * need to share (fretboard state, active tuning, saved chords)
  */
-function Chords({ onRequireAuth }: ChordsProps) {
-
-
+function Chords({ onRequireAuth, isLoggedIn, onLogout }: ChordsProps) {
 
     /** State */
 
@@ -45,15 +44,6 @@ function Chords({ onRequireAuth }: ChordsProps) {
         fetchSavedChords().then((chords) => setSavedChords(chords));
     }, []);
 
-    //Filters use state (for user's saved chord list)
-    const [filters, setFilters] = useState<ChordFilters>({
-        tuning: null,
-        quality: null,
-        rootNote: null,
-    });
-
-
-
     //** Derived Values */
 
     // Everything below is recalculated from state above on every render
@@ -62,16 +52,6 @@ function Chords({ onRequireAuth }: ChordsProps) {
     const notes = getNotesFromStringStates(stringStates, activeTuning);
     const chordName = detectChordName(notes);
     const rootNote = getRootNote(stringStates, activeTuning, chordName);
-
-    //Checks available tunings (from saved chords) for filters
-    const availableTunings = Array.from(
-        new Set(savedChords.map((c) => JSON.stringify(c.tuning)))
-    ).map((t) => JSON.parse(t));
-
-    // Saved chords narrowed down by whichever filters are currently active
-    const filteredSavedChords = savedChords.filter((chord) => chordMatchesFilters(chord, filters));
-
-
 
     /** Handlers */
 
@@ -96,31 +76,55 @@ function Chords({ onRequireAuth }: ChordsProps) {
         }
     }
 
-
     return (
-        <div>
-
-            <Header children={undefined}>
-
+        <div className="chords-page">
+        <Header>
+                <div className="header-nav-group">
+                    <Link to="/" className="header-buttons">home</Link>
+                    <Link to="/songwriting" className="header-buttons">create song project</Link>
+                </div>
+                {isLoggedIn ? (
+                    <button className="header-buttons" onClick={onLogout}>log out</button>
+                ) : (
+                    <button className="header-buttons" onClick={onRequireAuth}>login</button>
+                )}
             </Header>
+        <div className="chords-container">
 
-            <ChordNameDisplay chordName={chordName} />
-            <TuningSelector
-                activeTuning={activeTuning}
-                onSelectTuning={setActiveTuning}
-            />
-            <Fretboard
-                stringStates={stringStates}
-                handleFretClick={handleFretClick}
-                handleToggle={handleToggle}
-                fretMarkers={fretMarkers}
-                rootNote={rootNote}
-                tuning={activeTuning}
-            />
-            <button onClick={handleSaveClick}>Save Chord</button>
-            <button onClick={clearFretboard}>Clear</button>
             
+
+            <div className="chords-main-row">
+                <div className="fretboard-box">
+                    <div className="fretboard-box-top">
+                        <ChordNameDisplay chordName={chordName} />
+                        <TuningSelector
+                            activeTuning={activeTuning}
+                            onSelectTuning={setActiveTuning}
+                        />
+                    </div>
+
+                    <Fretboard
+                        stringStates={stringStates}
+                        handleFretClick={handleFretClick}
+                        handleToggle={handleToggle}
+                        fretMarkers={fretMarkers}
+                        rootNote={rootNote}
+                        tuning={activeTuning}
+                    />
+
+                    <div className="fretboard-box-bottom">
+                        <button onClick={clearFretboard}>Clear</button>
+                        <button onClick={handleSaveClick}>Save Chord</button>
+                    </div>
+                </div>
+
+                <div className="chat-placeholder">
+                    <p>AI Chord Assistant (coming soon)</p>
+                </div>
+            </div>
+
             <ChordLibraryPanel savedChords={savedChords} onSelectChord={loadChord} />
+        </div>
         </div>
     );
 }

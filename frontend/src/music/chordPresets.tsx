@@ -17,30 +17,6 @@ export interface ChordPreset {
 
 export const CHORD_PRESETS: ChordPreset[] = [
     {
-        name: "E Major (Open)",
-        category: "open",
-        positions: [
-            { type: "open" },
-            { type: "fretted", fret: 2 },
-            { type: "fretted", fret: 2 },
-            { type: "fretted", fret: 1 },
-            { type: "open" },
-            { type: "open" },
-        ],
-    },
-    {
-        name: "A Major (Open)",
-        category: "open",
-        positions: [
-            { type: "muted" },
-            { type: "open" },
-            { type: "fretted", fret: 2 },
-            { type: "fretted", fret: 2 },
-            { type: "fretted", fret: 2 },
-            { type: "open" },
-        ],
-    },
-    {
         name: "C Major (Open)",
         category: "open",
         positions: [
@@ -50,18 +26,6 @@ export const CHORD_PRESETS: ChordPreset[] = [
             { type: "open" },
             { type: "fretted", fret: 1 },
             { type: "open" },
-        ],
-    },
-    {
-        name: "G Major (Open)",
-        category: "open",
-        positions: [
-            { type: "fretted", fret: 3 },
-            { type: "fretted", fret: 2 },
-            { type: "open" },
-            { type: "open" },
-            { type: "open" },
-            { type: "fretted", fret: 3 },
         ],
     },
     {
@@ -77,15 +41,39 @@ export const CHORD_PRESETS: ChordPreset[] = [
         ],
     },
     {
-        name: "B Major (Barre)",
+        name: "D Minor (Open)",
         category: "open",
         positions: [
             { type: "muted" },
+            { type: "muted" },
+            { type: "open" },
             { type: "fretted", fret: 2 },
-            { type: "fretted", fret: 4 },
-            { type: "fretted", fret: 4 },
-            { type: "fretted", fret: 4 },
+            { type: "fretted", fret: 3 },
+            { type: "fretted", fret: 1 },
+        ],
+    },
+    {
+        name: "E Major (Open)",
+        category: "open",
+        positions: [
+            { type: "open" },
             { type: "fretted", fret: 2 },
+            { type: "fretted", fret: 2 },
+            { type: "fretted", fret: 1 },
+            { type: "open" },
+            { type: "open" },
+        ],
+    },
+    {
+        name: "E Minor (Open)",
+        category: "open",
+        positions: [
+            { type: "open" },
+            { type: "fretted", fret: 2 },
+            { type: "fretted", fret: 2 },
+            { type: "open" },
+            { type: "open" },
+            { type: "open" },
         ],
     },
     {
@@ -101,7 +89,59 @@ export const CHORD_PRESETS: ChordPreset[] = [
         ],
     },
     {
-        name: "C Major Triad - Root Position",
+        name: "G Major (Open)",
+        category: "open",
+        positions: [
+            { type: "fretted", fret: 3 },
+            { type: "fretted", fret: 2 },
+            { type: "open" },
+            { type: "open" },
+            { type: "open" },
+            { type: "fretted", fret: 3 },
+        ],
+    },
+    {
+        name: "A Major (Open)",
+        category: "open",
+        positions: [
+            { type: "muted" },
+            { type: "open" },
+            { type: "fretted", fret: 2 },
+            { type: "fretted", fret: 2 },
+            { type: "fretted", fret: 2 },
+            { type: "open" },
+        ],
+    },
+    {
+        name: "A Minor (Open)",
+        category: "open",
+        positions: [
+            { type: "muted" },
+            { type: "open" },
+            { type: "fretted", fret: 2 },
+            { type: "fretted", fret: 2 },
+            { type: "fretted", fret: 1 },
+            { type: "open" },
+        ],
+    },
+
+
+
+    {
+        name: "B Major (Barre)",
+        category: "open",
+        positions: [
+            { type: "muted" },
+            { type: "fretted", fret: 2 },
+            { type: "fretted", fret: 4 },
+            { type: "fretted", fret: 4 },
+            { type: "fretted", fret: 4 },
+            { type: "fretted", fret: 2 },
+        ],
+    },
+
+    {
+        name: "C Major Triad - Root",
         category: "triad",
         positions: [
             { type: "muted" },
@@ -113,7 +153,7 @@ export const CHORD_PRESETS: ChordPreset[] = [
         ],
     },
     {
-        name: "C Major Triad - First Inversion",
+        name: "C Major Triad - 1st Inversion",
         category: "triad",
         positions: [
             { type: "muted" },
@@ -125,7 +165,7 @@ export const CHORD_PRESETS: ChordPreset[] = [
         ],
     },
     {
-        name: "C Major Triad - Second Inversion",
+        name: "C Major Triad - 2nd Inversion",
         category: "triad",
         positions: [
             { type: "muted" },
@@ -149,7 +189,7 @@ export const CHORD_PRESETS: ChordPreset[] = [
         ],
     },
     {
-        name: "C Minor Triad - First Inversion",
+        name: "C Minor Triad - 1st Inversion",
         category: "triad",
         positions: [
             { type: "muted" },
@@ -161,7 +201,7 @@ export const CHORD_PRESETS: ChordPreset[] = [
         ],
     },
     {
-        name: "C Minor Triad - Second Inversion",
+        name: "C Minor Triad - 2nd Inversion",
         category: "triad",
         positions: [
             { type: "muted" },

@@ -1,3 +1,4 @@
+import "./ChordDiagram.css";
 import Fretboard from "./Fretboard";
 import { getFretRange } from "../../music/chords";
 import { STANDARD_TUNING } from "../../music/notes";

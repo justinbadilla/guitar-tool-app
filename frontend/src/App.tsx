@@ -50,7 +50,13 @@ function App() {
         />
         <Route
           path="/chords"
-          element={<Chords onRequireAuth={() => setShowAuthModal(true)} />}
+          element={
+            <Chords
+              onRequireAuth={() => setShowAuthModal(true)}
+              isLoggedIn={loggedIn}
+              onLogout={handleLogout}
+            />
+          }
         />
         <Route
           path="/songwriting"

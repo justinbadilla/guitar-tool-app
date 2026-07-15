@@ -6,3 +6,18 @@
     border-bottom: 1px solid var(--border-color);
     background: var(--bg-secondary);
 }
+
+.header-buttons {
+    border: none;
+    background-color: var(--bg-secondary);
+    cursor: pointer;
+    color: var(--text-primary);
+    text-decoration: none;
+    font-size: 1rem;
+    font-family: inherit;
+    padding: 8px 12px;
+}
+
+.header-buttons:hover {
+    color: var(--accent-hover);
+}

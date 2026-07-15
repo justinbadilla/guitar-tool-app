@@ -32,7 +32,7 @@ interface FretboardProps {
  */
 
 function Fretboard({ stringStates, handleFretClick, handleToggle, fretMarkers, rootNote, fretRange, interactive = true, tuning }: FretboardProps) {
-    
+
     //presets and user saved chords
     const start = fretRange?.start ?? 1;
     const end = fretRange?.end ?? 15;
@@ -76,7 +76,7 @@ function Fretboard({ stringStates, handleFretClick, handleToggle, fretMarkers, r
                     })}
                 </div>
 
-                <div className="fretboard" style={{ gridTemplateColumns: `repeat(${fretCount}, 60px)` }}>
+                <div className="fretboard" style={{ gridTemplateColumns: `repeat(${fretCount}, var(--cell-width, 60px))` }}>
 
                     {cells.map((cellIndex) => { /*actual clickable grid*/
                         const column = cellIndex % fretCount;
@@ -101,8 +101,7 @@ function Fretboard({ stringStates, handleFretClick, handleToggle, fretMarkers, r
                             <div
                                 className={className}
                                 key={fretIndex}
-                                style={{ left: fretIndex * 60 }}
-
+                                style={{ left: `calc(${fretIndex} * var(--cell-width, 60px))` }}
                             ></div>
                         );
                     })}
@@ -114,7 +113,7 @@ function Fretboard({ stringStates, handleFretClick, handleToggle, fretMarkers, r
                             <div
                                 className={isDoubleD ? "inlay double" : "inlay"}
                                 key={fretNum}
-                                style={{ left: (fretNum - start) * 60 + 30 }}
+                                style={{ left: `calc((${fretNum - start}) * var(--cell-width, 60px) + var(--cell-width, 60px) / 2)` }}
                             ></div>
                         );
                     })}
@@ -126,8 +125,8 @@ function Fretboard({ stringStates, handleFretClick, handleToggle, fretMarkers, r
                         const noteName = getNoteAtFret(openNote, state.fret);
 
                         const visualRow = 5 - stringIndex;
-                        const left = (state.fret - start) * 60 + 30;
-                        const top = visualRow * 40 + 20;
+                        const left = `calc((${state.fret - start}) * var(--cell-width, 60px) + var(--cell-width, 60px) / 2)`;
+                        const top = `calc(${visualRow} * var(--cell-height, 40px) + var(--cell-height, 40px) / 2)`;
 
                         return (
                             <div
@@ -143,32 +142,32 @@ function Fretboard({ stringStates, handleFretClick, handleToggle, fretMarkers, r
                 </div>
 
                 {interactive && (
-                <div className="interval-column">
-                    {stringRows.map((visualRow) => {
-                        const stringIndex = 5 - visualRow;
-                        const state = stringStates[stringIndex];
-                        let label = "—";
+                    <div className="interval-column">
+                        {stringRows.map((visualRow) => {
+                            const stringIndex = 5 - visualRow;
+                            const state = stringStates[stringIndex];
+                            let label = "—";
 
-                        if (rootNote && state.type !== "muted") {
-                            const note = state.type === "fretted"
-                                ? getNoteAtFret(tuning[stringIndex], state.fret)
-                                : tuning[stringIndex];
+                            if (rootNote && state.type !== "muted") {
+                                const note = state.type === "fretted"
+                                    ? getNoteAtFret(tuning[stringIndex], state.fret)
+                                    : tuning[stringIndex];
 
-                            label = getIntervalFromRoot(rootNote, note);
-                        }
+                                label = getIntervalFromRoot(rootNote, note);
+                            }
 
-                        return (
-                            <div className="interval-cell" key={visualRow}>
-                                {label}
-                            </div>
-                        );
-                    })}
-                </div>
+                            return (
+                                <div className="interval-cell" key={visualRow}>
+                                    {label}
+                                </div>
+                            );
+                        })}
+                    </div>
                 )}
             </div>
 
 
-            <div className="fret-numbers" style={{ width: `${fretCount * 60}px`, marginLeft: "40px" }}>
+            <div className="fret-numbers" style={{ width: `calc(${fretCount} * var(--cell-width, 60px))`, marginLeft: "var(--cell-height, 40px)" }}>
                 {fretNumbers.map((num) => (
                     <div className="fret-number" key={num}>
                         {num}
