@@ -21,7 +21,9 @@ Spring Boot annotations:
 @Configuration
 @Bean
 
-
+@Service
+@Value
+@SuppressWarning
 
 Errors:
 
