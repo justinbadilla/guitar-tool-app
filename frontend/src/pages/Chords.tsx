@@ -11,6 +11,7 @@ import { STANDARD_TUNING } from '../music/notes';
 import { getNotesFromStringStates, detectChordName, getRootNote } from '../music/chords';
 import type { SavedChord } from '../api/savedChords';
 import ChordLibraryPanel from "../components/chord-library/ChordLibraryPanel";
+import ChordAssistantPanel from "../components/chord-library/ChordAssistantPanel";
 
 interface ChordsProps {
     onRequireAuth: () => void;
@@ -78,7 +79,7 @@ function Chords({ onRequireAuth, isLoggedIn, onLogout }: ChordsProps) {
 
     return (
         <div className="chords-page">
-        <Header>
+            <Header>
                 <div className="header-nav-group">
                     <Link to="/" className="header-buttons">home</Link>
                     <Link to="/songwriting" className="header-buttons">create song project</Link>
@@ -89,42 +90,45 @@ function Chords({ onRequireAuth, isLoggedIn, onLogout }: ChordsProps) {
                     <button className="header-buttons" onClick={onRequireAuth}>login</button>
                 )}
             </Header>
-        <div className="chords-container">
+            <div className="chords-container">
 
-            
 
-            <div className="chords-main-row">
-                <div className="fretboard-box">
-                    <div className="fretboard-box-top">
-                        <ChordNameDisplay chordName={chordName} />
-                        <TuningSelector
-                            activeTuning={activeTuning}
-                            onSelectTuning={setActiveTuning}
+
+                <div className="chords-main-row">
+                    <div className="fretboard-box">
+                        <div className="fretboard-box-top">
+                            <ChordNameDisplay chordName={chordName} />
+                            <TuningSelector
+                                activeTuning={activeTuning}
+                                onSelectTuning={setActiveTuning}
+                            />
+                        </div>
+
+                        <Fretboard
+                            stringStates={stringStates}
+                            handleFretClick={handleFretClick}
+                            handleToggle={handleToggle}
+                            fretMarkers={fretMarkers}
+                            rootNote={rootNote}
+                            tuning={activeTuning}
                         />
+
+                        <div className="fretboard-box-bottom">
+                            <button onClick={clearFretboard}>Clear</button>
+                            <button onClick={handleSaveClick}>Save Chord</button>
+                        </div>
                     </div>
 
-                    <Fretboard
+                    <ChordAssistantPanel
+                        chordName={chordName}
                         stringStates={stringStates}
-                        handleFretClick={handleFretClick}
-                        handleToggle={handleToggle}
-                        fretMarkers={fretMarkers}
-                        rootNote={rootNote}
                         tuning={activeTuning}
+                        onRequireAuth={onRequireAuth}
                     />
-
-                    <div className="fretboard-box-bottom">
-                        <button onClick={clearFretboard}>Clear</button>
-                        <button onClick={handleSaveClick}>Save Chord</button>
-                    </div>
                 </div>
 
-                <div className="chat-placeholder">
-                    <p>AI Chord Assistant (coming soon)</p>
-                </div>
+                <ChordLibraryPanel savedChords={savedChords} onSelectChord={loadChord} />
             </div>
-
-            <ChordLibraryPanel savedChords={savedChords} onSelectChord={loadChord} />
-        </div>
         </div>
     );
 }
