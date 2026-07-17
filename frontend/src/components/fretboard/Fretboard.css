@@ -81,15 +81,23 @@
     width: calc(var(--cell-height, 40px) * 0.8);
     height: calc(var(--cell-height, 40px) * 0.8);
     border-radius: 50%;
-    background: white;
-    color: black;
-    border-color: black;
-    font-size: calc(var(--cell-height, 40px) * 0.5);
     display: flex;
     align-items: center;
     justify-content: center;
+    font-size: calc(var(--cell-height, 40px) * 0.3);
     transform: translate(-50%, -50%);
     cursor: default;
+    pointer-events: none;
+    user-select: none;
+    background: var(--bg-primary);
+    border: 2px solid black;
+    color: var(--text-primary);
+}
+
+.fret-marker-root {
+    background: rgb(255, 255, 161);
+    border-color: black;
+    color: black;
 }
 
 .open-mute-column,

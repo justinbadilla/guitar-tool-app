@@ -123,6 +123,7 @@ function Fretboard({ stringStates, handleFretClick, handleToggle, fretMarkers, r
 
                         const openNote = tuning[stringIndex];
                         const noteName = getNoteAtFret(openNote, state.fret);
+                        const isRoot = rootNote !== null && noteName === rootNote;
 
                         const visualRow = 5 - stringIndex;
                         const left = `calc((${state.fret - start}) * var(--cell-width, 60px) + var(--cell-width, 60px) / 2)`;
@@ -130,7 +131,7 @@ function Fretboard({ stringStates, handleFretClick, handleToggle, fretMarkers, r
 
                         return (
                             <div
-                                className="fret-marker"
+                                className={isRoot ? "fret-marker fret-marker-root" : "fret-marker"}
                                 key={stringIndex}
                                 style={{ left, top }}
                             >
