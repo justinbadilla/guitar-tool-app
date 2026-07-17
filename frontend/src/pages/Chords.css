@@ -1,10 +1,14 @@
-.chords-container {
-    /* align-items has no effect unless display:flex */
+.chords-page{
+    
 }
 
 .header-nav-group {
     display: flex;
     gap: 24px;
+}
+
+.chords-page-container {
+    /* align-items has no effect unless display:flex */
 }
 
 .chords-main-row {

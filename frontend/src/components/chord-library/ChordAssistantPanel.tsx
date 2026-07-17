@@ -77,42 +77,44 @@ function ChordAssistantPanel({ chordName, stringStates, tuning, onRequireAuth }:
                 setAnswerLoading(false);
             })
             .catch(() => {
-                setAnswer("Sorry, something went wrong. Please try again.");
+                setAnswer("Sorry, something went wrong. Are you logged in?");
                 setAnswerLoading(false);
             });
     }
     return (
         <div className="chord-assistant-panel">
-            {loading && <p className="ai-status">Thinking...</p>}
-            {error && <p className="ai-status ai-error">{error}</p>}
+            <div className="ai-content">
+                {askedQuestion === null ? (
+                    <>
+                        {loading && <p className="ai-status">Thinking...</p>}
+                        {error && <p className="ai-status ai-error">{error}</p>}
 
-            {overview && (
-                <div className="ai-overview">
-                    <p>{overview.overview}</p>
+                        {overview && (
+                            <div className="ai-overview">
+                                <p>{overview.overview}</p>
 
-                    {overview.alternateNames.length > 0 && (
-                        <p><strong>Also known as:</strong> {overview.alternateNames.join(", ")}</p>
-                    )}
+                                {overview.alternateNames.length > 0 && (
+                                    <p><strong>Also known as:</strong> {overview.alternateNames.join(", ")}</p>
+                                )}
 
-                    {overview.keys.length > 0 && (
-                        <p><strong>Keys:</strong> {overview.keys.join(", ")}</p>
-                    )}
+                                {overview.keys.length > 0 && (
+                                    <p><strong>Keys:</strong> {overview.keys.join(", ")}</p>
+                                )}
 
-                    {overview.nextChords.length > 0 && (
-                        <div>
-                            <strong>Try next:</strong>
-                            <ul>
-                                {overview.nextChords.map((next, i) => (
-                                    <li key={i}>{next.chord} — {next.why}</li>
-                                ))}
-                            </ul>
-                        </div>
-                    )}
-                </div>
-            )}
-
-            <div className="chord-qa-section">
-                {askedQuestion && (
+                                {overview.nextChords.length > 0 && (
+                                    <div>
+                                        <strong>Try next:</strong>
+                                        <ul>
+                                            {overview.nextChords.map((next, i) => (
+                                                <li key={i}>{next.chord} — {next.why}</li>
+                                            ))}
+                                        </ul>
+                                    </div>
+                                )}
+                            </div>
+                        )}
+                    </>
+                ) : (
                     <div className="chord-qa-exchange">
                         <p className="chord-qa-question">Q: {askedQuestion}</p>
                         {answerLoading ? (
@@ -122,17 +124,17 @@ function ChordAssistantPanel({ chordName, stringStates, tuning, onRequireAuth }:
                         )}
                     </div>
                 )}
+            </div>
 
-                <div className="chord-qa-input-row">
-                    <input
-                        type="text"
-                        value={question}
-                        onChange={(e) => setQuestion(e.target.value)}
-                        onKeyDown={(e) => { if (e.key === "Enter") handleAskQuestion(); }}
-                        placeholder="Ask a question about this chord..."
-                    />
-                    <button onClick={handleAskQuestion}>Ask</button>
-                </div>
+            <div className="chord-qa-input-row">
+                <input
+                    type="text"
+                    value={question}
+                    onChange={(e) => setQuestion(e.target.value)}
+                    onKeyDown={(e) => { if (e.key === "Enter") handleAskQuestion(); }}
+                    placeholder="Ask a question about this chord..."
+                />
+                <button onClick={handleAskQuestion}>Ask</button>
             </div>
         </div>
     );

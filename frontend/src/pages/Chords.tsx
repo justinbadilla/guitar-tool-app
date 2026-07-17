@@ -2,6 +2,8 @@ import "./Chords.css";
 import Header from '../components/layouts/Headers';
 import Fretboard from '../components/fretboard/Fretboard';
 import TuningSelector from '../components/tuning/TuningSelector';
+import ChordLibraryPanel from "../components/chord-library/ChordLibraryPanel";
+import ChordAssistantPanel from "../components/chord-library/ChordAssistantPanel";
 import ChordNameDisplay from '../components/chord-library/ChordNameDisplay';
 import { Link } from "react-router-dom";
 import { useState, useEffect } from 'react';
@@ -10,8 +12,6 @@ import { saveChord, fetchSavedChords } from '../api/savedChords';
 import { STANDARD_TUNING } from '../music/notes';
 import { getNotesFromStringStates, detectChordName, getRootNote } from '../music/chords';
 import type { SavedChord } from '../api/savedChords';
-import ChordLibraryPanel from "../components/chord-library/ChordLibraryPanel";
-import ChordAssistantPanel from "../components/chord-library/ChordAssistantPanel";
 
 interface ChordsProps {
     onRequireAuth: () => void;
@@ -90,13 +90,14 @@ function Chords({ onRequireAuth, isLoggedIn, onLogout }: ChordsProps) {
                     <button className="header-buttons" onClick={onRequireAuth}>login</button>
                 )}
             </Header>
-            <div className="chords-container">
-
-
+            <div className="chords-page-container">
 
                 <div className="chords-main-row">
+
                     <div className="fretboard-box">
+
                         <div className="fretboard-box-top">
+
                             <ChordNameDisplay chordName={chordName} />
                             <TuningSelector
                                 activeTuning={activeTuning}

@@ -1,36 +1,33 @@
 .chord-assistant-panel {
-    width: 100%;
-    height: 100%;
+    width: 340px;
+    display: flex;
+    flex-direction: column;
+    padding: 16px;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius);
+    align-self: stretch;
 }
 
-.ai-status {
-    color: var(--text-muted);
-    text-align: center;
+.ai-content {
+    flex: 1;
+    overflow-y: auto;
 }
 
-.ai-error {
-    color: red;
+.ai-overview {
+    font-size: 12px;
 }
 
-.chord-qa-section {
-    margin-top: 16px;
-    border-top: 1px solid var(--border-color);
-    padding-top: 12px;
-}
-
-.chord-qa-question {
+.chord-qa-question{
+    font-style: italic;
     font-weight: bold;
-    margin-bottom: 4px;
-}
-
-.chord-qa-answer {
-    color: var(--text-secondary);
 }
 
 .chord-qa-input-row {
     display: flex;
     gap: 8px;
-    margin-top: 8px;
+    margin-top: 12px;
+    border-top: 1px solid var(--border-color);
+    padding-top: 12px;
 }
 
 .chord-qa-input-row input {
