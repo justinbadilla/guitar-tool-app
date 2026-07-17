@@ -16,7 +16,7 @@ interface SavedChordListProps {
 function SavedChordList({ savedChords, onSelectChord }: SavedChordListProps) {
 
     return (
-        <div className="saved-chord-list">
+        <div className="preset-chord-list">
             {savedChords.map((chord) => (
                 <button
                     key={chord.id}

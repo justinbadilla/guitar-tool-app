@@ -1,6 +1,6 @@
 .preset-chord-list {
-    display: flex;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
     gap: 64px;
 }
 
@@ -10,7 +10,8 @@
     background: none;
     padding: 8px;
     cursor: pointer;
-    transition: transform 0.2s
+    transition: transform 0.2s;
+    overflow-x: hidden;
 }
 
 .preset-chord-button:hover {
