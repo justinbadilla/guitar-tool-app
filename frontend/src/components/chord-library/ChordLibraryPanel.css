@@ -1,4 +1,6 @@
 .chord-library-panel {
+    width: 100%;
+    box-sizing: border-box;
     border: 1px solid var(--border-color);
     border-radius: var(--radius);
     padding: 16px;

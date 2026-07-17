@@ -8,17 +8,17 @@
 }
 
 .chords-page-container {
-    /* align-items has no effect unless display:flex */
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 16px;
 }
 
 .chords-main-row {
     display: flex;
-    flex-wrap: nowrap;
-    justify-content: center;
     align-items: stretch;
+    justify-content: center;
     gap: 24px;
-    margin: 16px;
-    overflow-x: auto;
+    margin: 16px 0;
 }
 
 .fretboard-box {
