@@ -1,5 +1,5 @@
 .chords-page{
-    
+
 }
 
 .header-nav-group {
@@ -41,4 +41,6 @@
     justify-content: space-between;
     align-items: center;
     width: 100%;
+    padding-left: var(--cell-height, 40px);
+    padding-right: var(--cell-height, 40px);
 }

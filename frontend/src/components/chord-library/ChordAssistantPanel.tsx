@@ -134,7 +134,7 @@ function ChordAssistantPanel({ chordName, stringStates, tuning, onRequireAuth }:
                     onKeyDown={(e) => { if (e.key === "Enter") handleAskQuestion(); }}
                     placeholder="Ask a question about this chord..."
                 />
-                <button onClick={handleAskQuestion}>Ask</button>
+                <button className="btn btn-secondary btn-small" onClick={handleAskQuestion}> ask </button>
             </div>
         </div>
     );

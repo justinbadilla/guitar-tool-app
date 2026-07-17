@@ -115,8 +115,8 @@ function Chords({ onRequireAuth, isLoggedIn, onLogout }: ChordsProps) {
                         />
 
                         <div className="fretboard-box-bottom">
-                            <button onClick={clearFretboard}>Clear</button>
-                            <button onClick={handleSaveClick}>Save Chord</button>
+                            <button className="btn btn-secondary" onClick={clearFretboard}>Clear</button>
+                            <button className="btn btn-secondary" onClick={handleSaveClick}>Save Chord</button>
                         </div>
                     </div>
 

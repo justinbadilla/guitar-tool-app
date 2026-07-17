@@ -1,4 +1,3 @@
-
 * {
   box-sizing: border-box;
 }
@@ -12,25 +11,34 @@ body {
 
 :root {
   /* brand colors */
-  --accent: #aa3bff;        /* primary — buttons, links, active states */
-  --accent-hover: #8f2fe0;  /* slightly darker, for hover states */
-  --secondary: #3ba9ff;     /* secondary accent — for contrast against purple, sparingly */
+  --accent: #aa3bff;
+  /* primary — buttons, links, active states */
+  --accent-hover: #8f2fe0;
+  /* slightly darker, for hover states */
+  --secondary: #3ba9ff;
+  /* secondary accent — for contrast against purple, sparingly */
 
   /* text colors */
-  --text-primary: #1a1a1a;   /* main body text — near-black, not pure black (softer on eyes) */
-  --text-secondary: #555;    /* subheadings, less prominent text */
-  --text-muted: #888;        /* labels, placeholders, disabled text */
+  --text-primary: #1a1a1a;
+  /* main body text — near-black, not pure black (softer on eyes) */
+  --text-secondary: #555;
+  /* subheadings, less prominent text */
+  --text-muted: #888;
+  /* labels, placeholders, disabled text */
 
   /* backgrounds */
-  --bg-primary: #fdfcff;     /* main page background */
-  --bg-secondary: #ffffff;   /* subtle contrast areas — sidebars, cards */
+  --bg-primary: #fdfcff;
+  /* main page background */
+  --bg-secondary: #ffffff;
+  /* subtle contrast areas — sidebars, cards */
 
   /* borders */
   --border-color: #dcdcdc;
 
   /* typography */
   --font-body: system-ui, -apple-system, "Segoe UI", sans-serif;
-  --font-heading: var(--font-body); /* same for now, split later*/
+  --font-heading: var(--font-body);
+  /* same for now, split later*/
 
   /* ── Radius (for round borders) */
   --radius: 16px;
@@ -54,3 +62,41 @@ body {
   }
 }
   */
+
+/*Buttons*/
+.btn {
+  padding: 10px 20px;
+  border-radius: var(--radius);
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+}
+
+.btn-primary {
+  background: var(--accent);
+  color: white;
+  border-color: var(--accent);
+}
+
+.btn-primary:hover {
+  background: var(--accent-hover);
+  border-color: var(--accent-hover);
+}
+
+.btn-secondary {
+  background: none;
+  color: var(--text-primary);
+  border-color: var(--border-color);
+}
+
+.btn-secondary:hover {
+  border-color: var(--text-secondary);
+  color: var(--text-secondary);
+}
+
+.btn-small {
+  padding: 6px 14px;
+  font-size: 0.85rem;
+}

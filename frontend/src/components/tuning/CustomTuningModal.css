@@ -1,0 +1,84 @@
+.custom-tuning-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(4px);
+    z-index: 30;
+}
+
+.custom-tuning-modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: var(--bg-primary);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius);
+    padding: 24px;
+    z-index: 31;
+    min-width: 320px;
+}
+
+.custom-tuning-modal h3 {
+    margin: 0 0 16px 0;
+    font-size: 1.1rem;
+}
+
+.custom-tuning-inputs {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin-bottom: 16px;
+}
+
+.custom-tuning-inputs input {
+    width: 100%;
+    padding: 8px 10px;
+    text-align: center;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius);
+    font-size: 1rem;
+}
+
+.custom-tuning-inputs input:focus {
+    outline: none;
+    border-color: var(--accent);
+}
+
+.custom-tuning-error {
+    color: red;
+    font-size: 0.85rem;
+    margin: 0 0 12px 0;
+}
+
+.custom-tuning-actions {
+    display: flex;
+    gap: 8px;
+    justify-content: flex-end;
+}
+
+.custom-tuning-actions button {
+    padding: 8px 16px;
+    border-radius: var(--radius);
+    cursor: pointer;
+    font-size: 0.9rem;
+}
+
+.custom-tuning-save {
+    background: var(--accent);
+    color: white;
+    border: 1px solid var(--accent);
+}
+
+.custom-tuning-save:hover {
+    background: var(--accent-hover);
+}
+
+.custom-tuning-cancel {
+    background: none;
+    border: 1px solid var(--border-color);
+    color: var(--text-primary);
+}

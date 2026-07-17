@@ -1,3 +1,4 @@
+import "./CustomTuningModal.css";
 import { useState } from "react";
 import { isValidNoteName } from "../../music/notes";
 
@@ -47,24 +48,31 @@ function CustomTuningModal({ onSave, onClose }: CustomTuningModalProps) {
     }
 
     return (
-        <div className="custom-tuning-modal">
-            <h3>Add Custom Tuning</h3>
+        <>
+            <div className="custom-tuning-backdrop" onClick={onClose} />
+            <div className="custom-tuning-modal">
+                <h3>Add Custom Tuning</h3>
 
-            {inputs.map((value, index) => (
-                <input
-                    key={index}
-                    type="text"
-                    value={value}
-                    onChange={(e) => handleInputChange(index, e.target.value)}
-                    placeholder={`String ${index + 1}`}
-                />
-            ))}
+                <div className="custom-tuning-inputs">
+                    {inputs.map((value, index) => (
+                        <input
+                            key={index}
+                            type="text"
+                            value={value}
+                            onChange={(e) => handleInputChange(index, e.target.value)}
+                            placeholder={`String ${index + 1}`}
+                        />
+                    ))}
+                </div>
 
-            {error && <p className="custom-tuning-error">{error}</p>}
+                {error && <p className="custom-tuning-error">{error}</p>}
 
-            <button onClick={handleSave}>Save Tuning</button>
-            <button onClick={onClose}>Cancel</button>
-        </div>
+                <div className="custom-tuning-actions">
+                    <button className="custom-tuning-cancel" onClick={onClose}>Cancel</button>
+                    <button className="custom-tuning-save" onClick={handleSave}>Save Tuning</button>
+                </div>
+            </div>
+        </>
     );
 }
 
