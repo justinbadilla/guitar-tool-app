@@ -6,7 +6,13 @@
     padding: 16px;
     margin-top: 24px;
 }
-
+.chord-library-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;   /* tabs left, filters right */
+    gap: 16px;
+    flex-wrap: wrap;                  /* filters drop below on narrow screens */
+}
 .chord-library-tabs {
     display: flex;
     gap: 8px;

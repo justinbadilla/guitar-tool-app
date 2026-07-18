@@ -34,19 +34,29 @@ function ChordLibraryPanel({ savedChords, onSelectChord }: ChordLibraryPanelProp
 
     return (
         <div className="chord-library-panel">
-            <div className="chord-library-tabs">
-                <button
-                    className={activeTab === "presets" ? "active" : ""}
-                    onClick={() => setActiveTab("presets")}
-                >
-                    Presets
-                </button>
-                <button
-                    className={activeTab === "saved" ? "active" : ""}
-                    onClick={() => setActiveTab("saved")}
-                >
-                    Saved Chords
-                </button>
+            <div className="chord-library-header">
+                <div className="chord-library-tabs">
+                    <button
+                        className={activeTab === "presets" ? "active" : ""}
+                        onClick={() => setActiveTab("presets")}
+                    >
+                        presets
+                    </button>
+                    <button
+                        className={activeTab === "saved" ? "active" : ""}
+                        onClick={() => setActiveTab("saved")}
+                    >
+                        saved
+                    </button>
+                </div>
+
+                {activeTab === "saved" && (
+                    <ChordFilterBar
+                        filters={filters}
+                        onFiltersChange={setFilters}
+                        availableTunings={availableTunings}
+                    />
+                )}
             </div>
 
             {activeTab === "presets" && (
@@ -54,21 +64,13 @@ function ChordLibraryPanel({ savedChords, onSelectChord }: ChordLibraryPanelProp
             )}
 
             {activeTab === "saved" && (
-                <>
-                    <ChordFilterBar
-                        filters={filters}
-                        onFiltersChange={setFilters}
-                        availableTunings={availableTunings}
-                    />
-
-                    {savedChords.length === 0 ? (
-                        <p className="chord-library-empty">
-                            Save chords to add them here
-                        </p>
-                    ) : (
-                        <SavedChordList savedChords={filteredSavedChords} onSelectChord={onSelectChord} />
-                    )}
-                </>
+                savedChords.length === 0 ? (
+                    <p className="chord-library-empty">
+                        Save chords to add them here
+                    </p>
+                ) : (
+                    <SavedChordList savedChords={filteredSavedChords} onSelectChord={onSelectChord} />
+                )
             )}
         </div>
     );

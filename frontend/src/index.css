@@ -11,7 +11,7 @@ body {
 
 :root {
   /* brand colors */
-  --accent: #aa3bff;
+  --accent: #9662be;
   /* primary — buttons, links, active states */
   --accent-hover: #8f2fe0;
   /* slightly darker, for hover states */

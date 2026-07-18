@@ -1,3 +1,4 @@
+import "./ChordFilterBar.css";
 import type { ChordFilters } from "../../music/chordFilters";
 
 interface ChordFilterBarProps {
