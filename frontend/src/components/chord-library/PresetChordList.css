@@ -11,7 +11,11 @@
     padding: 8px;
     cursor: pointer;
     transition: transform 0.2s;
-    overflow-x: hidden;
+    position: relative; /* needed for .remove-button's absolute positioning to anchor correctly */
+}
+
+.preset-chord-button .chord-diagram {
+    overflow-x: auto;
 }
 
 .preset-chord-button:hover {

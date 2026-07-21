@@ -32,7 +32,7 @@ function SavedChordList({ savedChords, onSelectChord, onChordDeleted }: SavedCho
             {savedChords.map((chord) => (
                 <div
                     key={chord.id}
-                    className="preset-chord-button chord-card-wrapper"
+                    className="preset-chord-button"
                     onClick={() => onSelectChord(chord)}
                 >
                     <button
