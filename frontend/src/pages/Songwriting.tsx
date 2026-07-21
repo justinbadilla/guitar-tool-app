@@ -162,7 +162,7 @@ function Songwriting({ onRequireAuth, isLoggedIn, onLogout }: SongwritingProps) 
     function addItemToSection(sectionId: string, itemType: SectionItemType) {
         const newItem: SectionItem =
             itemType === "chords"
-                ? { id: crypto.randomUUID(), type: "chords", chords: [] }
+                ? { id: crypto.randomUUID(), type: "chords", chords: [], description: "" }
                 : itemType === "pedal"
                     ? { id: crypto.randomUUID(), type: "pedal", presets: [] }
                     : { id: crypto.randomUUID(), type: "lyrics", text: "" };
@@ -198,6 +198,24 @@ function Songwriting({ onRequireAuth, isLoggedIn, onLogout }: SongwritingProps) 
                         items: section.items.map((item) =>
                             item.id === itemId && item.type === "lyrics"
                                 ? { ...item, text: newText }
+                                : item
+                        ),
+                    }
+                    : section
+            ),
+        }));
+    }
+
+    function updateChordDescription(sectionId: string, itemId: string, description: string) {
+        updateActiveProject((prev) => ({
+            ...prev,
+            sections: prev.sections.map((section) =>
+                section.id === sectionId
+                    ? {
+                        ...section,
+                        items: section.items.map((item) =>
+                            item.id === itemId && item.type === "chords"
+                                ? { ...item, description }
                                 : item
                         ),
                     }
@@ -336,6 +354,7 @@ function Songwriting({ onRequireAuth, isLoggedIn, onLogout }: SongwritingProps) 
                                     onUpdateLyrics={(itemId, text) => updateLyricsItem(section.id, itemId, text)}
                                     onOpenChordPicker={(itemId) => setActiveChordPickerSection({ sectionId: section.id, itemId })}
                                     onRemoveChord={(itemId, chordIndex) => removeChordFromItem(section.id, itemId, chordIndex)}
+                                    onUpdateDescription={(itemId, text) => updateChordDescription(section.id, itemId, text)}
                                 />
                             ))}
 

@@ -10,7 +10,7 @@ import type { SavedChord } from "../../api/savedChords";
 export type SectionItemType = "chords" | "pedal" | "lyrics";
 
 export type SectionItem =
-    | { id: string; type: "chords"; chords: SavedChord[] }
+    | { id: string; type: "chords"; chords: SavedChord[]; description: string }
     | { id: string; type: "pedal"; presets: PedalPreset[] }
     | { id: string; type: "lyrics"; text: string };
 

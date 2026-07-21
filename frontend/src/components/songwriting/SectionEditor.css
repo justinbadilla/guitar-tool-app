@@ -16,9 +16,22 @@
 
 .lyrics-box textarea {
     width: 100%;
-    min-height: 100px;
-    resize: vertical;
-    border-radius: var(--radius);
+    min-height: 80px;
+    border: none;
+    outline: none;
+    background: transparent;
+    resize: none;
+    overflow: hidden;
+    font-size: 0.95rem;
+    line-height: 1.5;
+    color: var(--text-primary);
+    font-family: inherit;
+    padding: 0;
+}
+
+.lyrics-box textarea::placeholder {
+    color: var(--text-muted);
+    font-style: italic;
 }
 
 /* ── Chord progression box ──────────────────────────── */
@@ -43,7 +56,19 @@
 .chord-progression-description {
     margin-bottom: 8px;
     font-size: 0.85rem;
+}
+
+.chord-progression-description input {
+    width: 100%;
+    border: none;
+    background: transparent;
+    font-size: 0.85rem;
+    padding: 4px 0;
+}
+
+.chord-progression-description input::placeholder {
     color: var(--text-muted);
+    font-style: italic;
 }
 
 .chord-progression-grid {
@@ -93,7 +118,15 @@
     width: 100%;
 }
 
-/* ── add button (shared across section/item/chord "+") ── */
+.section-box .remove-button{
+    opacity: 25%;
+}
+
+.section-box .remove-button:hover{
+    opacity: 100%;
+}
+
+/* ── Add button (shared across section/item/chord "+" triggers) ── */
 .add-button {
     display: flex;
     align-items: center;
@@ -118,8 +151,5 @@
 
 .chord-progression-grid .add-button {
     margin: 0;
-}
-
-.add-button span {
-    transform: translateY(-1px);
+    align-self: center;
 }

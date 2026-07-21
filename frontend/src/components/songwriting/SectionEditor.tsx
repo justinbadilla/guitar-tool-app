@@ -9,8 +9,10 @@ interface SectionEditorProps {
     onAddItem: () => void;
     onRemoveItem: (itemId: string) => void;
     onUpdateLyrics: (itemId: string, text: string) => void;
+    onUpdateDescription: (itemId: string, description: string) => void;
     onOpenChordPicker: (itemId: string) => void;
     onRemoveChord: (itemId: string, chordIndex: number) => void;
+
 }
 
 /**
@@ -28,8 +30,10 @@ function SectionEditor({
     onAddItem,
     onRemoveItem,
     onUpdateLyrics,
+    onUpdateDescription,
     onOpenChordPicker,
     onRemoveChord,
+
 }: SectionEditorProps) {
 
     function handleRemoveSection() {
@@ -63,7 +67,12 @@ function SectionEditor({
                             </div>
 
                             <div className="chord-progression-description">
-                                {/* placeholder for now, e.g. optional notes about this progression */}
+                                <input
+                                    type="text"
+                                    value={item.description}
+                                    onChange={(e) => onUpdateDescription(item.id, e.target.value)}
+                                    placeholder="Add a note (e.g chords in key, strumming pattern, time signature...)"
+                                />
                             </div>
 
                             <div className="chord-progression-grid">
@@ -74,11 +83,11 @@ function SectionEditor({
                                             name={chord.name}
                                             tuning={chord.tuning}
                                         />
-                                        <button className="remove-button" onClick={() => onRemoveChord(item.id, index)}>×</button>
+                                        <button className="remove-button" onClick={() => onRemoveChord(item.id, index)}>x</button>
                                     </div>
                                 ))}
 
-                                <button className="add-button" onClick={() => onOpenChordPicker(item.id)}>+</button>
+                                <button className="add-button" onClick={() => onOpenChordPicker(item.id)}>+ Chords</button>
                             </div>
                         </div>
                     );
@@ -105,8 +114,13 @@ function SectionEditor({
                             </div>
                             <textarea
                                 value={item.text}
-                                onChange={(e) => onUpdateLyrics(item.id, e.target.value)}
+                                onChange={(e) => {
+                                    onUpdateLyrics(item.id, e.target.value);
+                                    e.target.style.height = "auto";
+                                    e.target.style.height = `${e.target.scrollHeight}px`;
+                                }}
                                 placeholder="Write your lyrics here..."
+                                rows={3}
                             />
                         </div>
                     );
