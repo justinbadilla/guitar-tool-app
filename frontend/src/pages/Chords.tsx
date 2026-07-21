@@ -62,6 +62,10 @@ function Chords({ onRequireAuth, isLoggedIn, onLogout }: ChordsProps) {
         loadPositions(chord.positions);
     }
 
+    function handleChordDeleted(id: number) {
+        setSavedChords((prev) => prev.filter((chord) => chord.id !== id));
+    }
+
     //Save current fretboard state onto the savedChords list (so it shows immediately and doesnt need refetch)
     async function handleSaveClick() {
         try {
@@ -128,7 +132,7 @@ function Chords({ onRequireAuth, isLoggedIn, onLogout }: ChordsProps) {
                     />
                 </div>
 
-                <ChordLibraryPanel savedChords={savedChords} onSelectChord={loadChord} />
+                <ChordLibraryPanel savedChords={savedChords} onSelectChord={loadChord} onChordDeleted={handleChordDeleted} />
             </div>
         </div>
     );

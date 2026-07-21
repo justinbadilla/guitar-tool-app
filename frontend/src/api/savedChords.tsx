@@ -48,3 +48,17 @@ export async function fetchSavedChords() {
         tuning: JSON.parse(chord.tuningJson),
     }));
 }
+
+//deletes the chord to the database for user's saved chords 
+export async function deleteChord(id: number): Promise<void> {
+    const response = await fetch(`http://localhost:8080/api/chords/${id}`, {
+        method: "DELETE",
+        headers: {
+            ...getAuthHeader(),
+        },
+    });
+
+    if (!response.ok) {
+        throw new Error("Failed to delete chord.");
+    }
+}

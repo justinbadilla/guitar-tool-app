@@ -100,3 +100,27 @@ body {
   padding: 6px 14px;
   font-size: 0.85rem;
 }
+
+.remove-button {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  border: 2px black;
+  background:white;
+  color: red;
+  font-size: 12px;
+  line-height: 1;
+  cursor: pointer;
+  z-index: 5;
+}
+
+.remove-button:hover {
+  background: #e0393e;
+  color: white;
+}

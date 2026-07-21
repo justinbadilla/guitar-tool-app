@@ -115,6 +115,9 @@ function Songwriting({ onRequireAuth }: SongwritingProps) {
             onRequireAuth();
         }
     }
+    function handleChordDeleted(id: number) {
+        setSavedChords((prev) => prev.filter((chord) => chord.id !== id));
+    }
 
     //** Section Handlers */
 
@@ -347,6 +350,7 @@ function Songwriting({ onRequireAuth }: SongwritingProps) {
                         );
                         setActiveChordPickerSection(null);
                     }}
+                    onChordDeleted={handleChordDeleted}
                     onClose={() => setActiveChordPickerSection(null)}
                 />
             )}

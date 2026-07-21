@@ -15,6 +15,7 @@ import type { ChordFilters } from "../../music/chordFilters";
 interface ChordPickerModalProps {
     savedChords: SavedChord[]; // passed in from the parent (not fetched here)
     onSelectChord: (chord: SavedChord) => void; // called when user picks any chord (saved, preset, or built)
+    onChordDeleted: (id: number) => void;
     onClose: () => void;
 }
 
@@ -25,7 +26,7 @@ interface ChordPickerModalProps {
 // All three tabs produce a SavedChord-shaped object handed back with onSelectChord.
 // Used for songwriting.tsx (chord progression box)
  
-function ChordPickerModal({ savedChords, onSelectChord, onClose }: ChordPickerModalProps) {
+function ChordPickerModal({ savedChords, onSelectChord, onChordDeleted, onClose }: ChordPickerModalProps) {
 
     // Tab state
     const [activeTab, setActiveTab] = useState<"saved" | "presets" | "build">("saved");
@@ -90,6 +91,7 @@ function ChordPickerModal({ savedChords, onSelectChord, onClose }: ChordPickerMo
                     <SavedChordList
                         savedChords={filteredSavedChords}
                         onSelectChord={onSelectChord}
+                        onChordDeleted={onChordDeleted}
                     />
                 </>
             )}

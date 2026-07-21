@@ -10,6 +10,7 @@ import "./ChordLibraryPanel.css"
 interface ChordLibraryPanelProps {
     savedChords: SavedChord[];
     onSelectChord: (chord: SavedChord) => void;
+    onChordDeleted: (id: number) => void;
 }
 
 /**
@@ -17,7 +18,7 @@ interface ChordLibraryPanelProps {
  *
  * Tabbed container below the interactive fretboard: "Presets" (default) and "Saved Chords". 
  */
-function ChordLibraryPanel({ savedChords, onSelectChord }: ChordLibraryPanelProps) {
+function ChordLibraryPanel({ savedChords, onSelectChord, onChordDeleted }: ChordLibraryPanelProps) {
     const [activeTab, setActiveTab] = useState<"presets" | "saved">("presets");
 
     const [filters, setFilters] = useState<ChordFilters>({
@@ -69,7 +70,11 @@ function ChordLibraryPanel({ savedChords, onSelectChord }: ChordLibraryPanelProp
                         Save chords to add them here
                     </p>
                 ) : (
-                    <SavedChordList savedChords={filteredSavedChords} onSelectChord={onSelectChord} />
+                    <SavedChordList
+                        savedChords={filteredSavedChords}
+                        onSelectChord={onSelectChord}
+                        onChordDeleted={onChordDeleted}
+                    />
                 )
             )}
         </div>

@@ -9,6 +9,8 @@ Spring Boot annotations:
 @PostMapping - 
 @CrossOrigin - 
 @Component - 
+@DeleteMapping - 
+@PathVariable - 
 
 @Entity
 @Id

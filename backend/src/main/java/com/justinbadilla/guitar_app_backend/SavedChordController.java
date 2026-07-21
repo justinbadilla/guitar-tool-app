@@ -1,16 +1,17 @@
 package com.justinbadilla.guitar_app_backend;
+
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.security.core.Authentication;
 import java.util.List;
 import java.util.Optional;
 
-
 /**
  * SavedChordController
  *
  * Handles fetching and saving the current user's saved chords.
- * GET is public but still scoped per-user. Logged-out requests get an empty list back. 
+ * GET is public but still scoped per-user. Logged-out requests get an empty
+ * list back.
  * POST requires a valid JWT (from SecurityConfig's authenticated() rule)
  * and always attaches the requester as the chord's owner.
  */
@@ -29,7 +30,8 @@ public class SavedChordController {
 
     /**
      * Returns current user's saved chords.
-     * Logged-out requests get empty list since browsing without an account is allowed.
+     * Logged-out requests get empty list since browsing without an account is
+     * allowed.
      */
     @GetMapping
     public List<SavedChord> getAllChords() {
@@ -43,9 +45,9 @@ public class SavedChordController {
     }
 
     /**
-     * Saves a new chord, attached to user making request. 
+     * Saves a new chord, attached to user making request.
      * orElseThrow() is a defensive fallback
-     * (Spring Security blocks unauthenticated POSTs before this code runs) 
+     * (Spring Security blocks unauthenticated POSTs before this code runs)
      */
     @PostMapping
     public SavedChord saveChord(@RequestBody SavedChord chord) {
@@ -57,11 +59,33 @@ public class SavedChordController {
     }
 
     /**
+     * Deletes a saved chord, attached to user making request.
+     * 
+     */
+    @DeleteMapping("/{id}")
+    public void deleteChord(@PathVariable Long id) {
+        User currentUser = getCurrentUser()
+                .orElseThrow(() -> new RuntimeException("Must be logged in to delete a chord"));
+
+        SavedChord chord = repository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Chord not found"));
+
+        if (!chord.getUser().getId().equals(currentUser.getId())) {
+            throw new RuntimeException("You don't have permission to delete this chord");
+        }
+
+        repository.deleteById(id);
+    }
+
+    /**
      * Reads current authenticated user (if any) out of Spring
-     * Security's context (same context JwtAuthFilter writes into after validating a request's token)
+     * Security's context (same context JwtAuthFilter writes into after validating a
+     * request's token)
      *
-     * Spring Security represents "not logged in" with a special anonymous Authentication object rather than null.
-     * Both conditions have to be checked: absent auth object AND the specific anonymousUser placeholder,
+     * Spring Security represents "not logged in" with a special anonymous
+     * Authentication object rather than null.
+     * Both conditions have to be checked: absent auth object AND the specific
+     * anonymousUser placeholder,
      * that Spring substitutes in when no real token was provided.
      */
     private Optional<User> getCurrentUser() {
