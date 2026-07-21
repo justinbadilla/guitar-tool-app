@@ -1,3 +1,4 @@
+
 import "./Songwriting.css";
 import ProjectSidebar from "../components/songwriting/ProjectSidebar";
 import NewProjectModal from "../components/songwriting/NewProjectModal";
@@ -206,6 +207,8 @@ function Songwriting({ onRequireAuth, isLoggedIn, onLogout }: SongwritingProps) 
     }
 
     function addChordToItem(sectionId: string, itemId: string, chord: SavedChord) {
+        const chordInstance: SavedChord = { ...chord, id: crypto.randomUUID() };
+
         updateActiveProject((prev) => ({
             ...prev,
             sections: prev.sections.map((section) =>
@@ -214,7 +217,7 @@ function Songwriting({ onRequireAuth, isLoggedIn, onLogout }: SongwritingProps) 
                         ...section,
                         items: section.items.map((item) =>
                             item.id === itemId && item.type === "chords"
-                                ? { ...item, chords: [...item.chords, chord] }
+                                ? { ...item, chords: [...item.chords, chordInstance] }
                                 : item
                         ),
                     }

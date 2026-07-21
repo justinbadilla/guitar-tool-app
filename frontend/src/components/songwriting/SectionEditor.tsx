@@ -57,23 +57,29 @@ function SectionEditor({
                 if (item.type === "chords") {
                     return (
                         <div key={item.id} className="chord-progression-box">
-                            <div className="section-item-header">
+                            <div className="chord-progression-header">
                                 <span>Chord Progression</span>
-                                <button className="remove-button" onClick={() => onRemoveItem(item.id)}>x</button>
+                                <button className="remove-button" onClick={() => onRemoveItem(item.id)}>×</button>
                             </div>
 
-                            {item.chords.map((chord, index) => (
-                                <div key={chord.id ?? index} className="chord-progression-item">
-                                    <ChordDiagram
-                                        positions={chord.positions}
-                                        name={chord.name}
-                                        tuning={chord.tuning}
-                                    />
-                                    <button className="remove-button" onClick={() => onRemoveChord(item.id, index)}>x</button>
-                                </div>
-                            ))}
+                            <div className="chord-progression-description">
+                                {/* placeholder for now, e.g. optional notes about this progression */}
+                            </div>
 
-                            <button className="add-button" onClick={() => onOpenChordPicker(item.id)}>+ Add Chord</button>
+                            <div className="chord-progression-grid">
+                                {item.chords.map((chord, index) => (
+                                    <div key={chord.id ?? index} className="chord-progression-item">
+                                        <ChordDiagram
+                                            positions={chord.positions}
+                                            name={chord.name}
+                                            tuning={chord.tuning}
+                                        />
+                                        <button className="remove-button" onClick={() => onRemoveChord(item.id, index)}>×</button>
+                                    </div>
+                                ))}
+
+                                <button className="add-button" onClick={() => onOpenChordPicker(item.id)}>+</button>
+                            </div>
                         </div>
                     );
                 }
@@ -109,7 +115,7 @@ function SectionEditor({
                 return null;
             })}
 
-            <button className="add-button" onClick={onAddItem}>+ Add</button>
+            <button className="add-button" onClick={onAddItem}>+</button>
         </div>
     );
 }

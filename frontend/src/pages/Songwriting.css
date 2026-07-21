@@ -1,57 +1,3 @@
-/* ── Section boxes ──────────────────────────────────── */
-.section-box {
-    border: 2px solid #888;
-    border-radius: var(--radius);
-    padding: 12px;
-    margin-bottom: 16px;
-}
-
-.chord-progression-box,
-.pedal-preset-box,
-.lyrics-box {
-    border: 1px solid #ccc;
-    border-radius: var(--radius);
-    padding: 8px;
-    margin-top: 8px;
-}
-
-.lyrics-box textarea {
-    width: 100%;
-    min-height: 100px;
-    resize: vertical;
-    border-radius: var(--radius);
-}
-
-/* ── Section header ─────────────────────────────────── */
-.section-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 8px;
-    position: relative;
-}
-
-.section-item-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 8px;
-    font-weight: bold;
-    font-size: 0.85rem;
-    color: #666;
-    position: relative;
-}
-
-.section-name-input {
-    font-size: 1.2rem;
-    font-weight: bold;
-    border: none;
-    border-bottom: 1px solid #ccc;
-    background: transparent;
-    outline: none;
-    width: 100%;
-}
-
 /* ── Project header ─────────────────────────────────── */
 .project-header {
     display: flex;
@@ -65,7 +11,6 @@
     align-items: center;
     gap: 16px;
     flex-shrink: 0;
-    /* prevents the right side from squishing as title grows */
 }
 
 .project-header-actions {
@@ -172,7 +117,6 @@
 .project-sidebar-item.active {
     background: #aa3bff;
     color: white;
-    /* fixed from grey — white is readable on purple */
 }
 
 /* ── Splash screen ───────────────────────────────────── */
@@ -282,25 +226,4 @@
     border: none;
     cursor: pointer;
     margin-top: 4px;
-}
-
-.add-button {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 75px;
-    height: 70px;
-    margin: 8px auto 0;
-    border: 2px dashed var(--border-color);
-    border-radius: var(--radius);
-    background: none;
-    color: var(--text-muted);
-    font-size: 14px;
-    cursor: pointer;
-    transition: border-color 0.15s ease, color 0.15s ease;
-}
-
-.add-button:hover {
-    border-color: var(--accent);
-    color: var(--accent);
 }
