@@ -1,0 +1,12 @@
+.project-sidebar-item {
+    position: relative;
+    padding: 8px 32px 8px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.9rem;
+}
+
+.project-sidebar-item .remove-button {
+  font-weight: normal;
+  font-size: 8px;
+}

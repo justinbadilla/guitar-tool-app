@@ -69,3 +69,19 @@ export async function saveSongProject(project: SongProject): Promise<SongProject
         sections: JSON.parse(saved.sectionsJson),
     };
 }
+
+/**
+ * Deletes a song project
+ */
+export async function deleteSongProject(id: number): Promise<void> {
+    const response = await fetch(`${PROJECTS_BASE_URL}/${id}`, {
+        method: "DELETE",
+        headers: {
+            ...getAuthHeader(),
+        },
+    });
+
+    if (!response.ok) {
+        throw new Error("Failed to delete project.");
+    }
+}

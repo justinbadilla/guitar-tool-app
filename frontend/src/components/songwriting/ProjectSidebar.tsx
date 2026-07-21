@@ -1,3 +1,4 @@
+import "./ProjectSidebar.css";
 import type { SongProject } from "./type";
 
 interface ProjectSidebarProps {
@@ -5,6 +6,7 @@ interface ProjectSidebarProps {
     activeProjectId: string | null;
     onSelectProject: (id: string) => void;
     onNewProject: () => void;
+    onDeleteProject: (id: string) => void;
 }
 
 /**
@@ -14,7 +16,7 @@ interface ProjectSidebarProps {
  * to create a new one. Only visual, doesn't own any project
  * data itself, receives list and reports selections upward
  */
-function ProjectSidebar({ projects, activeProjectId, onSelectProject, onNewProject }: ProjectSidebarProps) {
+function ProjectSidebar({ projects, activeProjectId, onSelectProject, onNewProject, onDeleteProject }: ProjectSidebarProps) {
     return (
         <div className="project-sidebar">
             <div className="project-sidebar-header">
@@ -29,7 +31,19 @@ function ProjectSidebar({ projects, activeProjectId, onSelectProject, onNewProje
                         className={`project-sidebar-item ${project.id === activeProjectId ? "active" : ""}`}
                         onClick={() => onSelectProject(project.id)}
                     >
-                        {project.title}
+                        <span className="project-sidebar-title">{project.title}</span>
+                        <button
+                            className="remove-button"
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                const confirmed = window.confirm(`Delete "${project.title}"? This cannot be undone.`);
+                                if (confirmed) {
+                                    onDeleteProject(project.id);
+                                }
+                            }}
+                        >
+                            X
+                        </button>
                     </div>
                 ))}
             </div>

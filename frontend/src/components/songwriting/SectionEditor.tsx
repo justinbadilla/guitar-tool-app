@@ -1,3 +1,4 @@
+import "./SectionEditor.css";
 import ChordDiagram from "../fretboard/ChordDiagram";
 import type { Section } from "./type";
 
@@ -30,7 +31,16 @@ function SectionEditor({
     onOpenChordPicker,
     onRemoveChord,
 }: SectionEditorProps) {
-    
+
+    function handleRemoveSection() {
+        const confirmed = window.confirm(
+            `Delete section "${section.name}"? This will remove everything inside it and cannot be undone.`
+        );
+        if (confirmed) {
+            onRemoveSection();
+        }
+    }
+
     return (
         <div className="section-box">
             <div className="section-header">
@@ -40,7 +50,7 @@ function SectionEditor({
                     onChange={(e) => onUpdateName(e.target.value)}
                     className="section-name-input"
                 />
-                <button onClick={onRemoveSection}>Remove Section</button>
+                <button className="remove-button" onClick={handleRemoveSection}>x</button>
             </div>
 
             {section.items.map((item) => {
@@ -49,9 +59,7 @@ function SectionEditor({
                         <div key={item.id} className="chord-progression-box">
                             <div className="section-item-header">
                                 <span>Chord Progression</span>
-                                <button onClick={() => onRemoveItem(item.id)}>
-                                    Remove Box
-                                </button>
+                                <button className="remove-button" onClick={() => onRemoveItem(item.id)}>x</button>
                             </div>
 
                             {item.chords.map((chord, index) => (
@@ -61,15 +69,11 @@ function SectionEditor({
                                         name={chord.name}
                                         tuning={chord.tuning}
                                     />
-                                    <button onClick={() => onRemoveChord(item.id, index)}>
-                                        Remove
-                                    </button>
+                                    <button className="remove-button" onClick={() => onRemoveChord(item.id, index)}>x</button>
                                 </div>
                             ))}
 
-                            <button onClick={() => onOpenChordPicker(item.id)}>
-                                + Add Chord
-                            </button>
+                            <button className="add-button" onClick={() => onOpenChordPicker(item.id)}>+ Add Chord</button>
                         </div>
                     );
                 }
@@ -79,9 +83,7 @@ function SectionEditor({
                         <div key={item.id} className="pedal-preset-box">
                             <div className="section-item-header">
                                 <span>Pedal Preset</span>
-                                <button onClick={() => onRemoveItem(item.id)}>
-                                    Remove Box
-                                </button>
+                                <button className="remove-button" onClick={() => onRemoveItem(item.id)}>x</button>
                             </div>
                             Pedal Presets (placeholder)
                         </div>
@@ -93,9 +95,7 @@ function SectionEditor({
                         <div key={item.id} className="lyrics-box">
                             <div className="section-item-header">
                                 <span>Lyrics</span>
-                                <button onClick={() => onRemoveItem(item.id)}>
-                                    Remove Box
-                                </button>
+                                <button className="remove-button" onClick={() => onRemoveItem(item.id)}>x</button>
                             </div>
                             <textarea
                                 value={item.text}
@@ -109,7 +109,7 @@ function SectionEditor({
                 return null;
             })}
 
-            <button onClick={onAddItem}>+ Add</button>
+            <button className="add-button" onClick={onAddItem}>+ Add</button>
         </div>
     );
 }

@@ -112,7 +112,7 @@ body {
   justify-content: center;
   border-radius: 50%;
   border: 2px black;
-  background:white;
+  background-color: transparent;
   color: red;
   font-size: 18px;
   font-weight: bold;

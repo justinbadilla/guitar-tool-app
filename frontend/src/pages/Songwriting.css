@@ -28,6 +28,7 @@
     align-items: center;
     justify-content: space-between;
     margin-bottom: 8px;
+    position: relative;
 }
 
 .section-item-header {
@@ -38,6 +39,7 @@
     font-weight: bold;
     font-size: 0.85rem;
     color: #666;
+    position: relative;
 }
 
 .section-name-input {
@@ -134,7 +136,7 @@
 
 /* ── Sidebar ─────────────────────────────────────────── */
 .project-sidebar {
-    width: 240px;
+    width: 200px;
     flex-shrink: 0;
     border-right: 1px solid #ccc;
     display: flex;
@@ -280,4 +282,25 @@
     border: none;
     cursor: pointer;
     margin-top: 4px;
+}
+
+.add-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 75px;
+    height: 70px;
+    margin: 8px auto 0;
+    border: 2px dashed var(--border-color);
+    border-radius: var(--radius);
+    background: none;
+    color: var(--text-muted);
+    font-size: 14px;
+    cursor: pointer;
+    transition: border-color 0.15s ease, color 0.15s ease;
+}
+
+.add-button:hover {
+    border-color: var(--accent);
+    color: var(--accent);
 }

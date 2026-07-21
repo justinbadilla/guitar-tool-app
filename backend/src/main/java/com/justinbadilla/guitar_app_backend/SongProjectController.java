@@ -10,14 +10,19 @@ import java.util.Optional;
 /**
  * SongProjectController
  *
- * Handles fetching and saving the current user's song projects BOTH endpoints here require a valid JWT.
+ * Handles fetching and saving the current user's song projects BOTH endpoints
+ * here require a valid JWT.
  *
- * saveProject() acts as an upsert (update record, otherwise create new if it doesn't exist).
- * Single endpoint for both creating a new project and updating an existing one. Which happens
- * depends entirely on whether the SongProjectEntity's id is null (insert - Postgres assigns new id)
+ * saveProject() acts as an upsert (update record, otherwise create new if it
+ * doesn't exist).
+ * Single endpoint for both creating a new project and updating an existing one.
+ * Which happens
+ * depends entirely on whether the SongProjectEntity's id is null (insert -
+ * Postgres assigns new id)
  * or matches an existing row (update - overwrite row)
  *
- * FUTURE UPDATE!!!! production version should check existingProject.getUser().equals(currentUser) before allowing an
+ * FUTURE UPDATE!!!! production version should check
+ * existingProject.getUser().equals(currentUser) before allowing an
  * update through.
  */
 
@@ -35,8 +40,10 @@ public class SongProjectController {
     }
 
     /**
-     * Returns only the current user's song projects. Logged-out requests get an empty list rather than an error
-     * But endpoint isn't reachable while logged out anyway, since it's not in SecurityConfig's permitAll list.
+     * Returns only the current user's song projects. Logged-out requests get an
+     * empty list rather than an error
+     * But endpoint isn't reachable while logged out anyway, since it's not in
+     * SecurityConfig's permitAll list.
      */
     @GetMapping
     public List<SongProjectEntity> getAllProjects() {
@@ -50,7 +57,8 @@ public class SongProjectController {
     }
 
     /**
-     * Creates or updates a song project. Always attaches the requesting user as the project's owner before saving.
+     * Creates or updates a song project. Always attaches the requesting user as the
+     * project's owner before saving.
      */
     @PostMapping
     public SongProjectEntity saveProject(@RequestBody SongProjectEntity project) {
@@ -62,7 +70,26 @@ public class SongProjectController {
     }
 
     /**
-     * Reads current authenticated user out of Spring Security's context (similar to SaveChordController)
+     * Deletes a song project
+     */
+    @DeleteMapping("/{id}")
+    public void deleteProject(@PathVariable Long id) {
+        User currentUser = getCurrentUser()
+                .orElseThrow(() -> new RuntimeException("Must be logged in to delete a project"));
+
+        SongProjectEntity project = repository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Project not found"));
+
+        if (!project.getUser().getId().equals(currentUser.getId())) {
+            throw new RuntimeException("You don't have permission to delete this project");
+        }
+
+        repository.deleteById(id);
+    }
+
+    /**
+     * Reads current authenticated user out of Spring Security's context (similar to
+     * SaveChordController)
      */
     private Optional<User> getCurrentUser() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();

@@ -8,9 +8,13 @@ import { useEffect, useState } from "react";
 import { useSongProjects } from "../hooks/useSongProjects";
 import { fetchSavedChords, type SavedChord } from "../api/savedChords";
 import type { Section, SectionItem, SectionItemType } from "../components/songwriting/type";
+import Header from "../components/layouts/Headers";
+import { Link } from "react-router-dom";
 
 interface SongwritingProps {
     onRequireAuth: () => void;
+    isLoggedIn: boolean;
+    onLogout: () => void;
 }
 
 /**
@@ -23,7 +27,7 @@ interface SongwritingProps {
  * Owns UI-level state (which modal is open, input drafts, save message)
  * and delegates project/section data management to useSongProjects.
  */
-function Songwriting({ onRequireAuth }: SongwritingProps) {
+function Songwriting({ onRequireAuth, isLoggedIn, onLogout }: SongwritingProps) {
 
     // custom hooks
     const {
@@ -33,6 +37,7 @@ function Songwriting({ onRequireAuth }: SongwritingProps) {
         createNewProject,
         handleSelectProject,
         saveActiveProject,
+        deleteProject,
     } = useSongProjects();
 
     // UI state
@@ -237,123 +242,138 @@ function Songwriting({ onRequireAuth }: SongwritingProps) {
     }
 
     return (
-        <div className="songwriting-page">
 
-            <ProjectSidebar
-                projects={projects}
-                activeProjectId={activeProject?.id ?? null}
-                onSelectProject={handleSelectProjectAndUpdateInputs}
-                onNewProject={() => setShowNewProjectModal(true)}
-            />
-
-            <div className="songwriting-main">
-                {activeProject === null ? (
-                    <div className="songwriting-splash">
-                        <button
-                            className="new-project-splash-button"
-                            onClick={() => setShowNewProjectModal(true)}
-                        >
-                            + Create New Project
-                        </button>
-                    </div>
+        <div>
+            <Header>
+                <div className="header-nav-group">
+                    <Link to="/" className="header-buttons">home</Link>
+                    <Link to="/chords" className="header-buttons">interactive fretboard </Link>
+                </div>
+                {isLoggedIn ? (
+                    <button className="header-buttons" onClick={onLogout}>log out</button>
                 ) : (
-                    <div className="songwriting-editor">
+                    <button className="header-buttons" onClick={onRequireAuth}>login</button>
+                )}
+            </Header>
+            <div className="songwriting-page">
 
-                        <div className="project-header">
-                            <input
-                                type="text"
-                                value={titleInput}
-                                onChange={(e) => setTitleInput(e.target.value)}
-                                onBlur={handleTitleSave}
-                                onKeyDown={(e) => { if (e.key === "Enter") handleTitleSave(); }}
-                                className="project-title-input"
-                            />
+                <ProjectSidebar
+                    projects={projects}
+                    activeProjectId={activeProject?.id ?? null}
+                    onSelectProject={handleSelectProjectAndUpdateInputs}
+                    onNewProject={() => setShowNewProjectModal(true)}
+                    onDeleteProject={deleteProject}
+                />
 
-                            <div className="project-header-right">
-                                <div className="project-meta-field">
-                                    <label>Key</label>
-                                    <input
-                                        type="text"
-                                        value={keyInput}
-                                        onChange={(e) => setKeyInput(e.target.value)}
-                                        onBlur={handleKeySave}
-                                        onKeyDown={(e) => { if (e.key === "Enter") handleKeySave(); }}
-                                        className="project-meta-input"
-                                        placeholder="N/A"
-                                    />
-                                </div>
+                <div className="songwriting-main">
+                    {activeProject === null ? (
+                        <div className="songwriting-splash">
+                            <button
+                                className="new-project-splash-button"
+                                onClick={() => setShowNewProjectModal(true)}
+                            >
+                                + Create New Project
+                            </button>
+                        </div>
+                    ) : (
+                        <div className="songwriting-editor">
 
-                                <div className="project-meta-field">
-                                    <label>BPM</label>
-                                    <input
-                                        type="text"
-                                        value={bpmInput}
-                                        onChange={(e) => setBpmInput(e.target.value)}
-                                        onBlur={handleBpmSave}
-                                        onKeyDown={(e) => { if (e.key === "Enter") handleBpmSave(); }}
-                                        className="project-meta-input"
-                                        placeholder="N/A"
-                                    />
-                                </div>
+                            <div className="project-header">
+                                <input
+                                    type="text"
+                                    value={titleInput}
+                                    onChange={(e) => setTitleInput(e.target.value)}
+                                    onBlur={handleTitleSave}
+                                    onKeyDown={(e) => { if (e.key === "Enter") handleTitleSave(); }}
+                                    className="project-title-input"
+                                />
 
-                                <div className="project-header-actions">
-                                    <button onClick={handleSaveProject}>Save Project</button>
-                                    {saveMessage && <span className="save-message">{saveMessage}</span>}
+                                <div className="project-header-right">
+                                    <div className="project-meta-field">
+                                        <label>Key</label>
+                                        <input
+                                            type="text"
+                                            value={keyInput}
+                                            onChange={(e) => setKeyInput(e.target.value)}
+                                            onBlur={handleKeySave}
+                                            onKeyDown={(e) => { if (e.key === "Enter") handleKeySave(); }}
+                                            className="project-meta-input"
+                                            placeholder="N/A"
+                                        />
+                                    </div>
+
+                                    <div className="project-meta-field">
+                                        <label>BPM</label>
+                                        <input
+                                            type="text"
+                                            value={bpmInput}
+                                            onChange={(e) => setBpmInput(e.target.value)}
+                                            onBlur={handleBpmSave}
+                                            onKeyDown={(e) => { if (e.key === "Enter") handleBpmSave(); }}
+                                            className="project-meta-input"
+                                            placeholder="N/A"
+                                        />
+                                    </div>
+
+                                    <div className="project-header-actions">
+                                        <button onClick={handleSaveProject}>Save Project</button>
+                                        {saveMessage && <span className="save-message">{saveMessage}</span>}
+                                    </div>
                                 </div>
                             </div>
+
+                            {activeProject.sections.map((section) => (
+                                <SectionEditor
+                                    key={section.id}
+                                    section={section}
+                                    onUpdateName={(name) => updateSectionName(section.id, name)}
+                                    onRemoveSection={() => removeSection(section.id)}
+                                    onAddItem={() => setActiveAddItemSection(section.id)}
+                                    onRemoveItem={(itemId) => removeItemFromSection(section.id, itemId)}
+                                    onUpdateLyrics={(itemId, text) => updateLyricsItem(section.id, itemId, text)}
+                                    onOpenChordPicker={(itemId) => setActiveChordPickerSection({ sectionId: section.id, itemId })}
+                                    onRemoveChord={(itemId, chordIndex) => removeChordFromItem(section.id, itemId, chordIndex)}
+                                />
+                            ))}
+
+                            <button className="add-button" onClick={addSection}>+ Add Section</button>
                         </div>
+                    )}
+                </div>
 
-                        {activeProject.sections.map((section) => (
-                            <SectionEditor
-                                key={section.id}
-                                section={section}
-                                onUpdateName={(name) => updateSectionName(section.id, name)}
-                                onRemoveSection={() => removeSection(section.id)}
-                                onAddItem={() => setActiveAddItemSection(section.id)}
-                                onRemoveItem={(itemId) => removeItemFromSection(section.id, itemId)}
-                                onUpdateLyrics={(itemId, text) => updateLyricsItem(section.id, itemId, text)}
-                                onOpenChordPicker={(itemId) => setActiveChordPickerSection({ sectionId: section.id, itemId })}
-                                onRemoveChord={(itemId, chordIndex) => removeChordFromItem(section.id, itemId, chordIndex)}
-                            />
-                        ))}
+                {showNewProjectModal && (
+                    <NewProjectModal
+                        onConfirm={handleCreateNewProject}
+                        onClose={() => setShowNewProjectModal(false)}
+                    />
+                )}
 
-                        <button onClick={addSection}>+ Add Section</button>
-                    </div>
+                {activeAddItemSection && (
+                    <AddSectionItemModal
+                        onAdd={(type) => {
+                            addItemToSection(activeAddItemSection, type);
+                            setActiveAddItemSection(null);
+                        }}
+                        onClose={() => setActiveAddItemSection(null)}
+                    />
+                )}
+
+                {activeChordPickerSection && (
+                    <ChordPickerModal
+                        savedChords={savedChords}
+                        onSelectChord={(chord) => {
+                            addChordToItem(
+                                activeChordPickerSection.sectionId,
+                                activeChordPickerSection.itemId,
+                                chord
+                            );
+                            setActiveChordPickerSection(null);
+                        }}
+                        onChordDeleted={handleChordDeleted}
+                        onClose={() => setActiveChordPickerSection(null)}
+                    />
                 )}
             </div>
-
-            {showNewProjectModal && (
-                <NewProjectModal
-                    onConfirm={handleCreateNewProject}
-                    onClose={() => setShowNewProjectModal(false)}
-                />
-            )}
-
-            {activeAddItemSection && (
-                <AddSectionItemModal
-                    onAdd={(type) => {
-                        addItemToSection(activeAddItemSection, type);
-                        setActiveAddItemSection(null);
-                    }}
-                    onClose={() => setActiveAddItemSection(null)}
-                />
-            )}
-
-            {activeChordPickerSection && (
-                <ChordPickerModal
-                    savedChords={savedChords}
-                    onSelectChord={(chord) => {
-                        addChordToItem(
-                            activeChordPickerSection.sectionId,
-                            activeChordPickerSection.itemId,
-                            chord
-                        );
-                        setActiveChordPickerSection(null);
-                    }}
-                    onChordDeleted={handleChordDeleted}
-                    onClose={() => setActiveChordPickerSection(null)}
-                />
-            )}
         </div>
     );
 }

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { fetchSongProjects, saveSongProject } from "../api/songProjects";
+import { deleteSongProject, fetchSongProjects, saveSongProject } from "../api/songProjects";
 import type { SongProject } from "../components/songwriting/type";
 
 /**
@@ -93,6 +93,21 @@ export function useSongProjects() {
         setHasUnsavedChanges(false);
     }
 
+    async function deleteProject(id: string): Promise<void> {
+        const numericId = Number(id);
+        if (isNaN(numericId)) {
+            // locally-created project never saved to the backend — just remove it locally
+            setProjects((prev) => prev.filter((p) => p.id !== id));
+        } else {
+            await deleteSongProject(numericId);
+            setProjects((prev) => prev.filter((p) => p.id !== id));
+        }
+
+        if (activeProjectId === id) {
+            setActiveProjectId(null);
+        }
+    }
+
     return {
         projects,
         activeProject,
@@ -102,5 +117,6 @@ export function useSongProjects() {
         createNewProject,
         handleSelectProject,
         saveActiveProject,
+        deleteProject,
     };
 }

@@ -64,8 +64,8 @@ function NewProjectModal({ onConfirm, onClose }: NewProjectModalProps) {
             </div>
 
             <div className="new-project-modal-actions">
-                <button onClick={handleConfirm}>Create</button>
-                <button onClick={onClose}>Cancel</button>
+                <button className="btn btn-secondary" onClick={handleConfirm}>Create</button>
+                <button className="btn btn-secondary" onClick={onClose}>Cancel</button>
             </div>
         </div>
     );

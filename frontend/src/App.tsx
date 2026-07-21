@@ -60,7 +60,12 @@ function App() {
         />
         <Route
           path="/songwriting"
-          element={<Songwriting onRequireAuth={() => setShowAuthModal(true)} />}
+          element={<Songwriting
+            onRequireAuth={() => setShowAuthModal(true)}
+            isLoggedIn={loggedIn}
+            onLogout={handleLogout}
+             />
+            }
         />
       </Routes>
 
