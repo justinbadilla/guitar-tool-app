@@ -22,11 +22,11 @@
 .project-title-input {
     font-size: 2rem;
     font-weight: bold;
+    font-style: italic;
     border: none;
-    border-bottom: 2px solid #ccc;
     background: transparent;
     outline: none;
-    width: 100%;
+    width: 25%;
 }
 
 .project-title-input:focus {
@@ -34,8 +34,6 @@
 }
 
 .project-meta-field {
-    display: flex;
-    flex-direction: column;
     align-items: center;
 }
 
@@ -44,14 +42,12 @@
     text-transform: uppercase;
     letter-spacing: 0.05em;
     color: #888;
-    margin-bottom: 2px;
 }
 
 .project-meta-input {
     width: 60px;
     font-size: 1rem;
     border: none;
-    border-bottom: 1px solid #ccc;
     background: transparent;
     outline: none;
     text-align: center;

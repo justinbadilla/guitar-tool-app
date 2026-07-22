@@ -130,7 +130,7 @@ function Songwriting({ onRequireAuth, isLoggedIn, onLogout }: SongwritingProps) 
     function addSection() {
         const newSection: Section = {
             id: crypto.randomUUID(),
-            name: "New Section",
+            name: "New Section ✎",
             items: [],
         };
         updateActiveProject((prev) => ({
@@ -337,7 +337,7 @@ function Songwriting({ onRequireAuth, isLoggedIn, onLogout }: SongwritingProps) 
                                     </div>
 
                                     <div className="project-header-actions">
-                                        <button onClick={handleSaveProject}>Save Project</button>
+                                        <button className="btn btn-primary" onClick={handleSaveProject}>Save Project</button>
                                         {saveMessage && <span className="save-message">{saveMessage}</span>}
                                     </div>
                                 </div>

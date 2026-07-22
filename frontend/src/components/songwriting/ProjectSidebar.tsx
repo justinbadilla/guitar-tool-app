@@ -21,7 +21,7 @@ function ProjectSidebar({ projects, activeProjectId, onSelectProject, onNewProje
         <div className="project-sidebar">
             <div className="project-sidebar-header">
                 <h3>My Projects</h3>
-                <button onClick={onNewProject}>+</button>
+                <button className="btn btn-small btn-secondary" onClick={onNewProject}>+</button>
             </div>
 
             <div className="project-sidebar-list">
