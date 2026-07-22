@@ -3,7 +3,6 @@ import "./Songwriting.css";
 import ProjectSidebar from "../components/songwriting/ProjectSidebar";
 import NewProjectModal from "../components/songwriting/NewProjectModal";
 import AddSectionItemModal from "../components/songwriting/AddSectionItemModal";
-import SectionEditor from "../components/songwriting/SectionEditor";
 import ChordPickerModal from "../components/chord-library/ChordPickerModal";
 import { useEffect, useState } from "react";
 import { useSongProjects } from "../hooks/useSongProjects";
@@ -11,6 +10,11 @@ import { fetchSavedChords, type SavedChord } from "../api/savedChords";
 import type { Section, SectionItem, SectionItemType } from "../components/songwriting/type";
 import Header from "../components/layouts/Headers";
 import { Link } from "react-router-dom";
+
+import { DndContext, closestCenter } from "@dnd-kit/core";
+import { SortableContext, verticalListSortingStrategy, arrayMove } from "@dnd-kit/sortable";
+import type { DragEndEvent } from "@dnd-kit/core";
+import SortableSection from "../components/songwriting/SortableSection";
 
 interface SongwritingProps {
     onRequireAuth: () => void;
@@ -123,6 +127,20 @@ function Songwriting({ onRequireAuth, isLoggedIn, onLogout }: SongwritingProps) 
     }
     function handleChordDeleted(id: number) {
         setSavedChords((prev) => prev.filter((chord) => chord.id !== id));
+    }
+
+    function handleSectionDragEnd(event: DragEndEvent) {
+        const { active, over } = event;
+        if (!over || active.id === over.id) return;
+
+        updateActiveProject((prev) => {
+            const oldIndex = prev.sections.findIndex((s) => s.id === active.id);
+            const newIndex = prev.sections.findIndex((s) => s.id === over.id);
+            return {
+                ...prev,
+                sections: arrayMove(prev.sections, oldIndex, newIndex),
+            };
+        });
     }
 
     //** Section Handlers */
@@ -343,20 +361,27 @@ function Songwriting({ onRequireAuth, isLoggedIn, onLogout }: SongwritingProps) 
                                 </div>
                             </div>
 
-                            {activeProject.sections.map((section) => (
-                                <SectionEditor
-                                    key={section.id}
-                                    section={section}
-                                    onUpdateName={(name) => updateSectionName(section.id, name)}
-                                    onRemoveSection={() => removeSection(section.id)}
-                                    onAddItem={() => setActiveAddItemSection(section.id)}
-                                    onRemoveItem={(itemId) => removeItemFromSection(section.id, itemId)}
-                                    onUpdateLyrics={(itemId, text) => updateLyricsItem(section.id, itemId, text)}
-                                    onOpenChordPicker={(itemId) => setActiveChordPickerSection({ sectionId: section.id, itemId })}
-                                    onRemoveChord={(itemId, chordIndex) => removeChordFromItem(section.id, itemId, chordIndex)}
-                                    onUpdateDescription={(itemId, text) => updateChordDescription(section.id, itemId, text)}
-                                />
-                            ))}
+                            <DndContext collisionDetection={closestCenter} onDragEnd={handleSectionDragEnd}>
+                                <SortableContext
+                                    items={activeProject.sections.map((s) => s.id)}
+                                    strategy={verticalListSortingStrategy}
+                                >
+                                    {activeProject.sections.map((section) => (
+                                        <SortableSection
+                                            key={section.id}
+                                            section={section}
+                                            onUpdateName={(name) => updateSectionName(section.id, name)}
+                                            onRemoveSection={() => removeSection(section.id)}
+                                            onAddItem={() => setActiveAddItemSection(section.id)}
+                                            onRemoveItem={(itemId) => removeItemFromSection(section.id, itemId)}
+                                            onUpdateLyrics={(itemId, text) => updateLyricsItem(section.id, itemId, text)}
+                                            onUpdateDescription={(itemId, description) => updateChordDescription(section.id, itemId, description)}
+                                            onOpenChordPicker={(itemId) => setActiveChordPickerSection({ sectionId: section.id, itemId })}
+                                            onRemoveChord={(itemId, chordIndex) => removeChordFromItem(section.id, itemId, chordIndex)}
+                                        />
+                                    ))}
+                                </SortableContext>
+                            </DndContext>
 
                             <button className="add-button" onClick={addSection}>+ Add Section</button>
                         </div>
