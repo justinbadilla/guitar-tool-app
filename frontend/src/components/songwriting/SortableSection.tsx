@@ -1,3 +1,4 @@
+import "./SortableSection.css";
 import SectionEditor from "./SectionEditor";
 import { CSS } from "@dnd-kit/utilities";
 import { GripVertical } from "lucide-react";

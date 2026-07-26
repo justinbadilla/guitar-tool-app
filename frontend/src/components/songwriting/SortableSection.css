@@ -1,0 +1,22 @@
+.sortable-section-wrapper {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+}
+
+.drag-handle {
+    cursor: grab;
+    border: none;
+    background: none;
+    color: var(--text-muted);
+    padding: 8px 4px;
+    margin-top: 12px;
+}
+
+.drag-handle:active {
+    cursor: grabbing;
+}
+
+.sortable-section-content {
+    flex: 1;
+}
