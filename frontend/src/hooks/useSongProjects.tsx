@@ -21,6 +21,7 @@ export function useSongProjects() {
     useEffect(() => {
         fetchSongProjects().then((fetched) => setProjects(fetched));
     }, []);
+    
     // derived
     const activeProject = projects.find((p) => p.id === activeProjectId) ?? null;
 

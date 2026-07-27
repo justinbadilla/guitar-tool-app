@@ -3,7 +3,7 @@ import ChordDiagram from "../fretboard/ChordDiagram";
 import type { Section } from "./type";
 import SortableItem from "./SortableItem";
 import { closestCenter, DndContext, type DragEndEvent } from "@dnd-kit/core";
-import { SortableContext, verticalListSortingStrategy } from "@dnd-kit/sortable";
+import { horizontalListSortingStrategy, SortableContext, verticalListSortingStrategy } from "@dnd-kit/sortable";
 
 interface SectionEditorProps {
     section: Section;
@@ -16,7 +16,7 @@ interface SectionEditorProps {
     onOpenChordPicker: (itemId: string) => void;
     onRemoveChord: (itemId: string, chordIndex: number) => void;
     onReorderItems: (oldIndex: number, newIndex: number) => void;
-
+    onReorderChords: (itemId: string, oldIndex: number, newIndex: number) => void;
 }
 
 /**
@@ -38,6 +38,7 @@ function SectionEditor({
     onOpenChordPicker,
     onRemoveChord,
     onReorderItems,
+    onReorderChords,
 
 }: SectionEditorProps) {
 
@@ -92,20 +93,38 @@ function SectionEditor({
                                             />
                                         </div>
 
-                                        <div className="chord-progression-grid">
-                                            {item.chords.map((chord, index) => (
-                                                <div key={chord.id ?? index} className="chord-progression-item">
-                                                    <ChordDiagram
-                                                        positions={chord.positions}
-                                                        name={chord.name}
-                                                        tuning={chord.tuning}
-                                                    />
-                                                    <button className="remove-button" onClick={() => onRemoveChord(item.id, index)}>×</button>
-                                                </div>
-                                            ))}
+                                        <DndContext
+                                            collisionDetection={closestCenter}
+                                            onDragEnd={(event) => {
+                                                const { active, over } = event;
+                                                if (!over || active.id === over.id) return;
+                                                const oldIndex = item.chords.findIndex((c) => String(c.id) === active.id);
+                                                const newIndex = item.chords.findIndex((c) => String(c.id) === over.id);
+                                                onReorderChords(item.id, oldIndex, newIndex);
+                                            }}
+                                        >
+                                            <SortableContext
+                                                items={item.chords.map((c) => c.id)}
+                                                strategy={horizontalListSortingStrategy}
+                                            >
+                                                <div className="chord-progression-grid">
+                                                    {item.chords.map((chord, index) => (
+                                                        <SortableItem key={chord.id} id={String(chord.id)}>
+                                                            <div className="chord-progression-item">
+                                                                <ChordDiagram
+                                                                    positions={chord.positions}
+                                                                    name={chord.name}
+                                                                    tuning={chord.tuning}
+                                                                />
+                                                                <button className="remove-button" onClick={() => onRemoveChord(item.id, index)}>×</button>
+                                                            </div>
+                                                        </SortableItem>
+                                                    ))}
 
-                                            <button className="add-button" onClick={() => onOpenChordPicker(item.id)}>+ Chords</button>
-                                        </div>
+                                                    <button className="add-button" onClick={() => onOpenChordPicker(item.id)}>+ Chords</button>
+                                                </div>
+                                            </SortableContext>
+                                        </DndContext>
                                     </div>
                                 </SortableItem>
                             );

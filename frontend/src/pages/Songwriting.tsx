@@ -188,6 +188,24 @@ function Songwriting({ onRequireAuth, isLoggedIn, onLogout }: SongwritingProps) 
         }));
     }
 
+    function reorderChords(sectionId: string, itemId: string, oldIndex: number, newIndex: number) {
+        updateActiveProject((prev) => ({
+            ...prev,
+            sections: prev.sections.map((section) =>
+                section.id === sectionId
+                    ? {
+                        ...section,
+                        items: section.items.map((item) =>
+                            item.id === itemId && item.type === "chords"
+                                ? { ...item, chords: arrayMove(item.chords, oldIndex, newIndex) }
+                                : item
+                        ),
+                    }
+                    : section
+            ),
+        }));
+    }
+
     function addItemToSection(sectionId: string, itemType: SectionItemType) {
         const newItem: SectionItem =
             itemType === "chords"
@@ -390,6 +408,7 @@ function Songwriting({ onRequireAuth, isLoggedIn, onLogout }: SongwritingProps) 
                                             onOpenChordPicker={(itemId) => setActiveChordPickerSection({ sectionId: section.id, itemId })}
                                             onRemoveChord={(itemId, chordIndex) => removeChordFromItem(section.id, itemId, chordIndex)}
                                             onReorderItems={(oldIndex, newIndex) => reorderItems(section.id, oldIndex, newIndex)}
+                                            onReorderChords={(itemId, oldIndex, newIndex) => reorderChords(section.id, itemId, oldIndex, newIndex)}
                                         />
                                     ))}
                                 </SortableContext>
