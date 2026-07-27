@@ -129,6 +129,7 @@ function Chords({ onRequireAuth, isLoggedIn, onLogout }: ChordsProps) {
                         stringStates={stringStates}
                         tuning={activeTuning}
                         onRequireAuth={onRequireAuth}
+                        isLoggedIn={isLoggedIn}
                     />
                 </div>
 
