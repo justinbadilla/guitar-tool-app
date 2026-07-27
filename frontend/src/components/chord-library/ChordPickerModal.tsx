@@ -25,7 +25,7 @@ interface ChordPickerModalProps {
 // Three tabs: "Saved Chords", "Presets", and "Build Chord"
 // All three tabs produce a SavedChord-shaped object handed back with onSelectChord.
 // Used for songwriting.tsx (chord progression box)
- 
+
 function ChordPickerModal({ savedChords, onSelectChord, onChordDeleted, onClose }: ChordPickerModalProps) {
 
     // Tab state
@@ -73,11 +73,30 @@ function ChordPickerModal({ savedChords, onSelectChord, onChordDeleted, onClose 
         <div className="chord-picker-modal">
 
             {/* Tab navigation + close button */}
-            <div className="chord-picker-tabs">
-                <button onClick={() => setActiveTab("saved")}>Saved Chords</button>
-                <button onClick={() => setActiveTab("presets")}>Presets</button>
-                <button onClick={() => setActiveTab("build")}>Build Chord</button>
-                <button onClick={onClose}>Close</button>
+            <div className="chord-picker-container">
+                <div className="chord-picker-tabs">
+                    <button
+                        className={`btn btn-small btn-secondary ${activeTab === "saved" ? "active" : ""}`}
+                        onClick={() => setActiveTab("saved")}
+                    >
+                        Saved Chords
+                    </button>
+                    <button
+                        className={`btn btn-small btn-secondary ${activeTab === "presets" ? "active" : ""}`}
+                        onClick={() => setActiveTab("presets")}
+                    >
+                        Presets
+                    </button>
+                    <button
+                        className={`btn btn-small btn-secondary ${activeTab === "build" ? "active" : ""}`}
+                        onClick={() => setActiveTab("build")}
+                    >
+                        Build Chord
+                    </button>
+                </div>
+                <div className="chord-picker-close">
+                    <button className="btn btn-small btn-secondary" onClick={onClose}>Close</button>
+                </div>
             </div>
 
             {/* Saved chords tab (filterable list) */}
@@ -118,7 +137,7 @@ function ChordPickerModal({ savedChords, onSelectChord, onChordDeleted, onClose 
                         tuning={tuning}
                         fretRange={{ start: 1, end: 15 }}
                     />
-                    <button onClick={handleUseBuiltChord}>Add This Chord</button>
+                    <button className="add-chord primary-btn btn" onClick={handleUseBuiltChord}>Add This Chord</button>
                 </div>
             )}
         </div>

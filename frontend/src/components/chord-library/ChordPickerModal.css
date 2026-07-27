@@ -10,3 +10,36 @@
     padding: 16px;
     z-index: 10;
 }
+
+.chord-picker-container {
+    display: flex;
+    margin-bottom: 24px;
+
+}
+
+.chord-picker-tabs {
+    display: flex;
+    gap: 12px;
+}
+
+.chord-picker-tabs .btn.active {
+    background: var(--accent);
+    color: white;
+}
+
+.chord-picker-close {
+    margin-left: auto;
+}
+
+.chord-picker-close button {
+    background-color: rgb(255, 110, 134);
+    color: white;
+}
+
+.chord-picker-build {
+    gap: 12px;
+}
+
+.add-chord {
+    margin-top: 24px;
+}

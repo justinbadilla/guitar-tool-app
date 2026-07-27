@@ -16,11 +16,26 @@ export type SectionItem =
 
 // Pedal presets
 
+export type PedalShape = "vertical" | "horizontal";
+
+export interface PedalShapeConfig {
+    id: PedalShape;
+    label: string;
+    width: number;
+    height: number;
+    gridColumns: number;
+    gridRows: number;
+}
+
+export const PEDAL_SHAPES: PedalShapeConfig[] = [
+  { id: "vertical", label: "Vertical", width: 140, height: 220, gridColumns: 3, gridRows: 4 },
+  { id: "horizontal", label: "Horizontal", width: 220, height: 160, gridColumns: 4, gridRows: 3 },
+];
+
 export interface Knob {
     id: string;
-    label: string;//pedal label
     value: number; //knob level
-    position: { x: number; y: number }; //position on pedal
+    slotIndex: number; //grid system on pedal for knobs
 }
 
 export interface PedalPreset {
