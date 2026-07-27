@@ -15,6 +15,7 @@ interface SortableSectionProps {
     onUpdateDescription: (itemId: string, description: string) => void;
     onOpenChordPicker: (itemId: string) => void;
     onRemoveChord: (itemId: string, chordIndex: number) => void;
+    onReorderItems: (oldIndex: number, newIndex: number) => void;
 }
 
 /**

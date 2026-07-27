@@ -177,6 +177,17 @@ function Songwriting({ onRequireAuth, isLoggedIn, onLogout }: SongwritingProps) 
 
     //** Section Item Handlers */
 
+    function reorderItems(sectionId: string, oldIndex: number, newIndex: number) {
+        updateActiveProject((prev) => ({
+            ...prev,
+            sections: prev.sections.map((section) =>
+                section.id === sectionId
+                    ? { ...section, items: arrayMove(section.items, oldIndex, newIndex) }
+                    : section
+            ),
+        }));
+    }
+
     function addItemToSection(sectionId: string, itemType: SectionItemType) {
         const newItem: SectionItem =
             itemType === "chords"
@@ -378,6 +389,7 @@ function Songwriting({ onRequireAuth, isLoggedIn, onLogout }: SongwritingProps) 
                                             onUpdateDescription={(itemId, description) => updateChordDescription(section.id, itemId, description)}
                                             onOpenChordPicker={(itemId) => setActiveChordPickerSection({ sectionId: section.id, itemId })}
                                             onRemoveChord={(itemId, chordIndex) => removeChordFromItem(section.id, itemId, chordIndex)}
+                                            onReorderItems={(oldIndex, newIndex) => reorderItems(section.id, oldIndex, newIndex)}
                                         />
                                     ))}
                                 </SortableContext>

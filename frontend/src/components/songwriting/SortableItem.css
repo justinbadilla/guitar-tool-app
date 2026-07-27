@@ -1,0 +1,10 @@
+.sortable-item-wrapper {
+    display: flex;
+    align-items: flex-start;
+    gap: 6px;
+    margin-top: 8px;
+}
+
+.sortable-item-content {
+    flex: 1;
+}
