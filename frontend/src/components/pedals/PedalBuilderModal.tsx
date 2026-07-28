@@ -245,11 +245,11 @@ function PedalBuilderModal({ onClose, onSave }: PedalBuilderModalProps) {
                             </div>
 
                             <p className="pedal-builder-hint">
-                                Drag knobs onto the pedal. They'll snap into place.
+                                Drag knobs on the pedal. They'll snap into place.
                             </p>
 
                             <div className="pedal-builder-sidebar-actions">
-                                <button onClick={onClose}>Cancel</button>
+                                <button className="btn-secondary btn" onClick={onClose}>Cancel</button>
                                 <button
                                     className="btn btn-primary"
                                     onClick={() => setStage("tweak")}
@@ -267,7 +267,7 @@ function PedalBuilderModal({ onClose, onSave }: PedalBuilderModalProps) {
                                 Drag a knob up, down, left, or right to set its value.
                             </p>
                             <div className="pedal-builder-sidebar-actions">
-                                <button onClick={() => setStage("layout")}>Back</button>
+                                <button className="btn btn-secondary" onClick={() => setStage("layout")}>Back</button>
                                 <button className="btn btn-primary" onClick={() => setStage("name")}>Next</button>
                             </div>
                         </>
@@ -281,7 +281,7 @@ function PedalBuilderModal({ onClose, onSave }: PedalBuilderModalProps) {
                                     type="text"
                                     value={name}
                                     onChange={(e) => setName(e.target.value)}
-                                    placeholder="e.g. Fuzz Machine"
+                                    placeholder="e.g. Rat, Slo, Big Muff"
                                     className="pedal-name-input"
                                     autoFocus
                                 />
@@ -292,7 +292,7 @@ function PedalBuilderModal({ onClose, onSave }: PedalBuilderModalProps) {
                             </p>
 
                             <div className="pedal-builder-sidebar-actions">
-                                <button onClick={() => setStage("tweak")}>Back</button>
+                                <button className="btn-secondary btn" onClick={() => setStage("tweak")}>Back</button>
                                 <button
                                     className="btn btn-primary"
                                     onClick={handleSave}

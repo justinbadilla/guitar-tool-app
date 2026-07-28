@@ -143,6 +143,7 @@ function SectionEditor({
                                     <div className="pedal-preset-box">
                                         <div className="section-item-header">
                                             <span>Pedal Chain</span>
+                                            
                                             <button className="remove-button" onClick={() => onRemoveItem(item.id)}>×</button>
                                         </div>
 
@@ -167,7 +168,7 @@ function SectionEditor({
                                                         </SortableItem>
                                                     ))}
 
-                                                    <button className="add-button" onClick={() => onOpenPedalBuilder(item.id)}>+</button>
+                                                    <button className="add-button" onClick={() => onOpenPedalBuilder(item.id)}>+ Pedal Preset</button>
                                                 </div>
                                             </SortableContext>
                                         </DndContext>
