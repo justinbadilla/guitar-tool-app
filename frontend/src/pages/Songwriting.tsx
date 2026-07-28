@@ -7,7 +7,7 @@ import ChordPickerModal from "../components/chord-library/ChordPickerModal";
 import { useEffect, useState } from "react";
 import { useSongProjects } from "../hooks/useSongProjects";
 import { fetchSavedChords, type SavedChord } from "../api/savedChords";
-import type { Section, SectionItem, SectionItemType } from "../components/songwriting/type";
+import type { PedalPreset, Section, SectionItem, SectionItemType } from "../components/songwriting/type";
 import Header from "../components/layouts/Headers";
 import { Link } from "react-router-dom";
 
@@ -15,6 +15,7 @@ import { DndContext, closestCenter } from "@dnd-kit/core";
 import { SortableContext, verticalListSortingStrategy, arrayMove } from "@dnd-kit/sortable";
 import type { DragEndEvent } from "@dnd-kit/core";
 import SortableSection from "../components/songwriting/SortableSection";
+import PedalBuilderModal from "../components/pedals/PedalBuilderModal";
 
 interface SongwritingProps {
     onRequireAuth: () => void;
@@ -66,6 +67,11 @@ function Songwriting({ onRequireAuth, isLoggedIn, onLogout }: SongwritingProps) 
     useEffect(() => {
         fetchSavedChords().then((chords) => setSavedChords(chords));
     }, []);
+
+    const [activePedalBuilderSection, setActivePedalBuilderSection] = useState<{
+        sectionId: string;
+        itemId: string;
+    } | null>(null);
 
 
     //** Project Level Handler */
@@ -309,6 +315,60 @@ function Songwriting({ onRequireAuth, isLoggedIn, onLogout }: SongwritingProps) 
         }));
     }
 
+    function addPedalToItem(sectionId: string, itemId: string, preset: PedalPreset) {
+        updateActiveProject((prev) => ({
+            ...prev,
+            sections: prev.sections.map((section) =>
+                section.id === sectionId
+                    ? {
+                        ...section,
+                        items: section.items.map((item) =>
+                            item.id === itemId && item.type === "pedal"
+                                ? { ...item, presets: [...item.presets, preset] }
+                                : item
+                        ),
+                    }
+                    : section
+            ),
+        }));
+    }
+
+    function removePedalFromItem(sectionId: string, itemId: string, presetIndex: number) {
+        updateActiveProject((prev) => ({
+            ...prev,
+            sections: prev.sections.map((section) =>
+                section.id === sectionId
+                    ? {
+                        ...section,
+                        items: section.items.map((item) =>
+                            item.id === itemId && item.type === "pedal"
+                                ? { ...item, presets: item.presets.filter((_, i) => i !== presetIndex) }
+                                : item
+                        ),
+                    }
+                    : section
+            ),
+        }));
+    }
+
+    function reorderPedals(sectionId: string, itemId: string, oldIndex: number, newIndex: number) {
+        updateActiveProject((prev) => ({
+            ...prev,
+            sections: prev.sections.map((section) =>
+                section.id === sectionId
+                    ? {
+                        ...section,
+                        items: section.items.map((item) =>
+                            item.id === itemId && item.type === "pedal"
+                                ? { ...item, presets: arrayMove(item.presets, oldIndex, newIndex) }
+                                : item
+                        ),
+                    }
+                    : section
+            ),
+        }));
+    }
+
     return (
 
         <div>
@@ -409,6 +469,9 @@ function Songwriting({ onRequireAuth, isLoggedIn, onLogout }: SongwritingProps) 
                                             onRemoveChord={(itemId, chordIndex) => removeChordFromItem(section.id, itemId, chordIndex)}
                                             onReorderItems={(oldIndex, newIndex) => reorderItems(section.id, oldIndex, newIndex)}
                                             onReorderChords={(itemId, oldIndex, newIndex) => reorderChords(section.id, itemId, oldIndex, newIndex)}
+                                            onOpenPedalBuilder={(itemId) => setActivePedalBuilderSection({ sectionId: section.id, itemId })}
+                                            onRemovePedal={(itemId, presetIndex) => removePedalFromItem(section.id, itemId, presetIndex)}
+                                            onReorderPedals={(itemId, oldIndex, newIndex) => reorderPedals(section.id, itemId, oldIndex, newIndex)}
                                         />
                                     ))}
                                 </SortableContext>
@@ -449,6 +512,19 @@ function Songwriting({ onRequireAuth, isLoggedIn, onLogout }: SongwritingProps) 
                         }}
                         onChordDeleted={handleChordDeleted}
                         onClose={() => setActiveChordPickerSection(null)}
+                    />
+                )}
+                {activePedalBuilderSection && (
+                    <PedalBuilderModal
+                        onClose={() => setActivePedalBuilderSection(null)}
+                        onSave={(preset) => {
+                            addPedalToItem(
+                                activePedalBuilderSection.sectionId,
+                                activePedalBuilderSection.itemId,
+                                preset
+                            );
+                            setActivePedalBuilderSection(null);
+                        }}
                     />
                 )}
             </div>

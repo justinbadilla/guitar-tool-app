@@ -1,0 +1,34 @@
+.pedal-diagram {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.pedal-diagram-name {
+    font-weight: bold;
+    font-size: 0.85rem;
+    margin-bottom: 6px;
+}
+
+.pedal-diagram-svg {
+    width: auto;
+    height: 130px;
+}
+
+.pedal-body {
+    fill: var(--bg-secondary);
+    stroke: black;
+    stroke-width: 2;
+}
+
+.knob-body {
+    fill: var(--bg-primary);
+    stroke: var(--text-muted);
+    stroke-width: 1.5;
+}
+
+.knob-indicator {
+    stroke: var(--accent);
+    stroke-width: 2;
+    stroke-linecap: round;
+}

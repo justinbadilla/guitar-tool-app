@@ -4,6 +4,7 @@ import type { Section } from "./type";
 import SortableItem from "./SortableItem";
 import { closestCenter, DndContext, type DragEndEvent } from "@dnd-kit/core";
 import { horizontalListSortingStrategy, SortableContext, verticalListSortingStrategy } from "@dnd-kit/sortable";
+import PedalDiagram from "../pedals/PedalDiagram";
 
 interface SectionEditorProps {
     section: Section;
@@ -17,6 +18,9 @@ interface SectionEditorProps {
     onRemoveChord: (itemId: string, chordIndex: number) => void;
     onReorderItems: (oldIndex: number, newIndex: number) => void;
     onReorderChords: (itemId: string, oldIndex: number, newIndex: number) => void;
+    onOpenPedalBuilder: (itemId: string) => void;
+    onRemovePedal: (itemId: string, presetIndex: number) => void;
+    onReorderPedals: (itemId: string, oldIndex: number, newIndex: number) => void;
 }
 
 /**
@@ -39,6 +43,9 @@ function SectionEditor({
     onRemoveChord,
     onReorderItems,
     onReorderChords,
+    onOpenPedalBuilder,
+    onRemovePedal,
+    onReorderPedals,
 
 }: SectionEditorProps) {
 
@@ -135,10 +142,35 @@ function SectionEditor({
                                 <SortableItem key={item.id} id={item.id}>
                                     <div className="pedal-preset-box">
                                         <div className="section-item-header">
-                                            <span>Pedal Preset</span>
+                                            <span>Pedal Chain</span>
                                             <button className="remove-button" onClick={() => onRemoveItem(item.id)}>×</button>
                                         </div>
-                                        Pedal Presets (placeholder)
+
+                                        <DndContext
+                                            collisionDetection={closestCenter}
+                                            onDragEnd={(event) => {
+                                                const { active, over } = event;
+                                                if (!over || active.id === over.id) return;
+                                                const oldIndex = item.presets.findIndex((p) => p.id === active.id);
+                                                const newIndex = item.presets.findIndex((p) => p.id === over.id);
+                                                onReorderPedals(item.id, oldIndex, newIndex);
+                                            }}
+                                        >
+                                            <SortableContext items={item.presets.map((p) => p.id)} strategy={horizontalListSortingStrategy}>
+                                                <div className="pedal-chain-row">
+                                                    {item.presets.map((preset, index) => (
+                                                        <SortableItem key={preset.id} id={preset.id}>
+                                                            <div className="pedal-chain-item">
+                                                                <PedalDiagram preset={preset} />
+                                                                <button className="remove-button" onClick={() => onRemovePedal(item.id, index)}>×</button>
+                                                            </div>
+                                                        </SortableItem>
+                                                    ))}
+
+                                                    <button className="add-button" onClick={() => onOpenPedalBuilder(item.id)}>+</button>
+                                                </div>
+                                            </SortableContext>
+                                        </DndContext>
                                     </div>
                                 </SortableItem>
                             );

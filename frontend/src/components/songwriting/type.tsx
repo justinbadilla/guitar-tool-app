@@ -27,9 +27,18 @@ export interface PedalShapeConfig {
     gridRows: number;
 }
 
+export interface PedalShapeConfig {
+    id: PedalShape;
+    label: string;
+    width: number;
+    height: number;
+    gridColumns: number;
+    gridRows: number;
+}
+
 export const PEDAL_SHAPES: PedalShapeConfig[] = [
-  { id: "vertical", label: "Vertical", width: 140, height: 220, gridColumns: 3, gridRows: 4 },
-  { id: "horizontal", label: "Horizontal", width: 220, height: 160, gridColumns: 4, gridRows: 3 },
+    { id: "vertical", label: "Vertical", width: 280, height: 440, gridColumns: 3, gridRows: 4 },
+    { id: "horizontal", label: "Horizontal", width: 440, height: 320, gridColumns: 4, gridRows: 3 },
 ];
 
 export interface Knob {

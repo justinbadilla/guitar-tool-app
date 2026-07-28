@@ -17,6 +17,9 @@ interface SortableSectionProps {
     onRemoveChord: (itemId: string, chordIndex: number) => void;
     onReorderItems: (oldIndex: number, newIndex: number) => void;
     onReorderChords: (itemId: string, oldIndex: number, newIndex: number) => void;
+    onOpenPedalBuilder: (itemId: string) => void;
+    onRemovePedal: (itemId: string, presetIndex: number) => void;
+    onReorderPedals: (itemId: string, oldIndex: number, newIndex: number) => void;
 }
 
 /**
