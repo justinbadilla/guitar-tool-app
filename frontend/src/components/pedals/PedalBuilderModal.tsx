@@ -22,7 +22,7 @@ function PedalBuilderModal({ onClose, onSave }: PedalBuilderModalProps) {
     const [knobs, setKnobs] = useState<Knob[]>([]); //array of knobs and positions
     const [draggingKnobId, setDraggingKnobId] = useState<string | null>(null); //knob id being dragged (if not, null)
     const [previewSlot, setPreviewSlot] = useState<number | null>(null); //shows which shape you are using
-    const svgRef = useRef<SVGSVGElement>(null); 
+    const svgRef = useRef<SVGSVGElement>(null);
 
     const shapeConfig = PEDAL_SHAPES.find((s) => s.id === shape)!;
     const { gridColumns, gridRows, width: canvasWidth, height: canvasHeight } = shapeConfig;
@@ -203,15 +203,18 @@ function PedalBuilderModal({ onClose, onSave }: PedalBuilderModalProps) {
     return (
         <>
             <div className="pedal-builder-backdrop" onClick={onClose} />
-            <div className="pedal-builder-fullscreen">
+            <div className={`pedal-builder-modal stage-${stage}`}>
 
-                <div className="pedal-builder-sidebar">
+                <div className="pedal-builder-header">
                     <h3>Build a Pedal</h3>
+                    <button className="pedal-builder-close" onClick={onClose}>×</button>
+                </div>
 
-                    {stage === "layout" && (
-                        <>
+                {stage === "layout" && (
+                    <div className="pedal-builder-body">
+                        <div className="pedal-builder-sidebar">
                             <div className="pedal-builder-section">
-                                <p className="pedal-builder-label">Shape</p>
+                                <p className="pedal-builder-label">Shapes</p>
                                 <div className="pedal-shape-options">
                                     {PEDAL_SHAPES.map((s) => (
                                         <button
@@ -228,7 +231,6 @@ function PedalBuilderModal({ onClose, onSave }: PedalBuilderModalProps) {
                                                     className="pedal-body"
                                                 />
                                             </svg>
-                                            <span>{s.label}</span>
                                         </button>
                                     ))}
                                 </div>
@@ -245,11 +247,11 @@ function PedalBuilderModal({ onClose, onSave }: PedalBuilderModalProps) {
                             </div>
 
                             <p className="pedal-builder-hint">
-                                Drag knobs on the pedal. They'll snap into place.
+                                Drag knobs onto the pedal. They'll snap into place.
                             </p>
 
                             <div className="pedal-builder-sidebar-actions">
-                                <button className="btn-secondary btn" onClick={onClose}>Cancel</button>
+                                <button className="btn btn-secondary" onClick={onClose}>Cancel</button>
                                 <button
                                     className="btn btn-primary"
                                     onClick={() => setStage("tweak")}
@@ -258,158 +260,144 @@ function PedalBuilderModal({ onClose, onSave }: PedalBuilderModalProps) {
                                     Next
                                 </button>
                             </div>
-                        </>
-                    )}
+                        </div>
 
-                    {stage === "tweak" && (
-                        <>
-                            <p className="pedal-builder-hint">
-                                Drag a knob up, down, left, or right to set its value.
-                            </p>
-                            <div className="pedal-builder-sidebar-actions">
-                                <button className="btn btn-secondary" onClick={() => setStage("layout")}>Back</button>
-                                <button className="btn btn-primary" onClick={() => setStage("name")}>Next</button>
-                            </div>
-                        </>
-                    )}
-
-                    {stage === "name" && (
-                        <>
-                            <div className="pedal-builder-section">
-                                <p className="pedal-builder-label">Pedal Name</p>
-                                <input
-                                    type="text"
-                                    value={name}
-                                    onChange={(e) => setName(e.target.value)}
-                                    placeholder="e.g. Rat, Slo, Big Muff"
-                                    className="pedal-name-input"
-                                    autoFocus
+                        <div className="pedal-builder-canvas">
+                            <svg
+                                ref={svgRef}
+                                viewBox={`0 0 ${canvasWidth} ${canvasHeight}`}
+                                className="pedal-canvas-svg"
+                                onMouseMove={handleMouseMove}
+                                onMouseUp={handleMouseUp}
+                                onMouseLeave={handleMouseUp}
+                            >
+                                <rect
+                                    x={4} y={4}
+                                    width={canvasWidth - 8}
+                                    height={canvasHeight - 8}
+                                    rx={20}
+                                    className="pedal-body"
                                 />
-                            </div>
 
-                            <p className="pedal-builder-hint">
-                                Give your pedal a name, then save it.
-                            </p>
+                                {draggingKnobId && previewSlot !== null && (() => {
+                                    const pos = slotPosition(previewSlot);
+                                    return <circle cx={pos.x} cy={pos.y} r={26} className="slot-preview" />;
+                                })()}
 
-                            <div className="pedal-builder-sidebar-actions">
-                                <button className="btn-secondary btn" onClick={() => setStage("tweak")}>Back</button>
-                                <button
-                                    className="btn btn-primary"
-                                    onClick={handleSave}
-                                    disabled={name.trim() === ""}
-                                >
-                                    Save Pedal
-                                </button>
-                            </div>
-                        </>
-                    )}
-                </div>
+                                {knobs.map((knob) => {
+                                    const isDragging = knob.id === draggingKnobId;
+                                    const pos = isDragging && previewSlot !== null
+                                        ? slotPosition(previewSlot)
+                                        : slotPosition(knob.slotIndex);
 
-                {stage === "layout" && (
-                    <div className="pedal-builder-canvas">
-                        <svg
-                            ref={svgRef}
-                            viewBox={`0 0 ${canvasWidth} ${canvasHeight}`}
-                            className="pedal-canvas-svg"
-                            onMouseMove={handleMouseMove}
-                            onMouseUp={handleMouseUp}
-                            onMouseLeave={handleMouseUp}
-                        >
-                            <rect
-                                x={4} y={4}
-                                width={canvasWidth - 8}
-                                height={canvasHeight - 8}
-                                rx={20}
-                                className="pedal-body"
-                            />
-
-                            {draggingKnobId && previewSlot !== null && (() => {
-                                const pos = slotPosition(previewSlot);
-                                return <circle cx={pos.x} cy={pos.y} r={26} className="slot-preview" />;
-                            })()}
-
-                            {knobs.map((knob) => {
-                                const isDragging = knob.id === draggingKnobId;
-                                const pos = isDragging && previewSlot !== null
-                                    ? slotPosition(previewSlot)
-                                    : slotPosition(knob.slotIndex);
-
-                                return (
-                                    <g key={knob.id} transform={`translate(${pos.x}, ${pos.y})`}>
-                                        <circle
-                                            r={22}
-                                            className={`knob-body ${isDragging ? "dragging" : ""}`}
-                                            onMouseDown={() => handleKnobMouseDown(knob.id)}
-                                        />
-                                        <line x1={0} y1={0} x2={0} y2={-16} className="knob-indicator" />
-                                    </g>
-                                );
-                            })}
-                        </svg>
+                                    return (
+                                        <g key={knob.id} transform={`translate(${pos.x}, ${pos.y})`}>
+                                            <circle
+                                                r={22}
+                                                className={`knob-body ${isDragging ? "dragging" : ""}`}
+                                                onMouseDown={() => handleKnobMouseDown(knob.id)}
+                                            />
+                                            <line x1={0} y1={0} x2={0} y2={-16} className="knob-indicator" />
+                                        </g>
+                                    );
+                                })}
+                            </svg>
+                        </div>
                     </div>
                 )}
 
                 {stage === "tweak" && (
-                    <div className="pedal-builder-canvas">
-                        <svg viewBox={`0 0 ${canvasWidth} ${canvasHeight}`} className="pedal-canvas-svg">
-                            <rect
-                                x={4} y={4}
-                                width={canvasWidth - 8}
-                                height={canvasHeight - 8}
-                                rx={20}
-                                className="pedal-body"
-                            />
+                    <div className="pedal-builder-body">
+                        <div className="pedal-builder-canvas">
+                            <div className="pedal-builder-floating-hint">
+                                Drag a knob left or right to set its value.
+                            </div>
 
-                            {knobs.map((knob) => {
-                                const pos = slotPosition(knob.slotIndex);
-                                const angle = (knob.value / 100) * 270 - 135;
+                            <svg viewBox={`0 0 ${canvasWidth} ${canvasHeight}`} className="pedal-canvas-svg">
+                                <rect
+                                    x={4} y={4}
+                                    width={canvasWidth - 8}
+                                    height={canvasHeight - 8}
+                                    rx={20}
+                                    className="pedal-body"
+                                />
 
-                                return (
-                                    <g key={knob.id} transform={`translate(${pos.x}, ${pos.y})`}>
-                                        <circle
-                                            r={22}
-                                            className="knob-body"
-                                            onMouseDown={(e) => handleKnobTweakStart(e, knob)}
-                                        />
-                                        <line
-                                            x1={0} y1={0} x2={0} y2={-16}
-                                            className="knob-indicator"
-                                            transform={`rotate(${angle})`}
-                                        />
-                                    </g>
-                                );
-                            })}
-                        </svg>
+                                {knobs.map((knob) => {
+                                    const pos = slotPosition(knob.slotIndex);
+                                    const angle = (knob.value / 100) * 270 - 135;
+
+                                    return (
+                                        <g key={knob.id} transform={`translate(${pos.x}, ${pos.y})`}>
+                                            <circle
+                                                r={22}
+                                                className="knob-body"
+                                                onMouseDown={(e) => handleKnobTweakStart(e, knob)}
+                                            />
+                                            <line
+                                                x1={0} y1={0} x2={0} y2={-16}
+                                                className="knob-indicator"
+                                                transform={`rotate(${angle})`}
+                                            />
+                                        </g>
+                                    );
+                                })}
+                            </svg>
+
+                            <div className="pedal-builder-floating-actions">
+                                <button className="btn btn-secondary" onClick={() => setStage("layout")}>Back</button>
+                                <button className="btn btn-primary" onClick={() => setStage("name")}>Next</button>
+                            </div>
+                        </div>
                     </div>
                 )}
 
                 {stage === "name" && (
-                    <div className="pedal-builder-canvas">
-                        <svg viewBox={`0 0 ${canvasWidth} ${canvasHeight}`} className="pedal-canvas-svg">
-                            <rect
-                                x={4} y={4}
-                                width={canvasWidth - 8}
-                                height={canvasHeight - 8}
-                                rx={20}
-                                className="pedal-body"
-                            />
+                    <div className="pedal-builder-name-stage">
+                        <div className="pedal-builder-name-preview">
+                            <svg viewBox={`0 0 ${canvasWidth} ${canvasHeight}`}>
+                                <rect
+                                    x={4} y={4}
+                                    width={canvasWidth - 8}
+                                    height={canvasHeight - 8}
+                                    rx={20}
+                                    className="pedal-body"
+                                />
+                                {knobs.map((knob) => {
+                                    const pos = slotPosition(knob.slotIndex);
+                                    const angle = (knob.value / 100) * 270 - 135;
+                                    return (
+                                        <g key={knob.id} transform={`translate(${pos.x}, ${pos.y})`}>
+                                            <circle r={22} className="knob-body" />
+                                            <line
+                                                x1={0} y1={0} x2={0} y2={-16}
+                                                className="knob-indicator"
+                                                transform={`rotate(${angle})`}
+                                            />
+                                        </g>
+                                    );
+                                })}
+                            </svg>
+                        </div>
 
-                            {knobs.map((knob) => {
-                                const pos = slotPosition(knob.slotIndex);
-                                const angle = (knob.value / 100) * 270 - 135;
+                        <input
+                            type="text"
+                            value={name}
+                            onChange={(e) => setName(e.target.value)}
+                            placeholder="e.g. Fuzz, Slo, Rat"
+                            className="pedal-name-input"
+                            autoFocus
+                        />
 
-                                return (
-                                    <g key={knob.id} transform={`translate(${pos.x}, ${pos.y})`}>
-                                        <circle r={22} className="knob-body" />
-                                        <line
-                                            x1={0} y1={0} x2={0} y2={-16}
-                                            className="knob-indicator"
-                                            transform={`rotate(${angle})`}
-                                        />
-                                    </g>
-                                );
-                            })}
-                        </svg>
+                        <div className="pedal-builder-name-actions">
+                            <button className="btn btn-secondary" onClick={() => setStage("tweak")}>Back</button>
+                            <button
+                                className="btn btn-primary"
+                                onClick={handleSave}
+                                disabled={name.trim() === ""}
+                            >
+                                Save Pedal
+                            </button>
+                        </div>
                     </div>
                 )}
             </div>
