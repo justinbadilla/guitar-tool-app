@@ -125,3 +125,7 @@ body {
   background: #e0393e;
   color: white;
 }
+
+html {
+  scroll-behavior: smooth;
+}

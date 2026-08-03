@@ -135,6 +135,7 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    padding-top: 60px;
     padding-bottom: 80px;
     /* reserves space so floating actions never overlap content */
     background:
@@ -147,6 +148,7 @@
     width: 320px;
     height: auto;
     filter: drop-shadow(0 8px 20px rgba(0, 0, 0, 0.12));
+    z-index: 1;
 }
 
 /* Floating instruction overlay, used when there's no sidebar (tweak stage) */
@@ -163,6 +165,7 @@
     color: var(--text-secondary);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
     pointer-events: none;
+    z-index: 2;
 }
 
 .pedal-builder-floating-actions {
