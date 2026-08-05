@@ -28,7 +28,6 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/projects")
-@CrossOrigin(origins = "http://localhost:5173")
 public class SongProjectController {
 
     private final SongProjectRepository repository;

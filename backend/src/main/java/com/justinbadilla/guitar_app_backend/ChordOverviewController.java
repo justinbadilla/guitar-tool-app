@@ -4,7 +4,6 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/chord-overview")
-@CrossOrigin(origins = "http://localhost:5173")
 public class ChordOverviewController {
 
     private final GeminiService geminiService;

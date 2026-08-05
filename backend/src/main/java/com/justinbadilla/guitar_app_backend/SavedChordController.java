@@ -17,7 +17,6 @@ import java.util.Optional;
  */
 @RestController
 @RequestMapping("/api/chords")
-@CrossOrigin(origins = "http://localhost:5173")
 public class SavedChordController {
 
     private final SavedChordRepository repository;

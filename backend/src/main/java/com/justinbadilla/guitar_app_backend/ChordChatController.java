@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.*;
  */
 @RestController
 @RequestMapping("/api/chord-chat")
-@CrossOrigin(origins = "http://localhost:5173")
 public class ChordChatController {
 
     private final GeminiService geminiService;
