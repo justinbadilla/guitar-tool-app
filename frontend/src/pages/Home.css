@@ -1,3 +1,15 @@
+@keyframes fade-slide-up {
+    from {
+        opacity: 0;
+        transform: translateY(24px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
 .home-page {
     position: relative;
     display: flex;
@@ -39,6 +51,7 @@
     margin-top: 64px;
     margin-bottom: 0px;
     text-align: center;
+    animation: fade-slide-up 0.6s ease-out both;
 }
 
 .home-card {
@@ -58,6 +71,21 @@
     font-size: 1.1rem;
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1), 0 6px 6px rgba(0, 0, 0, 0.1);
     transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+
+    opacity: 0;
+    animation: fade-slide-up 0.6s ease-out both;
+}
+
+.home-card:nth-child(1) {
+    animation-delay: 0.2s;
+}
+
+.home-card:nth-child(2) {
+    animation-delay: 0.35s;
+}
+
+.home-card:nth-child(3) {
+    animation-delay: 0.5s;
 }
 
 .home-card:hover {
