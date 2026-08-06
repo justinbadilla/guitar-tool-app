@@ -62,6 +62,9 @@ function Songwriting({ onRequireAuth, isLoggedIn, onLogout }: SongwritingProps) 
     const [bpmInput, setBpmInput] = useState<string>("");
     const [saveMessage, setSaveMessage] = useState<string>("");
 
+    //sidebar for mobile
+    const [sidebarOpen, setSidebarOpen] = useState(false);
+
     // Saved chords for ChordPickerModal
     const [savedChords, setSavedChords] = useState<SavedChord[]>([]);
     useEffect(() => {
@@ -384,8 +387,14 @@ function Songwriting({ onRequireAuth, isLoggedIn, onLogout }: SongwritingProps) 
                 )}
             </Header>
             <div className="songwriting-page">
-
+                <button
+                    className="sidebar-toggle-button"
+                    onClick={() => setSidebarOpen((prev) => !prev)}
+                >
+                    ☰
+                </button>
                 <ProjectSidebar
+                    className={sidebarOpen ? "open" : ""}
                     projects={projects}
                     activeProjectId={activeProject?.id ?? null}
                     onSelectProject={handleSelectProjectAndUpdateInputs}

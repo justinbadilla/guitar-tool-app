@@ -124,47 +124,70 @@ function PedalBuilderModal({ onClose, onSave }: PedalBuilderModalProps) {
         setDraggingKnobId(knobId);
     }
 
-    //handles the dragging of the knob, gets the point (getSvgPoint) and finds the nearest slot (findNearestSlot)
-    //this renders with the preview of dragging knobs
-    function handleMouseMove(e: React.MouseEvent<SVGSVGElement>) {
+    //mouse/touch listener for Stage 1 dragging — tracks nearest slot while
+    //dragging, commits the final slotIndex (with swap logic) on release
+    useEffect(() => {
         if (!draggingKnobId) return;
 
-        const point = getSvgPoint(e.clientX, e.clientY);
-        const nearest = findNearestSlot(point.x, point.y);
-        setPreviewSlot(nearest);
-    }
-
-    //final result on where it is placed. Writes into knob array
-    function handleMouseUp() {
-        if (!draggingKnobId || previewSlot === null) {
-            setDraggingKnobId(null);
-            setPreviewSlot(null);
-            return;
+        function handleMove(clientX: number, clientY: number) {
+            const point = getSvgPoint(clientX, clientY);
+            const nearest = findNearestSlot(point.x, point.y);
+            setPreviewSlot(nearest);
         }
 
-        setKnobs((prev) => {
-            // if another knob already occupies the target slot, swap them
-            const otherKnob = prev.find((k) => k.slotIndex === previewSlot && k.id !== draggingKnobId);
+        function handleWindowMouseMove(e: MouseEvent) {
+            handleMove(e.clientX, e.clientY);
+        }
 
-            return prev.map((k) => {
-                if (k.id === draggingKnobId) return { ...k, slotIndex: previewSlot };
-                if (otherKnob && k.id === otherKnob.id) {
-                    const draggedKnob = prev.find((dk) => dk.id === draggingKnobId)!;
-                    return { ...k, slotIndex: draggedKnob.slotIndex };
-                }
-                return k;
+        function handleWindowTouchMove(e: TouchEvent) {
+            handleMove(e.touches[0].clientX, e.touches[0].clientY);
+        }
+
+        function handleWindowEnd() {
+            setDraggingKnobId((currentDraggingId) => {
+                setPreviewSlot((currentPreviewSlot) => {
+                    if (!currentDraggingId || currentPreviewSlot === null) return null;
+
+                    setKnobs((prev) => {
+                        const otherKnob = prev.find((k) => k.slotIndex === currentPreviewSlot && k.id !== currentDraggingId);
+
+                        return prev.map((k) => {
+                            if (k.id === currentDraggingId) return { ...k, slotIndex: currentPreviewSlot };
+                            if (otherKnob && k.id === otherKnob.id) {
+                                const draggedKnob = prev.find((dk) => dk.id === currentDraggingId)!;
+                                return { ...k, slotIndex: draggedKnob.slotIndex };
+                            }
+                            return k;
+                        });
+                    });
+
+                    return null;
+                });
+                return null;
             });
-        });
+        }
 
-        setDraggingKnobId(null);
-        setPreviewSlot(null);
-    }
+        window.addEventListener("mousemove", handleWindowMouseMove);
+        window.addEventListener("mouseup", handleWindowEnd);
+        window.addEventListener("touchmove", handleWindowTouchMove);
+        window.addEventListener("touchend", handleWindowEnd);
+
+        return () => {
+            window.removeEventListener("mousemove", handleWindowMouseMove);
+            window.removeEventListener("mouseup", handleWindowEnd);
+            window.removeEventListener("touchmove", handleWindowTouchMove);
+            window.removeEventListener("touchend", handleWindowEnd);
+        };
+    }, [draggingKnobId]);
 
     //FOR STAGE 2: Remembers where the drag began for updating the value (runs once, from drag)
-    function handleKnobTweakStart(e: React.MouseEvent, knob: Knob) {
+    function handleKnobTweakStart(e: React.MouseEvent | React.TouchEvent, knob: Knob) {
+        const clientY = "touches" in e ? e.touches[0].clientY : e.clientY;
+        const clientX = "touches" in e ? e.touches[0].clientX : e.clientX;
+
         setTweakingKnobId(knob.id);
-        setDragStartY(e.clientY);
-        setDragStartX(e.clientX);
+        setDragStartY(clientY);
+        setDragStartX(clientX);
         setDragStartValue(knob.value);
     }
 
@@ -172,9 +195,9 @@ function PedalBuilderModal({ onClose, onSave }: PedalBuilderModalProps) {
     useEffect(() => {
         if (!tweakingKnobId) return;
 
-        function handleWindowMouseMove(e: MouseEvent) {
-            const deltaY = dragStartY - e.clientY;
-            const deltaX = e.clientX - dragStartX;
+        function handleMove(clientX: number, clientY: number) {
+            const deltaY = dragStartY - clientY;
+            const deltaX = clientX - dragStartX;
             const combinedDelta = deltaY + deltaX;
 
             const sensitivity = 0.5;
@@ -185,19 +208,30 @@ function PedalBuilderModal({ onClose, onSave }: PedalBuilderModalProps) {
             );
         }
 
-        function handleWindowMouseUp() {
+        function handleWindowMouseMove(e: MouseEvent) {
+            handleMove(e.clientX, e.clientY);
+        }
+
+        function handleWindowTouchMove(e: TouchEvent) {
+            handleMove(e.touches[0].clientX, e.touches[0].clientY);
+        }
+
+        function handleWindowEnd() {
             setTweakingKnobId(null);
         }
 
         window.addEventListener("mousemove", handleWindowMouseMove);
-        window.addEventListener("mouseup", handleWindowMouseUp);
+        window.addEventListener("mouseup", handleWindowEnd);
+        window.addEventListener("touchmove", handleWindowTouchMove);
+        window.addEventListener("touchend", handleWindowEnd);
 
         return () => {
             window.removeEventListener("mousemove", handleWindowMouseMove);
-            window.removeEventListener("mouseup", handleWindowMouseUp);
+            window.removeEventListener("mouseup", handleWindowEnd);
+            window.removeEventListener("touchmove", handleWindowTouchMove);
+            window.removeEventListener("touchend", handleWindowEnd);
         };
-    }, [tweakingKnobId, dragStartY, dragStartX, dragStartValue]); //update
-
+    }, [tweakingKnobId, dragStartY, dragStartX, dragStartValue]);
 
 
     return (
@@ -267,9 +301,6 @@ function PedalBuilderModal({ onClose, onSave }: PedalBuilderModalProps) {
                                 ref={svgRef}
                                 viewBox={`0 0 ${canvasWidth} ${canvasHeight}`}
                                 className="pedal-canvas-svg"
-                                onMouseMove={handleMouseMove}
-                                onMouseUp={handleMouseUp}
-                                onMouseLeave={handleMouseUp}
                             >
                                 <rect
                                     x={4} y={4}
@@ -296,6 +327,7 @@ function PedalBuilderModal({ onClose, onSave }: PedalBuilderModalProps) {
                                                 r={22}
                                                 className={`knob-body ${isDragging ? "dragging" : ""}`}
                                                 onMouseDown={() => handleKnobMouseDown(knob.id)}
+                                                onTouchStart={() => handleKnobMouseDown(knob.id)}
                                             />
                                             <line x1={0} y1={0} x2={0} y2={-16} className="knob-indicator" />
                                         </g>
@@ -332,6 +364,7 @@ function PedalBuilderModal({ onClose, onSave }: PedalBuilderModalProps) {
                                                 r={22}
                                                 className="knob-body"
                                                 onMouseDown={(e) => handleKnobTweakStart(e, knob)}
+                                                onTouchStart={(e) => handleKnobTweakStart(e, knob)}
                                             />
                                             <line
                                                 x1={0} y1={0} x2={0} y2={-16}

@@ -259,3 +259,38 @@
 .pedal-builder-name-actions button {
     flex: 1;
 }
+
+@media (max-width: 640px) {
+    .pedal-builder-fullscreen {
+        top: 2%;
+        left: 2%;
+        width: 96%;
+        height: 96%;
+        flex-direction: column;
+    }
+
+    .pedal-builder-body {
+        flex-direction: column;
+    }
+
+    .pedal-builder-sidebar {
+        width: 100%;
+        border-right: none;
+        border-bottom: 1px solid var(--border-color);
+        padding: 12px 16px;
+    }
+
+    .pedal-shape-options {
+        flex-direction: row;
+        justify-content: center;
+    }
+
+    .pedal-canvas-svg {
+        width: 220px;
+    }
+
+    .pedal-builder-canvas {
+        padding-top: 40px;
+        padding-bottom: 60px;
+    }
+}

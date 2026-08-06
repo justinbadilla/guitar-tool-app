@@ -2,6 +2,8 @@ import "./ProjectSidebar.css";
 import type { SongProject } from "./type";
 
 interface ProjectSidebarProps {
+    className?: string;
+
     projects: SongProject[];
     activeProjectId: string | null;
     onSelectProject: (id: string) => void;
@@ -16,9 +18,9 @@ interface ProjectSidebarProps {
  * to create a new one. Only visual, doesn't own any project
  * data itself, receives list and reports selections upward
  */
-function ProjectSidebar({ projects, activeProjectId, onSelectProject, onNewProject, onDeleteProject }: ProjectSidebarProps) {
+function ProjectSidebar({ className = "", projects, activeProjectId, onSelectProject, onNewProject, onDeleteProject }: ProjectSidebarProps) {
     return (
-        <div className="project-sidebar">
+        <div className={`project-sidebar ${className}`}>
             <div className="project-sidebar-header">
                 <h3>My Projects</h3>
                 <button className="btn btn-small btn-secondary" onClick={onNewProject}>+</button>
