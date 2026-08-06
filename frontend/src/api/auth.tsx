@@ -1,4 +1,6 @@
-const AUTH_BASE_URL = "http://localhost:8080/api/auth";
+import { API_BASE_URL } from "./config";
+
+const AUTH_BASE_URL = `${API_BASE_URL}/api/auth`;
 
 /**
  * Registers new user. Throws with the backend's exact error message if registration fails

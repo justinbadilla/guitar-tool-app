@@ -1,7 +1,8 @@
 import { getAuthHeader } from "./auth";
 import type { StringState } from "../hooks/useFretboardState";
+import { API_BASE_URL } from "./config";
 
-const CHORD_ASSISTANT_BASE_URL = "http://localhost:8080/api";
+const CHORD_ASSISTANT_BASE_URL = `${API_BASE_URL}/api`;
 
 export interface ChordOverview {
     overview: string;

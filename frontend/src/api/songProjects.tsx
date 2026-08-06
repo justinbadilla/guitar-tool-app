@@ -1,7 +1,8 @@
 import { getAuthHeader } from "./auth";
 import type { SongProject } from "../components/songwriting/type";
+import { API_BASE_URL } from "./config";
 
-const PROJECTS_BASE_URL = "http://localhost:8080/api/projects";
+const PROJECTS_BASE_URL = `${API_BASE_URL}/api/projects`;
 
 /**
  * Fetches all song projects belonging to logged-in user.
