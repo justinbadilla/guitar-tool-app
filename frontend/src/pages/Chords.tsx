@@ -6,7 +6,7 @@ import ChordLibraryPanel from "../components/chord-library/ChordLibraryPanel";
 import ChordAssistantPanel from "../components/chord-library/ChordAssistantPanel";
 import ChordNameDisplay from '../components/chord-library/ChordNameDisplay';
 import { Link } from "react-router-dom";
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useFretboardState } from '../hooks/useFretboardState';
 import { saveChord, fetchSavedChords } from '../api/savedChords';
 import { STANDARD_TUNING } from '../music/notes';
@@ -54,6 +54,15 @@ function Chords({ onRequireAuth, isLoggedIn, onLogout }: ChordsProps) {
     const chordName = detectChordName(notes);
     const rootNote = getRootNote(stringStates, activeTuning, chordName);
 
+    //mobile fretboard bug fix (scroll far left of fret)
+    const fretboardScrollRef = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        if (fretboardScrollRef.current) {
+            fretboardScrollRef.current.scrollLeft = 0;
+        }
+    }, []);
+
     /** Handlers */
 
     //loads chord from list onto the live fretboard. Updates both tuning and string/fret positions
@@ -98,7 +107,7 @@ function Chords({ onRequireAuth, isLoggedIn, onLogout }: ChordsProps) {
 
                 <div className="chords-main-row">
 
-                    <div className="fretboard-box">
+                    <div className="fretboard-box" ref={fretboardScrollRef}>
 
                         <div className="fretboard-box-top">
 
