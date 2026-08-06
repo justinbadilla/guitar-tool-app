@@ -1,7 +1,6 @@
 package com.justinbadilla.guitar_app_backend;
 
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.security.Keys;
 import org.springframework.stereotype.Component;
 import javax.crypto.SecretKey;
 import java.util.Date;
@@ -26,7 +25,7 @@ import java.util.Date;
 @Component
 public class JwtUtil {
 
-    private final SecretKey secretKey = Keys.secretKeyFor(io.jsonwebtoken.SignatureAlgorithm.HS256); //fix later
+    private final SecretKey secretKey = Jwts.SIG.HS256.key().build();
     private final long expirationMs = 1000 * 60 * 60 * 24; // 24 hours
 
     /**
