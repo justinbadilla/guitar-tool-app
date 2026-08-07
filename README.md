@@ -8,9 +8,11 @@ A full-stack web application for guitarists to explore chords, experiment with t
 
 ## Overview
 
-This project started as a simple interactive fretboard and grew into a complete songwriting tool: click frets to build chords, get real-time chord/interval detection, save favorites to a personal library, and organize full songs section-by-section with draggable chord progressions, lyrics, and pedal presets. An AI assistant (powered by Google Gemini) explains the music theory behind whatever you're playing.
+This project combines an interactive guitar fretboard with a full-featured songwriting workspace. Users can click frets to build chords, receive real-time chord and interval detection, save their favorite voicings to a personal library, and organize complete songs section-by-section. Song sections support draggable chord progressions, lyrics, and pedal presets, making it easy to experiment with and arrange ideas.
 
-Every part of the stack — auth, database design, drag-and-drop, deployment — was built from scratch as a way to demonstrate real full-stack engineering, not just wire together a template.
+An AI assistant, powered by Google Gemini, provides real-time music theory explanations based on what you're playing, helping users understand the chords, intervals, and harmonic relationships behind their ideas.
+
+The entire application was built from the ground up, including authentication, database architecture, drag-and-drop interactions, and deployment. The project is designed to demonstrate practical full-stack engineering across both the user experience and underlying infrastructure.
 
 ## Features
 
