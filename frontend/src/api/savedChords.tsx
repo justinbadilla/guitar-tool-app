@@ -37,7 +37,7 @@ export async function saveChord(name: string, positions: StringState[], tuning: 
 
 //saves the chord to the database for user's saved chords in interactive fretboard and songwriting (chord proggression) page
 export async function fetchSavedChords() {
-    const response = await fetch("CHORDS_URL", {
+    const response = await fetch(CHORDS_URL, {
         headers: {
             ...getAuthHeader(),
         },
