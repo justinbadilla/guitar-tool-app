@@ -87,3 +87,20 @@
     opacity: 0.6;
     cursor: default;
 }
+
+.demo-login-button {
+    width: 100%;
+    margin-top: 12px;
+    padding: 8px;
+    border: 1px dashed var(--border-color);
+    border-radius: var(--radius);
+    background: none;
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    cursor: pointer;
+}
+
+.demo-login-button:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+}
