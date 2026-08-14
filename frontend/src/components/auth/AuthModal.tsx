@@ -50,6 +50,24 @@ function AuthModal({ onClose, onLoginSuccess }: AuthModalProps) {
         }
     }
 
+    //demo login
+    async function handleDemoLogin() {
+        setUsername("demo");
+        setPassword("demo1234");
+        setError("");
+        setIsSubmitting(true);
+
+        try {
+            const token = await loginUser("demo", "demo1234");
+            saveToken(token);
+            onLoginSuccess();
+        } catch (err) {
+            setError(err instanceof Error ? err.message : "Demo login failed.");
+        } finally {
+            setIsSubmitting(false);
+        }
+    }
+
     return (
         <div className="auth-modal">
             <div className="auth-modal-tabs">
@@ -95,6 +113,13 @@ function AuthModal({ onClose, onLoginSuccess }: AuthModalProps) {
                 </button>
                 <button onClick={onClose}>Cancel</button>
             </div>
+            <button
+                className="demo-login-button"
+                onClick={handleDemoLogin}
+                disabled={isSubmitting}
+            >
+                Try the demo account
+            </button>
         </div>
     );
 }

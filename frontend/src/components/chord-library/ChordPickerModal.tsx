@@ -29,7 +29,7 @@ interface ChordPickerModalProps {
 function ChordPickerModal({ savedChords, onSelectChord, onChordDeleted, onClose }: ChordPickerModalProps) {
 
     // Tab state
-    const [activeTab, setActiveTab] = useState<"saved" | "presets" | "build">("saved");
+    const [activeTab, setActiveTab] = useState<"saved" | "presets" | "build">("build");
 
     // Build tab (live fretboard state)
     const { stringStates, handleFretClick, handleToggle, fretMarkers } = useFretboardState(6);
@@ -76,6 +76,12 @@ function ChordPickerModal({ savedChords, onSelectChord, onChordDeleted, onClose 
             <div className="chord-picker-container">
                 <div className="chord-picker-tabs">
                     <button
+                        className={`btn btn-small btn-secondary ${activeTab === "build" ? "active" : ""}`}
+                        onClick={() => setActiveTab("build")}
+                    >
+                        Build Chord
+                    </button>
+                    <button
                         className={`btn btn-small btn-secondary ${activeTab === "saved" ? "active" : ""}`}
                         onClick={() => setActiveTab("saved")}
                     >
@@ -87,12 +93,7 @@ function ChordPickerModal({ savedChords, onSelectChord, onChordDeleted, onClose 
                     >
                         Presets
                     </button>
-                    <button
-                        className={`btn btn-small btn-secondary ${activeTab === "build" ? "active" : ""}`}
-                        onClick={() => setActiveTab("build")}
-                    >
-                        Build Chord
-                    </button>
+
                 </div>
                 <div className="chord-picker-close">
                     <button className="btn btn-small btn-secondary" onClick={onClose}>Close</button>
