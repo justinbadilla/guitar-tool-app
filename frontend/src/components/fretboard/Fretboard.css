@@ -105,6 +105,8 @@
     display: grid;
     grid-template-rows: repeat(6, var(--cell-height, 40px));
     width: var(--cell-height, 40px);
+    cursor: default;
+    user-select: none;
 }
 
 .open-mute-cell,
