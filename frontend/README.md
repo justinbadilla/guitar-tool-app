@@ -11,41 +11,6 @@ React + TypeScript frontend for an interactive guitar chord tool and songwriting
 - **Tonal.js** — music theory calculations (note/interval/chord detection)
 - **lucide-react** — icon system
 
-## Project Structure
-src/
-├── api/ # All backend communication, grouped by resource
-│ ├── auth.ts # Register, login, JWT storage
-│ ├── savedChords.ts # CRUD for the user's saved chord library
-│ ├── songProjects.ts # CRUD for song projects
-│ ├── chordAssistant.ts # Gemini-powered chord overview + Q&A
-│ └── config.ts # Shared API base URL (environment-driven)
-│
-├── components/
-│ ├── auth/ # Login/register modal
-│ ├── chord-library/ # Preset + saved chord lists, filters, chord picker
-│ ├── fretboard/ # The interactive fretboard + read-only chord diagrams
-│ ├── layout/ # Header, footer, floating background animation
-│ ├── pedals/ # Read-only pedal diagram renderer
-│ ├── songwriting/ # Section editor, sortable wrappers, project sidebar, type.ts
-│ └── tuning/ # Tuning selector + custom tuning modal
-│
-├── hooks/
-│ ├── useFretboardState.ts # Owns fretboard interaction state, reused
-│ │ anywhere a live fretboard is needed
-│ └── useSongProjects.ts # Owns the project list, active project,
-│ and unsaved-changes tracking
-│
-├── music/
-│ ├── notes.ts # Chromatic scale, tunings, note-name validation
-│ ├── chords.ts # Note/interval/chord-name derivation from a fretboard
-│ └── chordFilters.ts # Filtering logic for the saved chord library
-│
-├── pages/
-│ ├── Home.tsx
-│ ├── Chords.tsx # The chord analyzer page
-│ └── Songwriting.tsx # The song project editor page
-# (SongProject, Section, SectionItem, PedalPreset)
-
 ## Architectural Notes
 
 **State ownership follows a consistent pattern.** Pages own state and pass
