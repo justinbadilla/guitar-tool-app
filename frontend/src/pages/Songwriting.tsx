@@ -11,11 +11,12 @@ import type { PedalPreset, Section, SectionItem, SectionItemType } from "../comp
 import Header from "../components/layouts/Headers";
 import { Link } from "react-router-dom";
 
-import { DndContext, closestCenter } from "@dnd-kit/core";
+import { DndContext, closestCenter, DragOverlay } from "@dnd-kit/core";
 import { SortableContext, verticalListSortingStrategy, arrayMove } from "@dnd-kit/sortable";
-import type { DragEndEvent } from "@dnd-kit/core";
+import type { DragEndEvent, DragStartEvent } from "@dnd-kit/core";
 import SortableSection from "../components/songwriting/SortableSection";
 import PedalBuilderModal from "../components/pedals/PedalBuilderModal";
+
 
 interface SongwritingProps {
     onRequireAuth: () => void;
@@ -76,8 +77,14 @@ function Songwriting({ onRequireAuth, isLoggedIn, onLogout }: SongwritingProps) 
         itemId: string;
     } | null>(null);
 
+    //starting drag for preview
+    const [activeDragId, setActiveDragId] = useState<string | null>(null);
 
     //** Project Level Handler */
+
+    function handleSectionDragStart(event: DragStartEvent) {
+        setActiveDragId(event.active.id as string);
+    }
 
     /**
      * Creates a new project w/ the hook, then syncs the local
@@ -140,6 +147,8 @@ function Songwriting({ onRequireAuth, isLoggedIn, onLogout }: SongwritingProps) 
 
     function handleSectionDragEnd(event: DragEndEvent) {
         const { active, over } = event;
+        setActiveDragId(null);
+
         if (!over || active.id === over.id) return;
 
         updateActiveProject((prev) => {
@@ -459,7 +468,7 @@ function Songwriting({ onRequireAuth, isLoggedIn, onLogout }: SongwritingProps) 
                                 </div>
                             </div>
 
-                            <DndContext collisionDetection={closestCenter} onDragEnd={handleSectionDragEnd}>
+                            <DndContext collisionDetection={closestCenter} onDragStart={handleSectionDragStart} onDragEnd={handleSectionDragEnd} >
                                 <SortableContext
                                     items={activeProject.sections.map((s) => s.id)}
                                     strategy={verticalListSortingStrategy}
@@ -484,6 +493,13 @@ function Songwriting({ onRequireAuth, isLoggedIn, onLogout }: SongwritingProps) 
                                         />
                                     ))}
                                 </SortableContext>
+                                <DragOverlay>
+                                    {activeDragId ? (
+                                        <div className="drag-preview">
+                                            {activeProject.sections.find((s) => s.id === activeDragId)?.name}
+                                        </div>
+                                    ) : null}
+                                </DragOverlay>
                             </DndContext>
 
                             <button className="add-button" onClick={addSection}>+ Add Section</button>

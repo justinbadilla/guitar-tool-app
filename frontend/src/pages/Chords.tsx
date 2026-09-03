@@ -43,7 +43,7 @@ function Chords({ onRequireAuth, isLoggedIn, onLogout }: ChordsProps) {
     const [savedChords, setSavedChords] = useState<SavedChord[]>([]);
     useEffect(() => {
         fetchSavedChords().then((chords) => setSavedChords(chords));
-    }, []);
+    }, [isLoggedIn]);
 
     //** Derived Values */
 

@@ -15,6 +15,7 @@
 }
 
 .preset-chord-button .chord-diagram {
+    max-width: 100%;
     overflow-x: auto;
 }
 

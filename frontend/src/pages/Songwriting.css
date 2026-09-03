@@ -228,6 +228,16 @@
     display: none;
 }
 
+.drag-preview {
+    padding: 12px 20px;
+    background: var(--bg-primary);
+    border: 2px solid var(--accent);
+    border-radius: var(--radius);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+    font-weight: bold;
+    cursor: grabbing;
+}
+
 @media (max-width: 768px) {
     .sidebar-toggle-button {
         display: block;
