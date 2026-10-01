@@ -8,19 +8,44 @@ import type { SongProject } from "../components/songwriting/type";
  * Manages the list of song projects and which one is currently active.
  * Handles creating new projects, switching between them (with an
  * unsaved-changes guard), and updating the active project's data.
+ * Reloads from the API whenever login state changes.
  */
-export function useSongProjects() {
+export function useSongProjects(isLoggedIn: boolean) {
 
     // state
     const [projects, setProjects] = useState<SongProject[]>([]);
     const [activeProjectId, setActiveProjectId] = useState<string | null>(null);
     const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
 
-    // Fetch the user's saved projects once. If not logged in, the backend returns an empty list.
-    // Splash screen handles the "no projects" case
+    // On logout, clear everything. Done during render (React's recommended "reset state on prop change"
+    // pattern) instead of inside an effect, so it doesn't cause a cascading re-render.
+    const [prevLoggedIn, setPrevLoggedIn] = useState(isLoggedIn);
+    if (prevLoggedIn !== isLoggedIn) {
+        setPrevLoggedIn(isLoggedIn);
+        if (!isLoggedIn) {
+            setProjects([]);
+            setActiveProjectId(null);
+            setHasUnsavedChanges(false);
+        }
+    }
+
+    // Refetch on login. GET /api/projects requires a JWT, so a fetch on first paint
+    // while logged out would stay empty until this runs again.
     useEffect(() => {
-        fetchSongProjects().then((fetched) => setProjects(fetched));
-    }, []);
+        if (!isLoggedIn) return;
+
+        let cancelled = false;
+        fetchSongProjects().then((fetched) => {
+            if (cancelled) return; // login state changed again before this response arrived
+            setProjects(fetched);
+            setActiveProjectId(null);
+            setHasUnsavedChanges(false);
+        });
+
+        return () => {
+            cancelled = true;
+        };
+    }, [isLoggedIn]);
     
     // derived
     const activeProject = projects.find((p) => p.id === activeProjectId) ?? null;

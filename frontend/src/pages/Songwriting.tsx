@@ -45,7 +45,7 @@ function Songwriting({ onRequireAuth, isLoggedIn, onLogout }: SongwritingProps) 
         handleSelectProject,
         saveActiveProject,
         deleteProject,
-    } = useSongProjects();
+    } = useSongProjects(isLoggedIn);
 
     // UI state
     const [showNewProjectModal, setShowNewProjectModal] = useState(false);
@@ -70,7 +70,7 @@ function Songwriting({ onRequireAuth, isLoggedIn, onLogout }: SongwritingProps) 
     const [savedChords, setSavedChords] = useState<SavedChord[]>([]);
     useEffect(() => {
         fetchSavedChords().then((chords) => setSavedChords(chords));
-    }, []);
+    }, [isLoggedIn]);
 
     const [activePedalBuilderSection, setActivePedalBuilderSection] = useState<{
         sectionId: string;
