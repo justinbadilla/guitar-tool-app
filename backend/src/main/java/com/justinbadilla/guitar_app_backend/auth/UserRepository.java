@@ -1,4 +1,4 @@
-package com.justinbadilla.guitar_app_backend;
+package com.justinbadilla.guitar_app_backend.auth;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.Optional;
@@ -10,7 +10,7 @@ import java.util.Optional;
  *
  * findByUsername() returns Optional<User> rather than List<User>, since a username is unique
  * (enforced by User's @Column(unique = true)) — there's either exactly one matching user or none
- * Optional forces callers (AuthController, both saved-item controllers' getCurrentUser())
+ * Optional forces callers (AuthController, CurrentUser)
  * to handle the "no such user" case rather than risking a null reference.
  */
 public interface UserRepository extends JpaRepository<User, Long> {

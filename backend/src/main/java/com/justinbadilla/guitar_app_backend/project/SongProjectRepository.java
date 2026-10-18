@@ -1,4 +1,6 @@
-package com.justinbadilla.guitar_app_backend;
+package com.justinbadilla.guitar_app_backend.project;
+
+import com.justinbadilla.guitar_app_backend.auth.User;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;

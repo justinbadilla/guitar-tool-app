@@ -1,4 +1,6 @@
-package com.justinbadilla.guitar_app_backend;
+package com.justinbadilla.guitar_app_backend.config;
+
+import com.justinbadilla.guitar_app_backend.auth.JwtAuthFilter;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;

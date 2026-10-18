@@ -1,4 +1,6 @@
-package com.justinbadilla.guitar_app_backend;
+package com.justinbadilla.guitar_app_backend.project;
+
+import com.justinbadilla.guitar_app_backend.auth.User;
 
 import jakarta.persistence.*;
 

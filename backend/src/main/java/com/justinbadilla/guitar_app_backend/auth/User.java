@@ -1,4 +1,4 @@
-package com.justinbadilla.guitar_app_backend;
+package com.justinbadilla.guitar_app_backend.auth;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

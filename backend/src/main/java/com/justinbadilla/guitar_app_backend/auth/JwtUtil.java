@@ -1,4 +1,4 @@
-package com.justinbadilla.guitar_app_backend;
+package com.justinbadilla.guitar_app_backend.auth;
 
 import io.jsonwebtoken.Jwts;
 import org.springframework.stereotype.Component;

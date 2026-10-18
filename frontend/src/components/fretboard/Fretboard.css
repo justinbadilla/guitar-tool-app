@@ -18,6 +18,44 @@
     grid-template-rows: repeat(6, var(--cell-height, 40px));
 }
 
+/* "Tap on fretboard to begin" overlay: slowly fades in and out over the fretboard grid.
+   pointer-events: none lets the user's first tap pass straight through to the fret underneath. */
+.fretboard-start-hint {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 12px;
+    text-align: center;
+    font-size: 1.35rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    color: var(--accent);
+    background: color-mix(in srgb, var(--bg-secondary) 90%, transparent);
+    border-radius: var(--radius);
+    pointer-events: none;
+    animation: fretboard-start-hint-pulse 2.8s ease-in-out infinite;
+}
+
+@keyframes fretboard-start-hint-pulse {
+    0%,
+    100% {
+        opacity: 0;
+    }
+
+    50% {
+        opacity: 1;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .fretboard-start-hint {
+        animation: none;
+        opacity: 1;
+    }
+}
+
 .fret-line {
     position: absolute;
     top: calc(var(--cell-height, 40px) / 2);

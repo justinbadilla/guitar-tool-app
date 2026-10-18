@@ -16,6 +16,9 @@ interface FretboardProps {
 
     //new alternate tunings feature
     tuning: string[];
+
+    // pulsing "Tap on fretboard to begin" overlay (only shown on the interactive fretboard)
+    showStartHint?: boolean;
 }
 
 /**
@@ -31,7 +34,7 @@ interface FretboardProps {
  * Fret count labels are separate from fretboard wrapper (shows fret count right below freboard)
  */
 
-function Fretboard({ stringStates, handleFretClick, handleToggle, fretMarkers, rootNote, fretRange, interactive = true, tuning }: FretboardProps) {
+function Fretboard({ stringStates, handleFretClick, handleToggle, fretMarkers, rootNote, fretRange, interactive = true, tuning, showStartHint = false }: FretboardProps) {
 
     //presets and user saved chords
     const start = fretRange?.start ?? 1;
@@ -139,6 +142,10 @@ function Fretboard({ stringStates, handleFretClick, handleToggle, fretMarkers, r
                             </div>
                         );
                     })}
+
+                    {interactive && showStartHint && (
+                        <div className="fretboard-start-hint">Tap on fretboard to begin</div>
+                    )}
 
                 </div>
 

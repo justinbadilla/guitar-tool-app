@@ -1,8 +1,8 @@
-package com.justinbadilla.guitar_app_backend;
+package com.justinbadilla.guitar_app_backend.chord;
 
-import org.springframework.security.core.context.SecurityContextHolder;
+import com.justinbadilla.guitar_app_backend.auth.CurrentUser;
+import com.justinbadilla.guitar_app_backend.auth.User;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.security.core.Authentication;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,11 +20,11 @@ import java.util.Optional;
 public class SavedChordController {
 
     private final SavedChordRepository repository;
-    private final UserRepository userRepository;
+    private final CurrentUser currentUser;
 
-    public SavedChordController(SavedChordRepository repository, UserRepository userRepository) {
+    public SavedChordController(SavedChordRepository repository, CurrentUser currentUser) {
         this.repository = repository;
-        this.userRepository = userRepository;
+        this.currentUser = currentUser;
     }
 
     /**
@@ -34,13 +34,13 @@ public class SavedChordController {
      */
     @GetMapping
     public List<SavedChord> getAllChords() {
-        Optional<User> currentUser = getCurrentUser();
+        Optional<User> user = currentUser.find();
 
-        if (currentUser.isEmpty()) {
+        if (user.isEmpty()) {
             return List.of(); // logged-out users see an empty list
         }
 
-        return repository.findByUser(currentUser.get());
+        return repository.findByUser(user.get());
     }
 
     /**
@@ -50,7 +50,7 @@ public class SavedChordController {
      */
     @PostMapping
     public SavedChord saveChord(@RequestBody SavedChord chord) {
-        User user = getCurrentUser()
+        User user = currentUser.find()
                 .orElseThrow(() -> new RuntimeException("Must be logged in to save a chord"));
 
         chord.setUser(user);
@@ -63,38 +63,16 @@ public class SavedChordController {
      */
     @DeleteMapping("/{id}")
     public void deleteChord(@PathVariable Long id) {
-        User currentUser = getCurrentUser()
+        User user = currentUser.find()
                 .orElseThrow(() -> new RuntimeException("Must be logged in to delete a chord"));
 
         SavedChord chord = repository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Chord not found"));
 
-        if (!chord.getUser().getId().equals(currentUser.getId())) {
+        if (!chord.getUser().getId().equals(user.getId())) {
             throw new RuntimeException("You don't have permission to delete this chord");
         }
 
         repository.deleteById(id);
-    }
-
-    /**
-     * Reads current authenticated user (if any) out of Spring
-     * Security's context (same context JwtAuthFilter writes into after validating a
-     * request's token)
-     *
-     * Spring Security represents "not logged in" with a special anonymous
-     * Authentication object rather than null.
-     * Both conditions have to be checked: absent auth object AND the specific
-     * anonymousUser placeholder,
-     * that Spring substitutes in when no real token was provided.
-     */
-    private Optional<User> getCurrentUser() {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-
-        if (auth == null || !auth.isAuthenticated() || "anonymousUser".equals(auth.getPrincipal())) {
-            return Optional.empty();
-        }
-
-        String username = auth.getName();
-        return userRepository.findByUsername(username);
     }
 }

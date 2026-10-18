@@ -1,4 +1,4 @@
-package com.justinbadilla.guitar_app_backend;
+package com.justinbadilla.guitar_app_backend.auth;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

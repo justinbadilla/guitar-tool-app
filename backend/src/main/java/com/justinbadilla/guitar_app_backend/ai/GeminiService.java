@@ -1,4 +1,4 @@
-package com.justinbadilla.guitar_app_backend;
+package com.justinbadilla.guitar_app_backend.ai;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;

@@ -1,4 +1,4 @@
-package com.justinbadilla.guitar_app_backend;
+package com.justinbadilla.guitar_app_backend.ai;
 
 public class ChordChatRequest {
     private String chordName;

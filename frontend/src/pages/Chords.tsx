@@ -54,6 +54,9 @@ function Chords({ onRequireAuth, isLoggedIn, onLogout }: ChordsProps) {
     const chordName = detectChordName(notes);
     const rootNote = getRootNote(stringStates, activeTuning, chordName);
 
+    // Fretboard is "blank" until the user touches it (or loads a chord). Drives the "Tap on fretboard to begin" hint.
+    const isFretboardBlank = stringStates.every((s) => s.type === "open");
+
     //mobile fretboard bug fix (scroll far left of fret)
     const fretboardScrollRef = useRef<HTMLDivElement>(null);
 
@@ -125,6 +128,7 @@ function Chords({ onRequireAuth, isLoggedIn, onLogout }: ChordsProps) {
                             fretMarkers={fretMarkers}
                             rootNote={rootNote}
                             tuning={activeTuning}
+                            showStartHint={isFretboardBlank}
                         />
 
                         <div className="fretboard-box-bottom">
